@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet" />
+  <script src="art/portraits.js"></script>
+  <script src="art/battles.js"></script>
+</helmet>
+<div style="min-height:100vh; background:#1b1712; padding:40px 32px 80px; box-sizing:border-box; font-family:'VT323',monospace;">
+  <div style="max-width:1180px; margin:0 auto;">
+    <div style="font-family:'Press Start 2P',monospace; color:#e8c352; font-size:18px; letter-spacing:1px;">PORTRETY BITEW — OKRĄGŁE OKNA</div>
+    <div style="color:#b9ad96; font-size:22px; margin-top:10px;">Źródło 48×48 px · eksport ×8 = 384 px PNG · okrągłe okno · bez tła i bez ramki.</div>
+    <div id="sections" style="margin-top:30px;"></div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  componentDidMount() { this.render2(); }
+  render2() {
+    var host = (this.root || document).querySelector('#sections');
+    if (!host || !window.PA || !window.BATTLES) { setTimeout(() => this.render2(), 60); return; }
+    host.innerHTML = '';
+    var px = 8;
+    var order = ['grunwald', 'pskow', 'kluszyn', 'zielence', 'raclawice'];
+    order.forEach(function (key) {
+      var group = window.BATTLES[key];
+      if (!group) return;
+      var head = document.createElement('div');
+      head.textContent = group.title;
+      head.style.cssText = "font-family:'Press Start 2P',monospace; color:#c8965a; font-size:12px; margin:38px 0 18px; letter-spacing:1px;";
+      host.appendChild(head);
+      var grid = document.createElement('div');
+      grid.style.cssText = 'display:grid; grid-template-columns:repeat(auto-fill,minmax(170px,1fr)); gap:24px;';
+      host.appendChild(grid);
+      group.list.forEach(function (item) {
+        var cell = document.createElement('div');
+        cell.style.cssText = 'display:flex; flex-direction:column; align-items:center; gap:10px;';
+        // round window: transparent, no frame
+        var win = document.createElement('div');
+        win.style.cssText = 'width:100%; max-width:150px; aspect-ratio:1/1; border-radius:50%; overflow:hidden; display:flex; align-items:center; justify-content:center;';
+        var cv = document.createElement('canvas');
+        cv.width = PA.S * px; cv.height = PA.S * px;
+        cv.style.cssText = 'width:100%; height:100%; image-rendering:pixelated; display:block;';
+        var ctx = cv.getContext('2d'); ctx.imageSmoothingEnabled = false;
+        try { PA.drawBust(ctx, px, item.cfg); } catch (e) { console.error(item.id, e); }
+        win.appendChild(cv);
+        var name = document.createElement('div'); name.textContent = item.name;
+        name.style.cssText = "font-family:'VT323',monospace; color:#e7ddc8; font-size:23px; line-height:1.05; text-align:center; min-height:25px;";
+        var file = document.createElement('div'); file.textContent = item.id + '.png';
+        file.style.cssText = "font-family:'VT323',monospace; color:#7a6f54; font-size:17px;";
+        cell.appendChild(win); cell.appendChild(name); cell.appendChild(file);
+        grid.appendChild(cell);
+      });
+    });
+  }
+}
+</script>
+</body>
+</html>

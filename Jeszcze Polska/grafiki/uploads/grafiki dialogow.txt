@@ -1,0 +1,55 @@
+
+
+Kategorie dialogów z „?"
+1. ✝ Chrzest / Obrzęd religijny (2 confirms)
+Okno z pytaniem Tak/Nie przy wydarzeniach kościelnych:
+•	Chrzest Mieszka I w Gnieźnie — 966 r.
+•	Chrzest i ślub Jagiełły na Wawelu — 1386 r.
+→ Grafika: chrzcielnica, krzyż, świeca
+________________________________________
+2. 👑 Koronacja / Zmiana władcy (2 confirms + kilka toastów)
+•	Koronacja Bolesława Chrobrego — 1025 r.
+•	Koronacja Poniatowskiego — 1764 r.
+•	Toasty: „Batory na tronie!", „Zygmunt III na tronie!", „Bolesław przejmuje panowanie"
+→ Grafika: korona na poduszce / insygnia królewskie
+________________________________________
+3. 🏰 Budowla / Inwestycja (8 confirms)
+Wszystkie okna budowy z kosztem i przyciskiem:
+•	Zamki Kazimierza ×3 (Wawel, Bydgoszcz, Trembowla)
+•	Akademia Krakowska
+•	Port w Gdańsku
+•	Inflanty
+•	Warszawa — nowa stolica
+•	KEN, Łazienki Królewskie
+→ Grafika: rusztowanie / kamień węgielny / młotek
+________________________________________
+4. 📜 Dokument / Traktat polityczny (6 confirms)
+•	Unia krewska — 1385 r.
+•	Unia Lubelska — 1569 r.
+•	Konstytucja 3 Maja — 1791 r.
+•	I Rozbiór — 1772 r.
+•	II Rozbiór — 1793 r.
+•	Abdykacja — 1795 r.
+→ Grafika: pergamin z pieczęcią / pióro i lak
+________________________________________
+5. ⚔ Wynik bitwy / Raport wojenny (4 info-dialogi)
+Narracyjne okna po stoczeniu bitwy:
+•	Rozejm w Jamie Zapolskim (po Pskowie)
+•	Kreml zdobyty — 1610 r.
+•	Bitwa pod Zieleńcami — 1792 r.
+•	Racławice — kosynierzy — 1794 r.
+→ Grafika: miecz wbity w ziemię / skrzyżowane miecze
+________________________________________
+6. 🗝 Easter egg / Ciekawostka (5 info-dialogów)
+Po jednym na misję, wymagają znalezienia ukrytego miejsca:
+•	M01: Świętowit (posąg słowiański)
+•	M02: Moneta Kazimierza
+•	M03: Skarb Jadwigi (toast)
+•	M04: Husarz przy Kremlu
+•	M05: Mazurek Dąbrowskiego
+→ Grafika: skrzynia skarbów / świecący przedmiot
+________________________________________
+7. 💬 Wskazówka nawigacyjna (ok. 60 toastów)
+Najliczniejsza kategoria — wszystkie krótkie komunikaty prowadzące gracza:
+„Najpierw porozmawiaj z X", „✓ Ukończono", „Jedź teraz do Y", ostrzeżenia o blokadzie
+→ Grafika: zwój / herold / chorągiew — coś neutralnego, żeby nie odciągało uwagi

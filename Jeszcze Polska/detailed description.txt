@@ -1,0 +1,43 @@
+THE GAME IS IN POLISH.
+Description of the game’s missions:
+
+Mission 1 — Mieszko I → Bolesław Chrobry
+Margins: 966 (baptism) → 1025 (coronation)
+The path you play: You begin as Mieszko I. You speak with your wife Dobrawa, whose Christian faith drives the choice; you seek out Bishop Jordan, Poland's first bishop, and take baptism (966). You meet your son Bolesław and charge him: earn the crown. Play continues as Bolesław Chrobry — in 1000 you host Otto III at the Congress of Gniezno (freedom from tribute, an archbishopric, the diadem — but not yet a true crown), then Otto dies (1002) and Henry II wars on you for years. Only after Henry's death does Archbishop Hipolit, the little-known metropolitan of Gniezno, crown you the first King of Poland in 1025.
+Learn: Baptism brought Poland into Christian Europe; the crown, won across 25 years and two emperors, made a duchy a kingdom.
+Main characters: Mieszko I (the founder who chooses baptism), Bolesław Chrobry (the son who earns the crown).
+Clickable people you meet: Dobrawa (wife, the Christian influence), Bishop Jordan (first bishop), St. Wojciech / Adalbert (martyr whose relics are ransomed in gold), Otto III (the friendly emperor), Henry II (the hostile successor), Archbishop Hipolit (the obscure man who places the crown), Thietmar of Merseburg (the German chronicler).
+Easter egg: a half-buried pagan idol by the new church — an old priest mutters about the banished gods.
+________________________________________
+Mission 2 — Kazimierz Wielki
+Margins: 1333 (takes the throne) → 1370 (his death, end of the Piast line)
+The path you play: You inherit a wooden, fragmented kingdom. You make peace rather than war (settling with the Teutonic Knights and John of Bohemia), then build — stone castles, the University of Kraków (1364), the Statutes of Kazimierz, protection for Jewish settlers (1334). And you found cities: the standout example is Bydgoszcz. An advisor keeps raising the shadow: you have no son, so all you build is meant to outlast you. The crown passes to your nephew Louis of Hungary; the Piast line ends in 1370.
+Learn: Poland grew through economy, law, and city-founding — not conquest. "Found wood, left stone." Greatness without an heir still ends.
+Main characters: Kazimierz Wielki (the builder-king)
+Clickable people you meet: an architect (stone over wood), a Kraków merchant (salt mines, trade privileges), a Jewish settler (the 1334 protections), Jan Kiesselhuth & Konrad (the founders/zasadźcy of Bydgoszcz), Louis of Hungary (the foreign heir-to-be).
+Easter egg: poke the horse by the castle gate → it kicks loose a coin.
+________________________________________
+Mission 3 — Władysław Jagiełło / Grunwald
+Margins: 1385/86 (Union of Krewo, baptism & crowning) → 1410 (Grunwald)
+The path you play: You are Jogaila / Władysław Jagiełło. You accept the Union of Krewo (1385), marry Queen Jadwiga, and join two realms. War with the Teutonic Order erupts over Samogitia; you and Grand Duke Vytautas agree a secret joint plan and march together with Polish, Lithuanian, and Tatar forces. On 15 July 1410 at Grunwald, Grand Master Ulrich von Jungingen sends you two naked swords as a taunt — then dies as his army shatters.
+Learn: Dynastic union created a great power; alliance and patience beat the Order's rigid pride.
+Main characters: Władysław Jagiełło (the king who unites two realms), 
+Clickable people you meet: Queen Jadwiga (the marriage that made the union), Ulrich von Jungingen (the doomed Grand Master), Grand Duke Vytautas (the cousin and co-commander), Jan Długosz (chronicler of the two swords), a Tatar ally, a Polish banner-knight.
+Easter egg: the two swords of Grunwald in the field — the taunt read aloud, now bitterly ironic.
+________________________________________
+Mission 4 — Rzeczpospolita Obojga Narodów (the peak)
+Margins: 1569 (Union of Lublin) → 1610–1612 (Polish garrison in the Kremlin), the territorial high-water mark
+The path you play: You play a relay of rulers across the golden age, one after another as the time-bar advances. As Zygmunt II August, the last Jagiellonian, you seal the Union of Lublin (1569), binding Poland and Lithuania into one Commonwealth of Two Nations by treaty — over the resistance of some Lithuanian magnates. With his death the throne turns elective, and you next play Stefan Batory (with Queen Anna Jagiellonka), the elected warrior-king who strengthens the realm. Then, as Zygmunt III Waza, Russia's Time of Troubles opens the east. Finally you take command as Hetman Stanisław Żółkiewski: the winged hussars win at Klushino (1610), enter Moscow, and the boyars proclaim the prince Władysław tsar. A Polish garrison holds the Kremlin (1610–1612) — Poland's farthest reach.
+Learn: At its height Poland was Europe's largest state, built by union and elective crown — its banners over Moscow itself. The wild swing of elected kings (a Jagiellonian, a runaway Frenchman, a Transylvanian warrior, a Swede) shows both the reach and the fragility of the age. (Quietly: this is the peak; decline follows.)
+Main characters (played in sequence, never at the same time): Zygmunt II August (the Union of Lublin), Stefan Batory (the elected warrior-king), Zygmunt III Waza (the eastern wars), Hetman Stanisław Żółkiewski (the Moscow campaign).
+Clickable people you meet (each in their own era): a reluctant Lithuanian magnate (1569 Lublin), Henryk Walezy (the king who ruled mere months before fleeing to France), Anna Jagiellonka (the last Jagiellonian, Batory's queen), a Sejm noble wielding the new elective vote, a winged hussar (1610), a Moscow boyar who switched sides.
+Easter egg: A winged hussar by the Kremlin gate, boasting about Władysław IV Waza becoming tsar of Russia.
+________________________________________
+Mission 5 — The Partitions (the fall)
+Margins: 1763 (death of August III Sas) → 1795 (the King's abdication, Poland erased)
+The path you play: You play the tragic last king, Stanisław August Poniatowski, trying to save a paralyzed state. 1767–1772: Russia imposes the veto through terror; the Bar Confederation revolts, leading to the First Partition (1772). 1788–1791: you pass the Constitution of 3 May, abolishing the veto. 1792–1793: traitors form the Targowica Confederation, inviting Russia to crush the reforms; you capitulate — the Second Partition (1793). 1794: Tadeusz Kościuszko leads a desperate uprising, mobilizing peasant scythe-bearers — and loses. 1795: the Third Partition wipes Poland from the map for 123 years. The map goes blank.
+Learn: Internal weakness (the veto) and greedy neighbors erased the state — but the Constitution and Kościuszko's blood kept the nation's soul alive.
+Main characters: Stanisław August Poniatowski (the tragic last king), Tadeusz Kościuszko (the uprising's leader).
+Clickable people you meet: Prymas Władysław Aleksander Łubieński (speaks of August III's death), Ambassador Nikolai Repnin (the Russian tyrant), a Targowica magnate (the traitor), Catherine the Great (the mastermind), a peasant kosynier (scythe-bearer).
+Easter egg: a torn sheet of music in the ruins of Warsaw — click it for a faint "Jeszcze Polska nie zginęła," unlocking the secret that the nation will return.
+

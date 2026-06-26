@@ -1,0 +1,211 @@
+OPIS NA PORTRETY
+================
+
+Stwórz portret postaci do gry edukacyjnej w stylu pixel art / retro RPG (klimat Game Boy Advance, jak w grach Pokémon). Kadr: popiersie, twarz i ramiona, postać patrzy w stronę gracza. Tło: jednolite, proste, lekko rozmyte (np. ciepły brąz lub kamienny mur), żeby nie odciągało uwagi od twarzy. Spójna, ciepła paleta barw, wyraźny kontur, czytelne rysy. Format kwadratowy, postać wyśrodkowana. Styl historyczny, stroje i detale zgodne z epoką. BEZ tekstu, BEZ ramki, BEZ podpisu.
+
+Nazwa pliku podana przy każdej postaci — zachowaj dokładnie.
+
+
+════════════════════════════════════════
+MISJA 1 — Mieszko I → Bolesław Chrobry
+════════════════════════════════════════
+Plik: m01_dobrawa.png
+• Dobrawa — czeska księżniczka, młoda kobieta, chrześcijański krzyż na szyi, łagodne, pobożne spojrzenie.
+
+Plik: m01_jordan.png
+• Biskup Jordan — pierwszy biskup Polski, starszy duchowny, mitra i szaty biskupie, spokojna, poważna twarz.
+
+Plik: m01_wojciech.png
+• Święty Wojciech / Adalbert — misjonarz-męczennik, szczupły mnich w habicie, pastorał w dłoni, natchnione i łagodne spojrzenie.
+
+Plik: m01_boleslaw.png
+• Bolesław Chrobry — potężny, barczysty władca, gęsta broda, korona pierwszego króla Polski, dumna i wojownicza postawa.
+
+Plik: m01_otto.png
+• Otto III — młody cesarz rzymski, delikatne rysy, bogata cesarska korona i płaszcz, wyniosła ale przyjazna mina.
+
+Plik: m01_hipolit.png
+• Arcybiskup Hipolit — tajemniczy, mało znany arcybiskup gnieźnieński, starszy duchowny w szatach metropolity, dyskretna, skromna twarz.
+
+Plik: m01_thietmar.png
+• Thietmar z Merseburga — niemiecki kronikarz-biskup, mężczyzna z piórem i księgą, bystre, uważne spojrzenie.
+
+Plik: m01_mieszko.png
+• Mieszko I — pogański książę przechodzący na chrześcijaństwo, mężczyzna w sile wieku, broda, prosta książęca opaska lub diadem, zamyślone spojrzenie.
+
+Plik: m01_henryk.png
+• Henryk II — surowy cesarz niemiecki, ostre rysy, korona cesarska, chłodne, nieprzyjazne spojrzenie.
+
+
+════════════════════════════════════════
+MISJA 2 — Kazimierz Wielki
+════════════════════════════════════════
+
+Plik: m02_architekt.png
+• Architekt — średniowieczny budowniczy, prosty kaftan, zwój planów w dłoni, skupiona twarz.
+
+Plik: m02_kupiec.png
+• Krakowski kupiec — zamożny handlarz, bogaty mieszczański strój, mieszek lub waga, przebiegłe, życzliwe spojrzenie.
+
+Plik: m02_osadnik.png
+• Żydowski osadnik — średniowieczny żydowski przybysz, skromne szaty i nakrycie głowy (jarmułka lub kapelusz), spokojna, wdzięczna twarz.
+
+Plik: m02_kiesselhuth.png
+• Jan Kiesselhuth i Konrad — dwaj niemieccy zasadźcy miasta, mieszczańskie stroje, dokument lokacyjny w rękach, rzeczowe miny. (jeden portret, obydwaj widoczni)
+
+Plik: m02_kronikarz.png  
+• Kronikarz — starszy mężczyzna, skromne ciemne szaty, pióro w dłoni i rozłożony pergamin, bystre, uczone spojrzenie, skupiony na opisywaniu historii zamków.
+
+Plik: m02_doradca.png  
+• Doradca króla — dworski strój z XIV wieku, poważna, zatroskana mina, lekko pochylony, jakby szeptał królowi na ucho. Twarz człowieka, który zna odpowiedź, ale boi się ją powiedzieć.
+
+Plik: m02_ludwik.png
+• Ludwik Węgierski — węgierski król i następca, dworski strój z motywami węgierskimi, korona, nieco obcy, dystyngowany wygląd.
+
+Plik: m02_kazimierz.png
+• Kazimierz Wielki — dostojny król w średnim wieku, korona, broda, gronostajowy płaszcz, mądre i pewne spojrzenie.
+
+
+════════════════════════════════════════
+MISJA 3 — Jadwiga · Jagiełło · Grunwald
+════════════════════════════════════════
+
+Plik: m03_bodzanta.png  
+• Arcybiskup Bodzanta — koronuje Jadwigę w 1384 r.; dostojny arcybiskup w XIV-wiecznych szatach liturgicznych, mitra, pastorał, surowa powaga i dostojeństwo.
+
+Plik: m03_jagiello.png
+• Władysław Jagiełło — król-założyciel unii, ciemne włosy i broda, korona, dostojna lecz surowa twarz wojownika.
+
+Plik: m03_rektor.png  
+• Rektor Akademii Krakowskiej — XV-wieczny uczony, toga i biret akademicki, dyplom lub gruba księga w rękach, dostojna, intelektualna twarz.
+
+Plik: m03_witold.png
+• Witold — Wielki Książę Litwy, krzepki mężczyzna w futrzanej czapie i zbroi, energiczne, bystre spojrzenie.
+
+Plik: m03_ulrich.png  
+• Herold Ulricha von Jungingen — posłaniec krzyżacki, biały płaszcz z czarnym krzyżem, napięta, butna twarz.
+
+Plik: m03_jadwiga.png  
+• Królowa Jadwiga — młoda, pobożna królowa, korona i delikatny welon, łagodne, anielskie rysy.
+
+Plik: m03_dlugosz.png  
+• Jan Długosz — średniowieczny kronikarz, duchowny z piórem i grubą księgą, uczone, skupione spojrzenie.
+
+Plik: m03_tatar.png  
+• Tatarski sojusznik — jeździec ze Wschodu, futrzana czapa, łuk, smagła, czujna twarz.
+
+Plik: m03_rycerz.png  
+• Polski rycerz spod chorągwi — chorąży w zbroi płytowej, trzyma proporzec, waleczna postawa.
+
+
+════════════════════════════════════════
+MISJA 4 — Rzeczpospolita Obojga Narodów
+════════════════════════════════════════
+Plik: m04_henryk.png
+• Henryk Walezy — francuski książę, wymuskany, dworski strój w stylu francuskim, lekko znudzone, uciekające spojrzenie.
+
+Plik: m04_szlachcic.png
+• Szlachcic — poseł sejmowy, wąsy, kontusz i szabla u boku, pewna siebie, hardo uniesiona głowa.
+
+Plik: m04_anna.png
+• Anna Jagiellonka — ostatnia z Jagiellonów, dojrzała królowa, korona i ciężka renesansowa suknia, dumna, stanowcza twarz.
+
+Plik: m04_zamoyski.png  
+• Jan Zamoyski — hetman i kanclerz, mężczyzna w sile wieku, zbroja lub dworski strój z XVI w., inteligentne, zdecydowane spojrzenie, buława lub pieczęć kanclerska w dłoni.
+
+Plik: m04_zolkiewski.png
+• Hetman Stanisław Żółkiewski — starszy hetman, siwe wąsy, zbroja i buława w dłoni, dostojna, doświadczona twarz.
+
+Plik: m04_bojar.png
+• Bojar moskiewski (Iwan Mścisławski) — rosyjski możnowładca, długa broda, futrzana czapa i bogata szuba, przebiegłe, niepewne spojrzenie człowieka który właśnie zmienił stronę.
+
+Plik: m04_august.png
+• Zygmunt II August — ostatni Jagiellon, dojrzały król, korona, bogaty renesansowy strój, dostojne i nieco melancholijne spojrzenie.
+
+Plik: m04_batory.png
+• Stefan Batory — król-wojownik, gęste wąsy, szabla, kontusz i futro, surowa, zdecydowana twarz.
+
+Plik: m04_waza.png
+• Zygmunt III Waza — król o szwedzkich rysach, spiczasta broda, ciemny dworski strój z koronkowym kołnierzem, poważna mina.
+
+Plik: m04_magnat.png
+• Niechętny litewski magnat — bogaty litewski możnowładca, futrzany kołpak i kontusz, nieufne, oporne spojrzenie.
+
+Plik: m04_husarz.png
+• Husarz skrzydlaty — polski husarz, lśniąca zbroja, charakterystyczne skrzydła za plecami.
+
+
+════════════════════════════════════════
+MISJA 5 — Rozbiory
+════════════════════════════════════════
+
+Plik: m05_lubienski.png
+• Prymas Władysław Łubieński — XVIII-wieczny prymas, purpurowe szaty kościelne, dostojna, zatroskana twarz.
+
+Plik: m05_repnin.png
+• Ambasador Nikołaj Repnin — rosyjski ambasador, dworski mundur z orderami, peruka, wyniosłe, pogardliwe spojrzenie.
+
+Plik: m05_pulaski.png 
+• Kazimierz Pułaski — konfederat barski, młody szlachcic-wojownik, kontusz lub mundur, krótkie ciemne włosy, płomienna, bezkompromisowa twarz. Jeden z założycieli Konfederacji Barskiej (1768).
+
+Plik: m05_katarzyna.png
+• Katarzyna II — caryca Rosji, bogata suknia dworska i klejnoty, mała korona, chłodne, wyrachowane spojrzenie.
+
+Plik: m05_kollataj.png  
+• Hugo Kołłątaj — reformator oświeceniowy, XVIII-wieczny duchowny i intelektualista, ciemna sutanna lub świecki strój z epoki, pióro w dłoni, inteligentne i żarliwe spojrzenie. Współtwórca Konstytucji 3 Maja.
+
+Plik: m05_potocki.png
+• Szczęsny Potocki — zdradziecki magnat targowicki, bogaty kontusz, wąsy, chytre, fałszywe spojrzenie.
+
+Plik: m05_kosciuszko.png
+• Tadeusz Kościuszko — Naczelnik insurekcji, prosty mundur z czamarą, krótkie włosy, zdeterminowana, szlachetna twarz.
+
+Plik: m05_glowacki.png
+• Bartosz Głowacki — chłop-kosynier, prosta lniana koszula lub płócienna czamara, kosa postawiona na sztorc, zmęczona ale wyzywająca twarz.
+
+Plik: m05_poniatowski.png
+• Stanisław August Poniatowski — ostatni król Polski, elegancki XVIII-wieczny strój, peruka, korona, smutne, zmęczone spojrzenie.
+
+
+════════════════════════════════════════
+OBRAZKI NIE-POSTACIOWE (potrzebne w grze)
+════════════════════════════════════════
+
+Te elementy są w grze, ale renderowane jako emoji. Pixel-artowa ilustracja bardzo by je wzbogaciła.
+
+── EASTER EGGI (po jednym na misję) ───
+Każdy: mały kwadratowy sprite, wyraźny kontur, styl pixel-art GBA, bez tekstu.
+
+Plik: egg_m01_idol.png
+• Pogański bożek — kamienny lub drewniany idol słowiański, prymitywna rzeźba, może mieć ślady ognia lub deszczu. Klimat: tajemniczy, nieco złowieszczy.
+
+Plik: egg_m02_moneta.png
+• Moneta średniowieczna — złota moneta z orłem lub krzyżem, leżąca w trawie przy murze zamku, widok z lekka z góry.
+
+Plik: egg_m03_miecze.png
+• Dwa nagie miecze Grunwaldu — dwie skrzyżowane lub równoległe krzyżackie miecze wbite w trawę pola bitwy, dramatyczne oświetlenie.
+
+Plik: egg_m04_husarz.png
+• Husarz przy Kremlu — sylwetka skrzydlatego husarza na tle murów Kremla, ujęcie od tyłu lub z boku, charakterystyczna sylweta ze skrzydłami.
+
+Plik: egg_m05_nuty.png
+• Strzęp nut w ruinach — pożółkła kartka z nutami (fragmenty Mazurka Dąbrowskiego) leżąca wśród gruzów i popiołu, klimat: melancholijny, ale z nutą nadziei.
+
+── BUDYNKI SPECJALNE (sprite na mapie) ───
+Używane w konkretnych hotspotach — aktualnie game używa domyślnego sprite'u monastery dla wszystkich.
+Każdy: ok. 80×80 px, styl pixel-art GBA, widok z boku lub lekko z góry.
+
+Plik: building_uniwersytet.png
+• Akademia Krakowska (1364) — gotycki budynek z łukami, wieżyczką, witrażem, klimat uczonej instytucji.
+
+Plik: building_unia.png
+• Sala sejmowa w Lublinie (1569) — kamienna sala obrad, długi stół, proporzec Korony i Litwy. Może być bardziej architektoniczny — fasada budynku z herbami.
+
+Plik: building_ken.png
+• KEN — Komisja Edukacji Narodowej (1773) — klasycystyczny budynek szkolny, tablica z napisem lub globusem, klimat oświecenia.
+
+Plik: building_lazienki.png
+• Łazienki Królewskie — Pałac na Wodzie, klasycystyczny biały pałacyk nad wodą, park w tle.
+
+Plik: building_inflanty.png
+• Zamek inflancki / port bałtycki — ceglana gotycka wieża lub mury obronne nad morzem, klimat nadbałtyckiego pogranicza.

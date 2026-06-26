@@ -1,0 +1,10 @@
+# Claude Code session data
+.claude/
+
+# Genealogy source files (not part of the web app)
+*.ged
+
+# OS / editor
+.DS_Store
+Thumbs.db
+desktop.ini

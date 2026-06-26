@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link href="https://fonts.googleapis.com/css2?family=Jersey+15&family=VT323&display=swap" rel="stylesheet" />
+  <script src="art/engine.js"></script>
+</helmet>
+<div style="position:fixed; inset:0; background:#0a0805; display:flex; align-items:center; justify-content:center; overflow:hidden; font-family:'VT323',monospace;">
+  <div id="stage" style="position:relative; width:1280px; height:800px; transform-origin:center center; overflow:hidden; box-shadow:0 0 0 4px #000, 0 24px 70px rgba(0,0,0,.65); background:#1c2a40;">
+    <canvas id="scene" width="1280" height="800" style="position:absolute; inset:0; width:1280px; height:800px; image-rendering:pixelated; display:block;"></canvas>
+
+    <!-- ENEMY portrait (far platform, upper-right) -->
+    <div style="position:absolute; left:858px; top:236px; width:152px; height:152px; border-radius:50%; overflow:hidden; background:radial-gradient(circle at 50% 38%, #cfd6dc, #8f9aa6 70%, #6b7682); box-shadow:0 0 0 4px #20170d, 0 0 0 7px #9c8350, 0 10px 22px rgba(0,0,0,.5);">
+      <img src="art/m03_ulrich.png" style="position:absolute; width:142%; height:142%; left:-21%; top:-4%; image-rendering:pixelated;" />
+    </div>
+
+    <!-- PLAYER portrait (near platform, lower-left) -->
+    <div style="position:absolute; left:300px; top:322px; width:198px; height:198px; border-radius:50%; overflow:hidden; background:radial-gradient(circle at 50% 38%, #f3e4b8, #d8b86e 68%, #a07f3e); box-shadow:0 0 0 5px #20170d, 0 0 0 8px #d8b24a, 0 12px 26px rgba(0,0,0,.55);">
+      <img src="art/m03_jagiello.png" style="position:absolute; width:140%; height:140%; left:-20%; top:-2%; image-rendering:pixelated;" />
+    </div>
+
+    <!-- ENEMY nameplate (top-RIGHT, parchment — paired above enemy portrait) -->
+    <div style="position:absolute; right:26px; top:26px; width:330px; padding:13px 16px 14px; background:linear-gradient(180deg,#f1e7cd,#e2d3b0); border:3px solid #2c2012; box-shadow:inset 0 0 0 2px #c8ab68, 0 6px 18px rgba(0,0,0,.5);">
+      <div style="font-family:'Jersey 15',sans-serif; font-size:26px; color:#2a1d10; letter-spacing:.5px; line-height:1;">ULRICH VON JUNGINGEN</div>
+      <div style="font-size:21px; color:#6f5d3b; margin-top:5px; line-height:1;">Wielki Mistrz Zakonu Krzyżackiego · Lv.25</div>
+      <div style="display:flex; align-items:center; gap:9px; margin-top:9px;">
+        <span style="font-family:'Jersey 15',sans-serif; font-size:17px; color:#7a3128;">HP</span>
+        <div style="position:relative; flex:1; height:13px; background:#1d160b; border:1px solid #0c0a06; box-shadow:inset 0 1px 0 #4a3a1f;">
+          <div data-role="enemy-hp-fill" style="height:100%; width:100%; background:#5bbf5b; transition:width .45s ease;"></div>
+        </div>
+      </div>
+      <div data-role="enemy-hp-text" style="text-align:right; font-size:18px; color:#6f5d3b; margin-top:2px;">1410 / 1410</div>
+    </div>
+
+    <!-- PLAYER nameplate (top-LEFT, navy — paired above player portrait) -->
+    <div style="position:absolute; left:26px; top:26px; width:344px; padding:12px 16px 13px; background:linear-gradient(180deg,#1b2a4d,#0f1830); border:2px solid #cf9f3f; box-shadow:inset 0 0 0 2px #2d4170, 0 6px 18px rgba(0,0,0,.5);">
+      <div style="font-family:'Jersey 15',sans-serif; font-size:26px; color:#edc659; letter-spacing:.5px; line-height:1;">WŁADYSŁAW JAGIEŁŁO</div>
+      <div style="font-size:21px; color:#aebbd6; margin-top:5px; line-height:1;">Król Polski i Litwy · z ks. Witoldem · Lv.30</div>
+      <div style="display:flex; align-items:center; gap:9px; margin-top:9px;">
+        <span style="font-family:'Jersey 15',sans-serif; font-size:17px; color:#cf9f3f;">HP</span>
+        <div style="position:relative; flex:1; height:13px; background:#0a1120; border:1px solid #000; box-shadow:inset 0 1px 0 #2d4170;">
+          <div data-role="player-hp-fill" style="height:100%; width:100%; background:#5bbf5b; transition:width .45s ease;"></div>
+        </div>
+        <span data-role="player-hp-text" style="font-size:18px; color:#aebbd6;">1410 / 1410</span>
+      </div>
+    </div>
+
+    <!-- DIALOGUE (bottom-left, parchment) -->
+    <div data-role="dialogue" data-initial="15 lipca 1410, pola pod Grunwaldem. Krzyżacy stoją w ciężkich zbrojach, gotowi do bitwy. Jak poprowadzi wojsko król Jagiełło?" style="position:absolute; left:26px; bottom:24px; width:556px; height:248px; box-sizing:border-box; padding:22px 26px; background:linear-gradient(180deg,#f3ead0,#e6d8b6); border:3px solid #2c2012; box-shadow:inset 0 0 0 2px #c8ab68, 0 6px 18px rgba(0,0,0,.5); font-size:28px; line-height:1.2; color:#2c2012; text-wrap:pretty;">15 lipca 1410, pola pod Grunwaldem. Krzyżacy stoją w ciężkich zbrojach, gotowi do bitwy. Jak poprowadzi wojsko król Jagiełło?</div>
+
+    <!-- OPTIONS (bottom-right, 2x2) -->
+    <div style="position:absolute; right:26px; bottom:24px; width:602px; height:248px; display:grid; grid-template-columns:1fr 1fr; grid-template-rows:1fr 1fr; gap:14px;">
+      <button data-opt data-result="Polscy rycerze uderzają w sam środek Zakonu! Ciężka jazda przełamuje pierwsze szeregi Krzyżaków." style="display:flex; flex-direction:column; justify-content:center; gap:3px; text-align:left; padding:0 22px; background:linear-gradient(180deg,#16223f,#101a31); border:2px solid #c79a3e; box-shadow:inset 0 0 0 2px #233356; cursor:pointer;" style-hover="background:linear-gradient(180deg,#1d2c50,#16223f);">
+        <div style="font-family:'Jersey 15',sans-serif; font-size:23px; color:#f0cb63; line-height:1.05; white-space:nowrap;">⚔ SZARŻA RYCERSTWA</div>
+        <div style="font-size:19px; color:#c9b889; line-height:1.1;">ciężka polska jazda rusza naprzód</div>
+      </button>
+      <button data-opt data-result="Litwini Witolda udają ucieczkę. Krzyżacy ruszają w pogoń i łamią własny szyk — to była pułapka!" style="display:flex; flex-direction:column; justify-content:center; gap:3px; text-align:left; padding:0 22px; background:linear-gradient(180deg,#16223f,#101a31); border:2px solid #c79a3e; box-shadow:inset 0 0 0 2px #233356; cursor:pointer;" style-hover="background:linear-gradient(180deg,#1d2c50,#16223f);">
+        <div style="font-family:'Jersey 15',sans-serif; font-size:23px; color:#f0cb63; line-height:1.05; white-space:nowrap;">↺ ODWRÓT WITOLDA</div>
+        <div style="font-size:19px; color:#c9b889; line-height:1.1;">pozorowana ucieczka Litwinów</div>
+      </button>
+      <button data-opt data-result="Z lasu wypadają ukryte chorągwie! Zakon zostaje zaatakowany z dwóch stron naraz i traci przewagę." style="display:flex; flex-direction:column; justify-content:center; gap:3px; text-align:left; padding:0 22px; background:linear-gradient(180deg,#16223f,#101a31); border:2px solid #c79a3e; box-shadow:inset 0 0 0 2px #233356; cursor:pointer;" style-hover="background:linear-gradient(180deg,#1d2c50,#16223f);">
+        <div style="font-family:'Jersey 15',sans-serif; font-size:23px; color:#f0cb63; line-height:1.05; white-space:nowrap;">⚑ CHORĄGWIE Z LASU</div>
+        <div style="font-size:19px; color:#c9b889; line-height:1.1;">ukryte oddziały wpadają z boku</div>
+      </button>
+      <button data-opt data-result="Polacy przebijają się do Wielkiego Mistrza. Ulrich von Jungingen ginie w boju — Zakon traci wodza!" style="display:flex; flex-direction:column; justify-content:center; gap:3px; text-align:left; padding:0 22px; background:linear-gradient(180deg,#16223f,#101a31); border:2px solid #c79a3e; box-shadow:inset 0 0 0 2px #233356; cursor:pointer;" style-hover="background:linear-gradient(180deg,#1d2c50,#16223f);">
+        <div style="font-family:'Jersey 15',sans-serif; font-size:23px; color:#f0cb63; line-height:1.05; white-space:nowrap;">✝ CIOS W WODZA</div>
+        <div style="font-size:19px; color:#c9b889; line-height:1.1;">atak prosto na Wielkiego Mistrza</div>
+      </button>
+    </div>
+
+    <!-- RESULT banner -->
+    <div data-role="banner" style="position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:18px; background:rgba(8,6,3,.55); opacity:0; pointer-events:none; transition:opacity .5s ease; color:#f3e2a8;">
+      <div data-role="banner-title" style="font-family:'Jersey 15',sans-serif; font-size:74px; letter-spacing:2px; text-shadow:0 4px 0 #000, 0 0 24px rgba(0,0,0,.6); color:inherit;">ZWYCIĘSTWO!</div>
+      <div data-role="banner-sub" style="font-size:30px; color:#e7dcc2; max-width:720px; text-align:center; text-wrap:pretty;">Polska i Litwa rozbijają Zakon Krzyżacki. 15 lipca 1410.</div>
+      <button data-role="replay" style="margin-top:6px; font-family:'Jersey 15',sans-serif; font-size:28px; color:#0f1830; background:#edc659; border:2px solid #2c2012; padding:12px 28px; cursor:pointer; box-shadow:0 4px 0 #2c2012;">↻ ZAGRAJ PONOWNIE</button>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  componentDidMount() { this.boot(); }
+  boot() {
+    var root = this.root || document;
+    var PA = window.PA;
+    if (!PA || !PA.Scene) { return setTimeout(() => this.boot(), 60); }
+    var stage = root.querySelector('#stage');
+    var canvas = root.querySelector('#scene');
+    var fit = () => { var s = Math.min(window.innerWidth / 1280, window.innerHeight / 800); stage.style.zoom = s; };
+    fit(); this._fit = fit; window.addEventListener('resize', fit);
+
+    var spec = {
+      horizonY: 104,
+      sky: [[0, '#3f7fc4'], [0.42, '#79b2dd'], [0.78, '#bedcec'], [1, '#e8eccf']],
+      sun: { x: 160, y: 34, r: 12, color: '#fff6c8', glow: '#ffe89c' },
+      cloudBand: 30,
+      layers: [
+        { baseY: 100, amp: 5, freq: 0.05, seed: 11, color: '#5d7d51', type: 'forest', lightTop: '#789a64' },
+        { baseY: 105, amp: 9, freq: 0.028, seed: 24, color: '#6f9356', lightTop: '#8aae6a' }
+      ],
+      ground: { near: '#6f9e4c', far: '#9cb96a', path: '#c8b27a', rows: '#587a40' },
+      fields: [{ x: 56, y: 150, rx: 40, ry: 8, color: '#cdb968', a: 0.85 }, { x: 268, y: 150, rx: 42, ry: 8, color: '#cdb968', a: 0.85 }],
+      platforms: [
+        { x: 236, y: 101, rx: 36, ry: 7, color: '#b6a65d', shadow: '#5a6a3c' },
+        { x: 100, y: 137, rx: 54, ry: 12, color: '#aebd6f', shadow: '#4d6036' }
+      ],
+      ambiance: { type: 'embers', count: 22, color: '#ecdc90', seed: 3, clouds: 5, cloudColor: '#ffffff', cloudShade: '#d8e6ee' },
+      staticDraw: function (ctx, PA) {
+        // great oak on a rise (centre-right, behind enemy platform)
+        var ox = 196, oy = 102;
+        PA.oval(ctx, ox, oy + 3, 24, 5, '#6f9a52', 1);
+        ctx.fillStyle = '#5a3f28'; ctx.fillRect(ox - 2, oy - 16, 5, 20);
+        ctx.fillStyle = '#4a3220'; ctx.fillRect(ox + 2, oy - 16, 1, 20);
+        ctx.fillStyle = '#33592f'; PA.circle(ctx, ox, oy - 26, 16);
+        ctx.fillStyle = '#477339'; PA.circle(ctx, ox - 8, oy - 27, 11); PA.circle(ctx, ox + 9, oy - 24, 10);
+        ctx.fillStyle = '#5b8f4d'; PA.circle(ctx, ox - 3, oy - 31, 8); PA.circle(ctx, ox + 6, oy - 29, 6);
+        // distant Teutonic tents (white, tiny) on far-left hill
+        [[52, 96], [66, 98], [80, 95]].forEach(function (p) {
+          ctx.fillStyle = '#e7e0d0'; for (var i = 0; i < 6; i++) ctx.fillRect(p[0] - i, p[1] - 6 + i, i * 2 + 1, 1);
+          ctx.fillStyle = '#b03028'; ctx.fillRect(p[0], p[1] - 5, 1, 2);
+        });
+        // little foreground shrubs
+        ctx.fillStyle = '#3f6b39'; PA.circle(ctx, 16, 184, 9); PA.circle(ctx, 306, 188, 10);
+        ctx.fillStyle = '#4f7d44'; PA.circle(ctx, 13, 181, 6); PA.circle(ctx, 309, 184, 6);
+      },
+      dynamicDraw: function (ctx, t, PA) {
+        function flag(bx, by, ph, cloth, mark) {
+          ctx.fillStyle = '#3a2a18'; ctx.fillRect(bx, by - 30, 2, 34);
+          ctx.fillStyle = '#caa24a'; ctx.fillRect(bx - 1, by - 32, 4, 2);
+          for (var i = 0; i < 13; i++) {
+            var sway = Math.round(Math.sin(t * 3 + i * 0.55 + ph) * 2.2);
+            ctx.fillStyle = cloth; ctx.fillRect(bx + 2 + sway, by - 30 + i, 16, 1);
+            if (mark && i > 3 && i < 9) { ctx.fillStyle = mark; ctx.fillRect(bx + 7 + sway, by - 30 + i, 4, 1); }
+          }
+        }
+        flag(36, 150, 0, '#b5302c', '#efe6cf');   // Polish red banner w/ white
+        flag(300, 150, 1.4, '#1f3f78', '#e6c84a'); // Lithuanian blue/gold
+      }
+    };
+
+    this._scene = new PA.Scene(canvas, spec);
+    PA.startBattle(root, {
+      maxEnemy: 1410, maxPlayer: 1410, outcome: 'win',
+      enemyLines: [
+        'Krzyżacy kontratakują! Ciężka jazda Zakonu wbija się w polskie szeregi — pada wielu rycerzy.',
+        'Zakon rzuca do walki odwody. Wokół króla Jagiełły wrze ciężki bój, sztandary chwieją się w pyle.',
+        'Krzyżacki rycerz przebija się ku królowi! Władysław ledwo odpiera cios — bitwa wisi na włosku.',
+        'Resztki Zakonu walczą zaciekle do końca, lecz polsko-litewskie wojsko bierze górę.'
+      ],
+      win: { t: 'ZWYCIĘSTWO!', s: 'Ciężka i krwawa bitwa — ale Polska i Litwa rozbijają Zakon Krzyżacki. Ulrich von Jungingen ginie. 15 lipca 1410.' },
+      loss: { t: '', s: '' }
+    });
+  }
+  componentWillUnmount() { if (this._scene) this._scene.stop(); if (this._fit) window.removeEventListener('resize', this._fit); }
+}
+</script>
+</body>
+</html>

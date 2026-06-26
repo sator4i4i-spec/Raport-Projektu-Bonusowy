@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link href="https://fonts.googleapis.com/css2?family=Jersey+15&family=VT323&display=swap" rel="stylesheet" />
+  <script src="art/engine.js"></script>
+</helmet>
+<div style="position:fixed; inset:0; background:#06070a; display:flex; align-items:center; justify-content:center; overflow:hidden; font-family:'VT323',monospace;">
+  <div id="stage" style="position:relative; width:1280px; height:800px; transform-origin:center center; overflow:hidden; box-shadow:0 0 0 4px #000, 0 24px 70px rgba(0,0,0,.65); background:#3a4048;">
+    <canvas id="scene" width="1280" height="800" style="position:absolute; inset:0; width:1280px; height:800px; image-rendering:pixelated; display:block;"></canvas>
+
+    <!-- ENEMY portrait -->
+    <div style="position:absolute; left:858px; top:236px; width:152px; height:152px; border-radius:50%; overflow:hidden; background:radial-gradient(circle at 50% 38%, #c2a6cc, #7a5a8e 66%, #463056); box-shadow:0 0 0 4px #20170d, 0 0 0 7px #8a6a3a, 0 10px 22px rgba(0,0,0,.5);">
+      <img src="art/m05_katarzyna.png" style="position:absolute; width:142%; height:142%; left:-21%; top:-6%; image-rendering:pixelated;" />
+    </div>
+
+    <!-- PLAYER portrait -->
+    <div style="position:absolute; left:300px; top:322px; width:198px; height:198px; border-radius:50%; overflow:hidden; background:radial-gradient(circle at 50% 38%, #e6d6ac, #c2a25e 68%, #8a6a34); box-shadow:0 0 0 5px #20170d, 0 0 0 8px #c2a24a, 0 12px 26px rgba(0,0,0,.55);">
+      <img src="art/m05_kosciuszko.png" style="position:absolute; width:140%; height:140%; left:-20%; top:-4%; image-rendering:pixelated;" />
+    </div>
+
+    <!-- ENEMY nameplate -->
+    <div style="position:absolute; right:26px; top:26px; width:330px; padding:13px 16px 14px; background:linear-gradient(180deg,#e7dcc6,#d4c4a4); border:3px solid #2c2012; box-shadow:inset 0 0 0 2px #b89a5a, 0 6px 18px rgba(0,0,0,.5);">
+      <div style="font-family:'Jersey 15',sans-serif; font-size:26px; color:#2a1d10; letter-spacing:.5px; line-height:1;">CARYCA KATARZYNA II</div>
+      <div style="font-size:21px; color:#6f5d3b; margin-top:5px; line-height:1;">Cesarstwo Rosyjskie · gen. Fersen · Lv.34</div>
+      <div style="display:flex; align-items:center; gap:9px; margin-top:9px;">
+        <span style="font-family:'Jersey 15',sans-serif; font-size:17px; color:#7a3128;">HP</span>
+        <div style="position:relative; flex:1; height:13px; background:#1d160b; border:1px solid #0c0a06; box-shadow:inset 0 1px 0 #4a3a1f;">
+          <div data-role="enemy-hp-fill" style="height:100%; width:100%; background:#5bbf5b; transition:width .45s ease;"></div>
+        </div>
+      </div>
+      <div data-role="enemy-hp-text" style="text-align:right; font-size:18px; color:#6f5d3b; margin-top:2px;">1794 / 1794</div>
+    </div>
+
+    <!-- PLAYER nameplate -->
+    <div style="position:absolute; left:26px; top:26px; width:344px; padding:12px 16px 13px; background:linear-gradient(180deg,#28303f,#161c28); border:2px solid #b89a4a; box-shadow:inset 0 0 0 2px #3a4660, 0 6px 18px rgba(0,0,0,.5);">
+      <div style="font-family:'Jersey 15',sans-serif; font-size:26px; color:#e6c659; letter-spacing:.5px; line-height:1;">TADEUSZ KOŚCIUSZKO</div>
+      <div style="font-size:21px; color:#a6b0c2; margin-top:5px; line-height:1;">Naczelnik powstania · ostatnia bitwa · Lv.31</div>
+      <div style="display:flex; align-items:center; gap:9px; margin-top:9px;">
+        <span style="font-family:'Jersey 15',sans-serif; font-size:17px; color:#b89a4a;">HP</span>
+        <div style="position:relative; flex:1; height:13px; background:#0a1018; border:1px solid #000; box-shadow:inset 0 1px 0 #3a4660;">
+          <div data-role="player-hp-fill" style="height:100%; width:100%; background:#5bbf5b; transition:width .45s ease;"></div>
+        </div>
+        <span data-role="player-hp-text" style="font-size:18px; color:#a6b0c2;">1794 / 1794</span>
+      </div>
+    </div>
+
+    <!-- DIALOGUE -->
+    <div data-role="dialogue" data-initial="10 października 1794 pod Maciejowicami. W deszczu nad Wisłą garść powstańców czeka na posiłki, otoczona przez Rosjan. Co rozkaże Naczelnik?" style="position:absolute; left:26px; bottom:24px; width:556px; height:248px; box-sizing:border-box; padding:22px 26px; background:linear-gradient(180deg,#e9e0cc,#d8cbac); border:3px solid #2c2012; box-shadow:inset 0 0 0 2px #b89a5a, 0 6px 18px rgba(0,0,0,.5); font-size:28px; line-height:1.2; color:#2c2012; text-wrap:pretty;">10 października 1794 pod Maciejowicami. W deszczu nad Wisłą garść powstańców czeka na posiłki, otoczona przez Rosjan. Co rozkaże Naczelnik?</div>
+
+    <!-- OPTIONS -->
+    <div style="position:absolute; right:26px; bottom:24px; width:602px; height:248px; display:grid; grid-template-columns:1fr 1fr; grid-template-rows:1fr 1fr; gap:14px;">
+      <button data-opt data-result="Posiłki gen. Ponińskiego nie nadchodzą — utknęły gdzieś w deszczu. Powstańcy zostają sami przeciw przewadze wroga." style="display:flex; flex-direction:column; justify-content:center; gap:3px; text-align:left; padding:0 22px; background:linear-gradient(180deg,#222a3a,#141a26); border:2px solid #9a7f3a; box-shadow:inset 0 0 0 2px #2e3850; cursor:pointer;" style-hover="background:linear-gradient(180deg,#2a3346,#1b2230);">
+        <div style="font-family:'Jersey 15',sans-serif; font-size:23px; color:#e6c463; line-height:1.05; white-space:nowrap;">⌛ CZEKAĆ NA POSIŁKI</div>
+        <div style="font-size:19px; color:#bdb089; line-height:1.1;">liczyć na korpus Ponińskiego</div>
+      </button>
+      <button data-opt data-result="Powstańcy okopują się na wzgórzu. Rosyjskie działa rozbijają pozycje jedna po drugiej — szeregi topnieją w ogniu." style="display:flex; flex-direction:column; justify-content:center; gap:3px; text-align:left; padding:0 22px; background:linear-gradient(180deg,#222a3a,#141a26); border:2px solid #9a7f3a; box-shadow:inset 0 0 0 2px #2e3850; cursor:pointer;" style-hover="background:linear-gradient(180deg,#2a3346,#1b2230);">
+        <div style="font-family:'Jersey 15',sans-serif; font-size:23px; color:#e6c463; line-height:1.05; white-space:nowrap;">⛰ OBRONA POZYCJI</div>
+        <div style="font-size:19px; color:#bdb089; line-height:1.1;">utrzymać linię pod ostrzałem</div>
+      </button>
+      <button data-opt data-result="Kościuszko sam prowadzi rozpaczliwą szarżę! Lecz Rosjan jest zbyt wielu — pierścień zaciska się wokół powstańców." style="display:flex; flex-direction:column; justify-content:center; gap:3px; text-align:left; padding:0 22px; background:linear-gradient(180deg,#222a3a,#141a26); border:2px solid #9a7f3a; box-shadow:inset 0 0 0 2px #2e3850; cursor:pointer;" style-hover="background:linear-gradient(180deg,#2a3346,#1b2230);">
+        <div style="font-family:'Jersey 15',sans-serif; font-size:23px; color:#e6c463; line-height:1.05; white-space:nowrap;">⚔ KONTRATAK</div>
+        <div style="font-size:19px; color:#bdb089; line-height:1.1;">rozpaczliwa szarża Naczelnika</div>
+      </button>
+      <button data-opt data-result="Próba odwrotu nad Wisłę grzęźnie w błocie i deszczu. Ranny Kościuszko spada z konia i dostaje się do niewoli." style="display:flex; flex-direction:column; justify-content:center; gap:3px; text-align:left; padding:0 22px; background:linear-gradient(180deg,#222a3a,#141a26); border:2px solid #9a7f3a; box-shadow:inset 0 0 0 2px #2e3850; cursor:pointer;" style-hover="background:linear-gradient(180deg,#2a3346,#1b2230);">
+        <div style="font-family:'Jersey 15',sans-serif; font-size:23px; color:#e6c463; line-height:1.05; white-space:nowrap;">↩ PRÓBA ODWROTU</div>
+        <div style="font-size:19px; color:#bdb089; line-height:1.1;">wycofać się nad rzekę</div>
+      </button>
+    </div>
+
+    <!-- RESULT banner -->
+    <div data-role="banner" style="position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:18px; background:rgba(6,7,10,.62); opacity:0; pointer-events:none; transition:opacity .5s ease; color:#e7c0b4;">
+      <div data-role="banner-title" style="font-family:'Jersey 15',sans-serif; font-size:74px; letter-spacing:2px; text-shadow:0 4px 0 #000, 0 0 24px rgba(0,0,0,.6); color:inherit;">KLĘSKA</div>
+      <div data-role="banner-sub" style="font-size:30px; color:#d6c8c0; max-width:780px; text-align:center; text-wrap:pretty;">Ranny Kościuszko dostaje się do niewoli. Powstanie chyli się ku upadkowi. Maciejowice, 10 października 1794.</div>
+      <button data-role="replay" style="margin-top:6px; font-family:'Jersey 15',sans-serif; font-size:28px; color:#161c28; background:#c9b48a; border:2px solid #2c2012; padding:12px 28px; cursor:pointer; box-shadow:0 4px 0 #2c2012;">↻ ZAGRAJ PONOWNIE</button>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  componentDidMount() { this.boot(); }
+  boot() {
+    var root = this.root || document;
+    var PA = window.PA;
+    if (!PA || !PA.Scene) { return setTimeout(() => this.boot(), 60); }
+    var stage = root.querySelector('#stage');
+    var canvas = root.querySelector('#scene');
+    var fit = () => { var s = Math.min(window.innerWidth / 1280, window.innerHeight / 800); stage.style.zoom = s; };
+    fit(); this._fit = fit; window.addEventListener('resize', fit);
+
+    var spec = {
+      horizonY: 112,
+      sky: [[0, '#525b67'], [0.5, '#79828e'], [0.82, '#9aa2ac'], [1, '#b2b8c0']],
+      cloudBand: 56,
+      layers: [
+        { baseY: 106, amp: 5, freq: 0.045, seed: 71, color: '#534b3a', type: 'forest', lightTop: '#6e6448' },
+        { baseY: 111, amp: 8, freq: 0.03, seed: 73, color: '#665b40', lightTop: '#867950' }
+      ],
+      ground: { near: '#5f5638', far: '#7e765a', path: '#574e36', rows: '#463e2a' },
+      fields: [{ x: 60, y: 158, rx: 38, ry: 7, color: '#7a6c44', a: 0.4 }, { x: 268, y: 160, rx: 40, ry: 7, color: '#7a6c44', a: 0.4 }],
+      platforms: [
+        { x: 236, y: 105, rx: 36, ry: 7, color: '#766a48', shadow: '#3e3826' },
+        { x: 100, y: 145, rx: 54, ry: 12, color: '#6e6444', shadow: '#3a3422' }
+      ],
+      shimmer: { y: 120, color: '#9aa6b0' },
+      ambiance: { type: 'rain', count: 100, color: 'rgba(196,208,220,0.5)', seed: 11, clouds: 6, cloudColor: '#878f99', cloudShade: '#6c747e' },
+      staticDraw: function (ctx, PA) {
+        // THE VISTULA — wide grey river band across the mid-ground
+        for (var y = 113; y < 132; y++) {
+          ctx.fillStyle = PA.mix('#8b97a3', '#6f7c88', (y - 113) / 19);
+          ctx.fillRect(0, y, 320, 1);
+        }
+        // far bank line
+        ctx.fillStyle = '#5b5640'; ctx.fillRect(0, 112, 320, 1);
+        // distant village church silhouette beyond the river (grey, rainy)
+        var vx = 158, vy = 112;
+        ctx.fillStyle = '#5a5648'; ctx.fillRect(vx - 3, vy - 11, 6, 11);
+        for (var r = 0; r < 5; r++) ctx.fillRect(vx - 3 + r, vy - 11 - r, 6 - r * 2, 1);
+        ctx.fillRect(vx - 1, vy - 17, 2, 3);
+        [[vx - 14, vy], [vx + 13, vy]].forEach(function (c) { ctx.fillStyle = '#544f40'; ctx.fillRect(c[0] - 4, c[1] - 4, 8, 4); for (var r = 0; r < 3; r++) ctx.fillRect(c[0] - 4 + r, c[1] - 4 - r, 8 - r * 2, 1); });
+        // BARE autumn trees (leafless), foreground corners
+        function deadTree(x, base, h) {
+          ctx.fillStyle = '#352a1e'; ctx.fillRect(x, base - h, 2, h);
+          ctx.fillStyle = '#3f3322';
+          ctx.fillRect(x - 4, base - h + 2, 4, 1); ctx.fillRect(x - 6, base - h, 3, 1);
+          ctx.fillRect(x + 2, base - h + 4, 5, 1); ctx.fillRect(x + 5, base - h + 1, 3, 1);
+          ctx.fillRect(x - 3, base - h + 7, 3, 1); ctx.fillRect(x + 2, base - h + 9, 4, 1);
+        }
+        deadTree(22, 196, 40); deadTree(40, 200, 30);
+        deadTree(300, 198, 44); deadTree(284, 194, 28);
+        // muddy puddles reflecting grey sky
+        ctx.globalAlpha = 0.5; ctx.fillStyle = '#7e868f';
+        PA.oval(ctx, 90, 188, 16, 3, '#7e868f', 0.5); PA.oval(ctx, 250, 192, 18, 3, '#7e868f', 0.5);
+        ctx.globalAlpha = 1;
+        // wet grass tufts
+        ctx.fillStyle = '#4e4a30'; for (var g = 0; g < 24; g++) { var gx = (g * 14 + 5) % 320; ctx.fillRect(gx, 194 + (g % 3) * 3, 1, 4); }
+      },
+      dynamicDraw: function (ctx, t, PA) {
+        // occasional faint lightning flash
+        var fl = Math.max(0, Math.sin(t * 0.5) - 0.985) * 60;
+        if (fl > 0) { ctx.globalAlpha = Math.min(0.5, fl); ctx.fillStyle = '#dfe6ee'; ctx.fillRect(0, 0, 320, 112); ctx.globalAlpha = 1; }
+        // drooping wet banners (less sway)
+        function flag(bx, by, ph, cloth, mark) {
+          ctx.fillStyle = '#2c2114'; ctx.fillRect(bx, by - 28, 2, 32);
+          ctx.fillStyle = '#7a6638'; ctx.fillRect(bx - 1, by - 30, 4, 2);
+          for (var i = 0; i < 12; i++) {
+            var sway = Math.round(Math.sin(t * 1.4 + i * 0.5 + ph) * 1.1) + Math.round(i * 0.5);
+            ctx.fillStyle = cloth; ctx.fillRect(bx + 2 + sway, by - 28 + i, 14, 1);
+            if (mark && i > 3 && i < 8) { ctx.fillStyle = mark; ctx.fillRect(bx + 6 + sway, by - 28 + i, 4, 1); }
+          }
+        }
+        flag(44, 156, 0, '#8a2c28', '#d8cdb4');     // rain-darkened Polish red
+        flag(298, 158, 1.4, '#5e1a1f', '#c2a83e');
+      }
+    };
+
+    this._scene = new PA.Scene(canvas, spec);
+    PA.startBattle(root, {
+      maxEnemy: 1794, maxPlayer: 1794, outcome: 'loss',
+      enemyLines: [
+        'Rosjanie ruszają do ataku przez deszcz! Ich kolumny są coraz liczniejsze, a oczekiwane posiłki wciąż nie nadchodzą.',
+        'Działa Fersena sieją spustoszenie w polskich okopach. Powstańcy padają, lecz wciąż trzymają wzgórze.',
+        'Wróg przełamuje skrzydło i wdziera się do polskich pozycji. Pierścień wokół Naczelnika zaciska się.',
+        'Otoczeni i bez posiłków powstańcy są spychani nad rozmokłą Wisłę — opór dogasa.'
+      ],
+      win: { t: '', s: '' },
+      loss: { t: 'KLĘSKA', s: 'Bez posiłków, w deszczu i błocie, ranny Kościuszko spada z konia i dostaje się do niewoli. Powstanie chyli się ku upadkowi. Maciejowice, 10 października 1794.' }
+    });
+  }
+  componentWillUnmount() { if (this._scene) this._scene.stop(); if (this._fit) window.removeEventListener('resize', this._fit); }
+}
+</script>
+</body>
+</html>

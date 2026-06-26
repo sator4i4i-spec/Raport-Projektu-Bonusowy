@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jeszcze Polska</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Jersey+15&family=VT323&family=Cardo:ital,wght@0,400;0,700;1,400&family=Cinzel:wght@600;700;800;900&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div id="app">
+    <div id="scene-container"></div>
+  </div>
+
+  <!-- Kolejność ważna: state → engine → tilemap/player/hotspots/dialogue → misje → hub → main -->
+  <script src="bitwy/art/engine.js"></script>
+  <script src="js/combat.js"></script>
+  <script src="js/state.js"></script>
+  <script src="js/audio.js"></script>
+  <script src="js/engine.js"></script>
+  <script src="js/tilemap.js"></script>
+  <script src="js/player.js"></script>
+  <script src="js/hotspots.js"></script>
+  <script src="js/dialogue.js"></script>
+  <script src="js/missions/m01_mieszko.js"></script>
+  <script src="js/missions/m02_kazimierz.js"></script>
+  <script src="js/missions/m03_jagiello.js"></script>
+  <script src="js/missions/m04_ron.js"></script>
+  <script src="js/missions/m05_rozbiory.js"></script>
+  <script src="js/hub.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

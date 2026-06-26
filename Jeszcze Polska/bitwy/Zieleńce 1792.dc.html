@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link href="https://fonts.googleapis.com/css2?family=Jersey+15&family=VT323&display=swap" rel="stylesheet" />
+  <script src="art/engine.js"></script>
+</helmet>
+<div style="position:fixed; inset:0; background:#080a06; display:flex; align-items:center; justify-content:center; overflow:hidden; font-family:'VT323',monospace;">
+  <div id="stage" style="position:relative; width:1280px; height:800px; transform-origin:center center; overflow:hidden; box-shadow:0 0 0 4px #000, 0 24px 70px rgba(0,0,0,.65); background:#3a5a7a;">
+    <canvas id="scene" width="1280" height="800" style="position:absolute; inset:0; width:1280px; height:800px; image-rendering:pixelated; display:block;"></canvas>
+
+    <!-- ENEMY portrait -->
+    <div style="position:absolute; left:858px; top:236px; width:152px; height:152px; border-radius:50%; overflow:hidden; background:radial-gradient(circle at 50% 38%, #a9c2a4, #5f8a5a 68%, #355a35); box-shadow:0 0 0 4px #20170d, 0 0 0 7px #8a5a2e, 0 10px 22px rgba(0,0,0,.5);">
+      <img src="art/m05_repnin.png" style="position:absolute; width:142%; height:142%; left:-21%; top:-6%; image-rendering:pixelated;" />
+    </div>
+
+    <!-- PLAYER portrait -->
+    <div style="position:absolute; left:300px; top:322px; width:198px; height:198px; border-radius:50%; overflow:hidden; background:radial-gradient(circle at 50% 38%, #f3e4b8, #d8b86e 68%, #a07f3e); box-shadow:0 0 0 5px #20170d, 0 0 0 8px #d8b24a, 0 12px 26px rgba(0,0,0,.55);">
+      <img src="art/m05_poniatowski.png" style="position:absolute; width:140%; height:140%; left:-20%; top:-4%; image-rendering:pixelated;" />
+    </div>
+
+    <!-- ENEMY nameplate -->
+    <div style="position:absolute; right:26px; top:26px; width:330px; padding:13px 16px 14px; background:linear-gradient(180deg,#f1e7cd,#e2d3b0); border:3px solid #2c2012; box-shadow:inset 0 0 0 2px #c8ab68, 0 6px 18px rgba(0,0,0,.5);">
+      <div style="font-family:'Jersey 15',sans-serif; font-size:26px; color:#2a1d10; letter-spacing:.5px; line-height:1;">GEN. KACHOWSKI</div>
+      <div style="font-size:21px; color:#6f5d3b; margin-top:5px; line-height:1;">Dowódca armii rosyjskiej · Lv.29</div>
+      <div style="display:flex; align-items:center; gap:9px; margin-top:9px;">
+        <span style="font-family:'Jersey 15',sans-serif; font-size:17px; color:#7a3128;">HP</span>
+        <div style="position:relative; flex:1; height:13px; background:#1d160b; border:1px solid #0c0a06; box-shadow:inset 0 1px 0 #4a3a1f;">
+          <div data-role="enemy-hp-fill" style="height:100%; width:100%; background:#5bbf5b; transition:width .45s ease;"></div>
+        </div>
+      </div>
+      <div data-role="enemy-hp-text" style="text-align:right; font-size:18px; color:#6f5d3b; margin-top:2px;">1792 / 1792</div>
+    </div>
+
+    <!-- PLAYER nameplate -->
+    <div style="position:absolute; left:26px; top:26px; width:344px; padding:12px 16px 13px; background:linear-gradient(180deg,#1b2a4d,#0f1830); border:2px solid #cf9f3f; box-shadow:inset 0 0 0 2px #2d4170, 0 6px 18px rgba(0,0,0,.5);">
+      <div style="font-family:'Jersey 15',sans-serif; font-size:26px; color:#edc659; letter-spacing:.5px; line-height:1;">KS. JÓZEF PONIATOWSKI</div>
+      <div style="font-size:21px; color:#aebbd6; margin-top:5px; line-height:1;">Wódz wojsk Rzeczypospolitej · Lv.30</div>
+      <div style="display:flex; align-items:center; gap:9px; margin-top:9px;">
+        <span style="font-family:'Jersey 15',sans-serif; font-size:17px; color:#cf9f3f;">HP</span>
+        <div style="position:relative; flex:1; height:13px; background:#0a1120; border:1px solid #000; box-shadow:inset 0 1px 0 #2d4170;">
+          <div data-role="player-hp-fill" style="height:100%; width:100%; background:#5bbf5b; transition:width .45s ease;"></div>
+        </div>
+        <span data-role="player-hp-text" style="font-size:18px; color:#aebbd6;">1792 / 1792</span>
+      </div>
+    </div>
+
+    <!-- DIALOGUE -->
+    <div data-role="dialogue" data-initial="18 czerwca 1792. Na zielonych wzgórzach Podola wojsko polskie zasłania odwrót po wkroczeniu Rosji. Jak poprowadzi obronę książę Józef?" style="position:absolute; left:26px; bottom:24px; width:556px; height:248px; box-sizing:border-box; padding:22px 26px; background:linear-gradient(180deg,#f3ead0,#e6d8b6); border:3px solid #2c2012; box-shadow:inset 0 0 0 2px #c8ab68, 0 6px 18px rgba(0,0,0,.5); font-size:28px; line-height:1.2; color:#2c2012; text-wrap:pretty;">18 czerwca 1792. Na zielonych wzgórzach Podola wojsko polskie zasłania odwrót po wkroczeniu Rosji. Jak poprowadzi obronę książę Józef?</div>
+
+    <!-- OPTIONS -->
+    <div style="position:absolute; right:26px; bottom:24px; width:602px; height:248px; display:grid; grid-template-columns:1fr 1fr; grid-template-rows:1fr 1fr; gap:14px;">
+      <button data-opt data-result="Polska jazda zjeżdża ze wzgórza i tnie szeregi Rosjan. Pierwszy impet odrzuca napastników w dolinę." style="display:flex; flex-direction:column; justify-content:center; gap:3px; text-align:left; padding:0 22px; background:linear-gradient(180deg,#16223f,#101a31); border:2px solid #c79a3e; box-shadow:inset 0 0 0 2px #233356; cursor:pointer;" style-hover="background:linear-gradient(180deg,#1d2c50,#16223f);">
+        <div style="font-family:'Jersey 15',sans-serif; font-size:23px; color:#f0cb63; line-height:1.05; white-space:nowrap;">⚔ ATAK JAZDY</div>
+        <div style="font-size:19px; color:#c9b889; line-height:1.1;">kawaleria szarżuje w dół wzgórza</div>
+      </button>
+      <button data-opt data-result="Działa książęce grają ze wzniesień! Kule sieją zamęt w rosyjskich kolumnach pnących się pod górę." style="display:flex; flex-direction:column; justify-content:center; gap:3px; text-align:left; padding:0 22px; background:linear-gradient(180deg,#16223f,#101a31); border:2px solid #c79a3e; box-shadow:inset 0 0 0 2px #233356; cursor:pointer;" style-hover="background:linear-gradient(180deg,#1d2c50,#16223f);">
+        <div style="font-family:'Jersey 15',sans-serif; font-size:23px; color:#f0cb63; line-height:1.05; white-space:nowrap;">◎ OGIEŃ ARTYLERII</div>
+        <div style="font-size:19px; color:#c9b889; line-height:1.1;">działa biją z wzniesień</div>
+      </button>
+      <button data-opt data-result="Piechota trzyma grzbiet wzgórza pod gradem kul. Rosjanie raz po raz cofają się ze stoku." style="display:flex; flex-direction:column; justify-content:center; gap:3px; text-align:left; padding:0 22px; background:linear-gradient(180deg,#16223f,#101a31); border:2px solid #c79a3e; box-shadow:inset 0 0 0 2px #233356; cursor:pointer;" style-hover="background:linear-gradient(180deg,#1d2c50,#16223f);">
+        <div style="font-family:'Jersey 15',sans-serif; font-size:23px; color:#f0cb63; line-height:1.05; white-space:nowrap;">⛰ OBRONA WZGÓRZA</div>
+        <div style="font-size:19px; color:#c9b889; line-height:1.1;">utrzymać wzniesienie za wszelką cenę</div>
+      </button>
+      <button data-opt data-result="Książę Józef rzuca odwody do kontrataku. Rosjanie odparci! Wojsko osłania odwrót — to pierwsze polskie zwycięstwo od lat." style="display:flex; flex-direction:column; justify-content:center; gap:3px; text-align:left; padding:0 22px; background:linear-gradient(180deg,#16223f,#101a31); border:2px solid #c79a3e; box-shadow:inset 0 0 0 2px #233356; cursor:pointer;" style-hover="background:linear-gradient(180deg,#1d2c50,#16223f);">
+        <div style="font-family:'Jersey 15',sans-serif; font-size:23px; color:#f0cb63; line-height:1.05; white-space:nowrap;">✸ KONTRATAK</div>
+        <div style="font-size:19px; color:#c9b889; line-height:1.1;">rzucić odwody i odeprzeć Rosjan</div>
+      </button>
+    </div>
+
+    <!-- RESULT banner -->
+    <div data-role="banner" style="position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:18px; background:rgba(8,10,6,.56); opacity:0; pointer-events:none; transition:opacity .5s ease; color:#f3e2a8;">
+      <div data-role="banner-title" style="font-family:'Jersey 15',sans-serif; font-size:74px; letter-spacing:2px; text-shadow:0 4px 0 #000, 0 0 24px rgba(0,0,0,.6); color:inherit;">ZWYCIĘSTWO!</div>
+      <div data-role="banner-sub" style="font-size:30px; color:#e7dcc2; max-width:760px; text-align:center; text-wrap:pretty;">Książę Józef odpiera Rosjan i osłania odwrót. Za to zwycięstwo ustanowiono order Virtuti Militari. Zieleńce, 18 czerwca 1792.</div>
+      <button data-role="replay" style="margin-top:6px; font-family:'Jersey 15',sans-serif; font-size:28px; color:#0f1830; background:#edc659; border:2px solid #2c2012; padding:12px 28px; cursor:pointer; box-shadow:0 4px 0 #2c2012;">↻ ZAGRAJ PONOWNIE</button>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  componentDidMount() { this.boot(); }
+  boot() {
+    var root = this.root || document;
+    var PA = window.PA;
+    if (!PA || !PA.Scene) { return setTimeout(() => this.boot(), 60); }
+    var stage = root.querySelector('#stage');
+    var canvas = root.querySelector('#scene');
+    var fit = () => { var s = Math.min(window.innerWidth / 1280, window.innerHeight / 800); stage.style.zoom = s; };
+    fit(); this._fit = fit; window.addEventListener('resize', fit);
+
+    var spec = {
+      horizonY: 116,
+      sky: [[0, '#4a8fcf'], [0.45, '#84b6e0'], [0.8, '#b8d8ea'], [1, '#dcecef']],
+      sun: { x: 160, y: 30, r: 11, color: '#fff6c8', glow: '#ffe89c' },
+      cloudBand: 40,
+      layers: [
+        { baseY: 104, amp: 10, freq: 0.024, seed: 51, color: '#5f9050', lightTop: '#7fae66' },
+        { baseY: 112, amp: 14, freq: 0.017, seed: 53, color: '#6f9e54', lightTop: '#94ba6c' }
+      ],
+      ground: { near: '#75a64a', far: '#a6c474', path: '#c4bd84', rows: '#5f8a3a' },
+      fields: [{ x: 56, y: 158, rx: 38, ry: 7, color: '#d6c46c', a: 0.7 }, { x: 270, y: 160, rx: 40, ry: 7, color: '#cf6f6a', a: 0.5 }],
+      platforms: [
+        { x: 236, y: 109, rx: 36, ry: 7, color: '#bcc472', shadow: '#5f7a40' },
+        { x: 100, y: 145, rx: 54, ry: 12, color: '#aec870', shadow: '#4d6036' }
+      ],
+      ambiance: { type: 'embers', count: 14, color: '#eef0bc', seed: 5, clouds: 6, cloudColor: '#ffffff', cloudShade: '#cfe0ea' },
+      staticDraw: function (ctx, PA) {
+        // distant village church on a far hill (Podolia)
+        var vx = 150, vy = 108;
+        ctx.fillStyle = '#e6dcc6'; ctx.fillRect(vx - 4, vy - 12, 8, 12);
+        ctx.fillStyle = '#b6442f'; for (var r = 0; r < 6; r++) ctx.fillRect(vx - 4 + r, vy - 12 - r, 8 - r * 2, 1);
+        ctx.fillStyle = '#caa24a'; ctx.fillRect(vx - 1, vy - 20, 2, 3);
+        // small cottages beside it
+        [[vx - 16, vy], [vx + 14, vy + 1]].forEach(function (c) {
+          ctx.fillStyle = '#dcd0b4'; ctx.fillRect(c[0] - 4, c[1] - 5, 9, 5);
+          ctx.fillStyle = '#8a5a36'; for (var r = 0; r < 4; r++) ctx.fillRect(c[0] - 4 + r, c[1] - 5 - r, 9 - r * 2, 1);
+        });
+        // scattered trees over the hills
+        function bush(x, y, s) { ctx.fillStyle = '#3f6b39'; PA.circle(ctx, x, y, s); ctx.fillStyle = '#5b8f4d'; PA.circle(ctx, x - 1, y - 1, s - 2); ctx.fillStyle = '#4a3220'; ctx.fillRect(x - 1, y + s - 2, 2, 4); }
+        bush(70, 124, 6); bush(214, 120, 5); bush(286, 132, 7); bush(40, 150, 6);
+        // foreground grass tufts
+        ctx.fillStyle = '#5f8a3c'; for (var g = 0; g < 28; g++) { var gx = (g * 12 + 4) % 320; ctx.fillRect(gx, 196 + (g % 4) * 3, 1, 4); }
+      },
+      dynamicDraw: function (ctx, t, PA) {
+        function flag(bx, by, ph, cloth, mark) {
+          ctx.fillStyle = '#3a2a18'; ctx.fillRect(bx, by - 30, 2, 34);
+          ctx.fillStyle = '#caa24a'; ctx.fillRect(bx - 1, by - 32, 4, 2);
+          for (var i = 0; i < 13; i++) {
+            var sway = Math.round(Math.sin(t * 3 + i * 0.55 + ph) * 2.2);
+            ctx.fillStyle = cloth; ctx.fillRect(bx + 2 + sway, by - 30 + i, 16, 1);
+            if (mark && i > 3 && i < 9) { ctx.fillStyle = mark; ctx.fillRect(bx + 7 + sway, by - 30 + i, 4, 1); }
+          }
+        }
+        flag(40, 156, 0, '#b5302c', '#efe6cf');     // Polish red-white
+        flag(300, 158, 1.4, '#1b3b73', '#e6c84a');   // Poniatowski blue/gold
+      }
+    };
+
+    this._scene = new PA.Scene(canvas, spec);
+    PA.startBattle(root, {
+      maxEnemy: 1792, maxPlayer: 1792, outcome: 'win',
+      enemyLines: [
+        'Rosjanie nacierają całą siłą! Kolumny piechoty wdzierają się na stok, a ich działa odpowiadają ogniem — szeregi polskie krwawią.',
+        'Wróg obchodzi skrzydło i naciera ponownie. Wokół księcia Józefa wre zacięty bój o każdy grzbiet wzgórza.',
+        'Rosyjska jazda wpada na polskie baterie. Walka jest wyrównana i krwawa, lecz Polacy nie ustępują pola.',
+        'Po godzinach boju napór Rosjan słabnie — pora na decydujące uderzenie.'
+      ],
+      win: { t: 'ZWYCIĘSTWO!', s: 'Po zaciętym boju książę Józef odpiera Rosjan i osłania odwrót armii. Za to zwycięstwo ustanowiono order Virtuti Militari. Zieleńce, 18 czerwca 1792.' },
+      loss: { t: '', s: '' }
+    });
+  }
+  componentWillUnmount() { if (this._scene) this._scene.stop(); if (this._fit) window.removeEventListener('resize', this._fit); }
+}
+</script>
+</body>
+</html>

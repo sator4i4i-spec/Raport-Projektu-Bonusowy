@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet" />
+  <script src="art/portraits.js"></script>
+  <script src="art/mission1.js"></script>
+  <script src="art/mission2.js"></script>
+  <script src="art/mission3.js"></script>
+  <script src="art/mission4.js"></script>
+  <script src="art/mission5.js"></script>
+  <script src="art/eggs.js"></script>
+  <script src="art/buildings.js"></script>
+  <script src="art/dialog-icons.js"></script>
+</helmet>
+<div style="min-height:100vh; background:#1b1712; padding:40px 32px 80px; box-sizing:border-box; font-family:'VT323',monospace;">
+  <div style="max-width:1180px; margin:0 auto;">
+    <div style="font-family:'Press Start 2P',monospace; color:#e8c352; font-size:18px; letter-spacing:1px;">PORTRETY — PIXEL ART</div>
+    <div style="color:#b9ad96; font-size:22px; margin-top:10px;">Źródło 48×48 px · eksport ×8 = 384 px PNG · tło przezroczyste · styl chunky retro RPG.</div>
+    <div id="sections" style="margin-top:30px;"></div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  componentDidMount() { this.render2(); }
+  render2() {
+    var host = (this.root || document).querySelector('#sections');
+    if (!host || !window.PA || !window.MISSIONS) { setTimeout(() => this.render2(), 60); return; }
+    host.innerHTML = '';
+    var px = 7;
+    var titles = { m1: 'MISJA 1 — Mieszko I → Bolesław Chrobry', m2: 'MISJA 2 — Kazimierz Wielki', m3: 'MISJA 3 — Jadwiga · Jagiełło · Grunwald', m4: 'MISJA 4 — Rzeczpospolita Obojga Narodów', m5: 'MISJA 5 — Rozbiory' };
+    ['m1','m2','m3','m4','m5'].forEach(function (key) {
+      var list = window.MISSIONS[key];
+      if (!list) return;
+      var head = document.createElement('div');
+      head.textContent = titles[key] || key;
+      head.style.cssText = "font-family:'Press Start 2P',monospace; color:#c8965a; font-size:12px; margin:34px 0 14px; letter-spacing:1px;";
+      host.appendChild(head);
+      var grid = document.createElement('div');
+      grid.style.cssText = 'display:grid; grid-template-columns:repeat(auto-fill,minmax(190px,1fr)); gap:20px;';
+      host.appendChild(grid);
+      list.forEach(function (item) {
+        var cell = document.createElement('div');
+        cell.style.cssText = 'background:#e8e0cf; border:3px solid #3d362a; padding:12px 12px 10px; display:flex; flex-direction:column; align-items:center; gap:8px;';
+        var cv = document.createElement('canvas');
+        cv.width = PA.S * px; cv.height = PA.S * px;
+        cv.style.cssText = 'width:100%; image-rendering:pixelated; display:block; border:2px solid #11100c;';
+        var ctx = cv.getContext('2d'); ctx.imageSmoothingEnabled = false;
+        try { PA.drawBust(ctx, px, item.cfg); } catch (e) { console.error(item.id, e); }
+        var name = document.createElement('div'); name.textContent = item.name;
+        name.style.cssText = "font-family:'VT323',monospace; color:#2e2418; font-size:23px; line-height:1.05; text-align:center; min-height:25px;";
+        var file = document.createElement('div'); file.textContent = item.id + '.png';
+        file.style.cssText = "font-family:'VT323',monospace; color:#7a6f54; font-size:17px;";
+        cell.appendChild(cv); cell.appendChild(name); cell.appendChild(file);
+        grid.appendChild(cell);
+      });
+    });
+    // eggs + buildings (different draw signature)
+    var sprite = [
+      { title: 'EASTER EGGI', list: window.EGGS, mk: window.__eggMakeDraw },
+      { title: 'BUDYNKI SPECJALNE', list: window.BUILDINGS, mk: window.__bldMakeDraw },
+      { title: 'IKONY DIALOGÓW', list: window.DLG_ICONS, mk: window.__dlgMakeDraw }
+    ];
+    sprite.forEach(function (sec) {
+      if (!sec.list || !sec.mk) return;
+      var head = document.createElement('div');
+      head.textContent = sec.title;
+      head.style.cssText = "font-family:'Press Start 2P',monospace; color:#c8965a; font-size:12px; margin:34px 0 14px; letter-spacing:1px;";
+      host.appendChild(head);
+      var grid = document.createElement('div');
+      grid.style.cssText = 'display:grid; grid-template-columns:repeat(auto-fill,minmax(190px,1fr)); gap:20px;';
+      host.appendChild(grid);
+      sec.list.forEach(function (item) {
+        var cell = document.createElement('div');
+        cell.style.cssText = 'background:#e8e0cf; border:3px solid #3d362a; padding:12px 12px 10px; display:flex; flex-direction:column; align-items:center; gap:8px;';
+        var cv = document.createElement('canvas'); cv.width = 48 * px; cv.height = 48 * px;
+        cv.style.cssText = 'width:100%; image-rendering:pixelated; display:block; border:2px solid #11100c;';
+        var ctx = cv.getContext('2d'); ctx.imageSmoothingEnabled = false;
+        try { item.draw(sec.mk(ctx, px)); } catch (e) { console.error(item.id, e); }
+        var name = document.createElement('div'); name.textContent = item.name;
+        name.style.cssText = "font-family:'VT323',monospace; color:#2e2418; font-size:23px; line-height:1.05; text-align:center; min-height:25px;";
+        var file = document.createElement('div'); file.textContent = item.id + '.png';
+        file.style.cssText = "font-family:'VT323',monospace; color:#7a6f54; font-size:17px;";
+        cell.appendChild(cv); cell.appendChild(name); cell.appendChild(file);
+        grid.appendChild(cell);
+      });
+    });
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link href="https://fonts.googleapis.com/css2?family=Jersey+15&family=VT323&display=swap" rel="stylesheet" />
+  <script src="art/engine.js"></script>
+</helmet>
+<div style="position:fixed; inset:0; background:#080a0d; display:flex; align-items:center; justify-content:center; overflow:hidden; font-family:'VT323',monospace;">
+  <div id="stage" style="position:relative; width:1280px; height:800px; transform-origin:center center; overflow:hidden; box-shadow:0 0 0 4px #000, 0 24px 70px rgba(0,0,0,.65); background:#1c2a40;">
+    <canvas id="scene" width="1280" height="800" style="position:absolute; inset:0; width:1280px; height:800px; image-rendering:pixelated; display:block;"></canvas>
+
+    <!-- ENEMY portrait (far platform, upper-right) -->
+    <div style="position:absolute; left:858px; top:236px; width:152px; height:152px; border-radius:50%; overflow:hidden; background:radial-gradient(circle at 50% 38%, #d6a6a0, #9a5a55 68%, #5e3330); box-shadow:0 0 0 4px #20170d, 0 0 0 7px #8a5a2e, 0 10px 22px rgba(0,0,0,.5);">
+      <img src="art/m04_bojar.png" style="position:absolute; width:142%; height:142%; left:-21%; top:-6%; image-rendering:pixelated;" />
+    </div>
+
+    <!-- PLAYER portrait (near platform, lower-left) -->
+    <div style="position:absolute; left:300px; top:322px; width:198px; height:198px; border-radius:50%; overflow:hidden; background:radial-gradient(circle at 50% 38%, #f3e4b8, #d8b86e 68%, #a07f3e); box-shadow:0 0 0 5px #20170d, 0 0 0 8px #d8b24a, 0 12px 26px rgba(0,0,0,.55);">
+      <img src="art/m04_batory.png" style="position:absolute; width:140%; height:140%; left:-20%; top:-4%; image-rendering:pixelated;" />
+    </div>
+
+    <!-- ENEMY nameplate (top-RIGHT, parchment) -->
+    <div style="position:absolute; right:26px; top:26px; width:330px; padding:13px 16px 14px; background:linear-gradient(180deg,#f1e7cd,#e2d3b0); border:3px solid #2c2012; box-shadow:inset 0 0 0 2px #c8ab68, 0 6px 18px rgba(0,0,0,.5);">
+      <div style="font-family:'Jersey 15',sans-serif; font-size:26px; color:#2a1d10; letter-spacing:.5px; line-height:1;">IWAN IV GROŹNY</div>
+      <div style="font-size:21px; color:#6f5d3b; margin-top:5px; line-height:1;">Car Wszechrusi · obrońca Pskowa · Lv.28</div>
+      <div style="display:flex; align-items:center; gap:9px; margin-top:9px;">
+        <span style="font-family:'Jersey 15',sans-serif; font-size:17px; color:#7a3128;">HP</span>
+        <div style="position:relative; flex:1; height:13px; background:#1d160b; border:1px solid #0c0a06; box-shadow:inset 0 1px 0 #4a3a1f;">
+          <div data-role="enemy-hp-fill" style="height:100%; width:100%; background:#5bbf5b; transition:width .45s ease;"></div>
+        </div>
+      </div>
+      <div data-role="enemy-hp-text" style="text-align:right; font-size:18px; color:#6f5d3b; margin-top:2px;">1581 / 1581</div>
+    </div>
+
+    <!-- PLAYER nameplate (top-LEFT, navy) -->
+    <div style="position:absolute; left:26px; top:26px; width:344px; padding:12px 16px 13px; background:linear-gradient(180deg,#1b2a4d,#0f1830); border:2px solid #cf9f3f; box-shadow:inset 0 0 0 2px #2d4170, 0 6px 18px rgba(0,0,0,.5);">
+      <div style="font-family:'Jersey 15',sans-serif; font-size:26px; color:#edc659; letter-spacing:.5px; line-height:1;">STEFAN BATORY</div>
+      <div style="font-size:21px; color:#aebbd6; margin-top:5px; line-height:1;">Król Polski · oblężenie Pskowa · Lv.31</div>
+      <div style="display:flex; align-items:center; gap:9px; margin-top:9px;">
+        <span style="font-family:'Jersey 15',sans-serif; font-size:17px; color:#cf9f3f;">HP</span>
+        <div style="position:relative; flex:1; height:13px; background:#0a1120; border:1px solid #000; box-shadow:inset 0 1px 0 #2d4170;">
+          <div data-role="player-hp-fill" style="height:100%; width:100%; background:#5bbf5b; transition:width .45s ease;"></div>
+        </div>
+        <span data-role="player-hp-text" style="font-size:18px; color:#aebbd6;">1581 / 1581</span>
+      </div>
+    </div>
+
+    <!-- DIALOGUE (bottom-left, parchment) -->
+    <div data-role="dialogue" data-initial="Sierpień 1581. Wojska Batorego stają pod potężnymi murami Pskowa. Nadciąga sroga zima. Jak król poprowadzi oblężenie twierdzy?" style="position:absolute; left:26px; bottom:24px; width:556px; height:248px; box-sizing:border-box; padding:22px 26px; background:linear-gradient(180deg,#f3ead0,#e6d8b6); border:3px solid #2c2012; box-shadow:inset 0 0 0 2px #c8ab68, 0 6px 18px rgba(0,0,0,.5); font-size:28px; line-height:1.2; color:#2c2012; text-wrap:pretty;">Sierpień 1581. Wojska Batorego stają pod potężnymi murami Pskowa. Nadciąga sroga zima. Jak król poprowadzi oblężenie twierdzy?</div>
+
+    <!-- OPTIONS (bottom-right, 2x2) -->
+    <div style="position:absolute; right:26px; bottom:24px; width:602px; height:248px; display:grid; grid-template-columns:1fr 1fr; grid-template-rows:1fr 1fr; gap:14px;">
+      <button data-opt data-result="Piechota Batorego wdziera się na mury! Obrońcy spychają część szturmu, ale w obwarowaniach powstaje wyłom." style="display:flex; flex-direction:column; justify-content:center; gap:3px; text-align:left; padding:0 22px; background:linear-gradient(180deg,#16223f,#101a31); border:2px solid #c79a3e; box-shadow:inset 0 0 0 2px #233356; cursor:pointer;" style-hover="background:linear-gradient(180deg,#1d2c50,#16223f);">
+        <div style="font-family:'Jersey 15',sans-serif; font-size:23px; color:#f0cb63; line-height:1.05; white-space:nowrap;">⚔ SZTURM MURÓW</div>
+        <div style="font-size:19px; color:#c9b889; line-height:1.1;">piechota rusza na wały twierdzy</div>
+      </button>
+      <button data-opt data-result="Polskie działa biją w baszty Pskowa. Mury pękają z hukiem, lecz Rosjanie wciąż zasypują wyłomy gruzem i ziemią." style="display:flex; flex-direction:column; justify-content:center; gap:3px; text-align:left; padding:0 22px; background:linear-gradient(180deg,#16223f,#101a31); border:2px solid #c79a3e; box-shadow:inset 0 0 0 2px #233356; cursor:pointer;" style-hover="background:linear-gradient(180deg,#1d2c50,#16223f);">
+        <div style="font-family:'Jersey 15',sans-serif; font-size:23px; color:#f0cb63; line-height:1.05; white-space:nowrap;">◎ OGIEŃ Z DZIAŁ</div>
+        <div style="font-size:19px; color:#c9b889; line-height:1.1;">artyleria kruszy baszty i mury</div>
+      </button>
+      <button data-opt data-result="Wojsko otacza Psków ciasnym pierścieniem. W mieście kończy się żywność, a mróz daje się obrońcom we znaki." style="display:flex; flex-direction:column; justify-content:center; gap:3px; text-align:left; padding:0 22px; background:linear-gradient(180deg,#16223f,#101a31); border:2px solid #c79a3e; box-shadow:inset 0 0 0 2px #233356; cursor:pointer;" style-hover="background:linear-gradient(180deg,#1d2c50,#16223f);">
+        <div style="font-family:'Jersey 15',sans-serif; font-size:23px; color:#f0cb63; line-height:1.05; white-space:nowrap;">✜ OBLĘŻENIE</div>
+        <div style="font-size:19px; color:#c9b889; line-height:1.1;">odciąć twierdzę od zaopatrzenia</div>
+      </button>
+      <button data-opt data-result="Wyczerpana długą wojną Moskwa siada do rozmów. Car godzi się oddać Inflanty Rzeczypospolitej!" style="display:flex; flex-direction:column; justify-content:center; gap:3px; text-align:left; padding:0 22px; background:linear-gradient(180deg,#16223f,#101a31); border:2px solid #c79a3e; box-shadow:inset 0 0 0 2px #233356; cursor:pointer;" style-hover="background:linear-gradient(180deg,#1d2c50,#16223f);">
+        <div style="font-family:'Jersey 15',sans-serif; font-size:23px; color:#f0cb63; line-height:1.05; white-space:nowrap;">✋ ROZEJM</div>
+        <div style="font-size:19px; color:#c9b889; line-height:1.1;">układy pokojowe z carem</div>
+      </button>
+    </div>
+
+    <!-- RESULT banner -->
+    <div data-role="banner" style="position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:18px; background:rgba(8,10,16,.58); opacity:0; pointer-events:none; transition:opacity .5s ease; color:#f3e2a8;">
+      <div data-role="banner-title" style="font-family:'Jersey 15',sans-serif; font-size:74px; letter-spacing:2px; text-shadow:0 4px 0 #000, 0 0 24px rgba(0,0,0,.6); color:inherit;">ROZEJM!</div>
+      <div data-role="banner-sub" style="font-size:30px; color:#e7dcc2; max-width:760px; text-align:center; text-wrap:pretty;">Wyczerpana Moskwa oddaje Inflanty. Batory osiąga cel wojny. Rozejm w Jamie Zapolskim, 1582.</div>
+      <button data-role="replay" style="margin-top:6px; font-family:'Jersey 15',sans-serif; font-size:28px; color:#0f1830; background:#edc659; border:2px solid #2c2012; padding:12px 28px; cursor:pointer; box-shadow:0 4px 0 #2c2012;">↻ ZAGRAJ PONOWNIE</button>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  componentDidMount() { this.boot(); }
+  boot() {
+    var root = this.root || document;
+    var PA = window.PA;
+    if (!PA || !PA.Scene) { return setTimeout(() => this.boot(), 60); }
+    var stage = root.querySelector('#stage');
+    var canvas = root.querySelector('#scene');
+    var fit = () => { var s = Math.min(window.innerWidth / 1280, window.innerHeight / 800); stage.style.zoom = s; };
+    fit(); this._fit = fit; window.addEventListener('resize', fit);
+
+    var spec = {
+      horizonY: 108,
+      sky: [[0, '#8ea4bd'], [0.45, '#b6c6d6'], [0.8, '#d4dee6'], [1, '#e8eef2']],
+      sun: { x: 64, y: 42, r: 11, color: '#f6e7ca', glow: '#e6dcc6' },
+      cloudBand: 44,
+      layers: [
+        { baseY: 103, amp: 5, freq: 0.05, seed: 31, color: '#5f7079', type: 'forest', lightTop: '#d9e6ec' },
+        { baseY: 108, amp: 8, freq: 0.03, seed: 33, color: '#7d8d95', lightTop: '#e6eef3' }
+      ],
+      ground: { near: '#e6ecf0', far: '#c6d2da', path: '#aebcc6', rows: '#9fb0bb' },
+      fields: [],
+      platforms: [
+        { x: 236, y: 101, rx: 36, ry: 7, color: '#e2eaf0', shadow: '#9fb2bd' },
+        { x: 100, y: 137, rx: 54, ry: 12, color: '#dbe5ec', shadow: '#9aaeba' }
+      ],
+      ambiance: { type: 'snow', count: 80, color: '#ffffff', seed: 7, clouds: 4, cloudColor: '#e8edf2', cloudShade: '#c4cfd9' },
+      staticDraw: function (ctx, PA) {
+        var fy = 102, cx = 162;
+        // FORTRESS: white stone wall + tent-roof towers
+        ctx.fillStyle = '#ece9df'; ctx.fillRect(cx - 68, fy - 14, 150, 14);
+        ctx.fillStyle = '#d6d2c4'; ctx.fillRect(cx - 68, fy - 2, 150, 2);
+        ctx.fillStyle = '#ece9df'; for (var c = cx - 68; c < cx + 82; c += 6) ctx.fillRect(c, fy - 17, 3, 3);
+        ctx.fillStyle = '#5a6b73'; for (var w = cx - 60; w < cx + 78; w += 13) ctx.fillRect(w, fy - 9, 2, 3);
+        function tower(tx, h) {
+          ctx.fillStyle = '#f2efe5'; ctx.fillRect(tx - 5, fy - h, 11, h);
+          ctx.fillStyle = '#d8d3c4'; ctx.fillRect(tx + 3, fy - h, 3, h);
+          ctx.fillStyle = '#3c6b4e'; for (var r = 0; r < 11; r++) ctx.fillRect(tx - 5 + r, fy - h - 1 - r, 11 - r * 2, 1);
+          ctx.fillStyle = '#4e8060'; ctx.fillRect(tx - 1, fy - h - 7, 2, 5);
+          ctx.fillStyle = '#d8b24a'; ctx.fillRect(tx, fy - h - 12, 1, 4);
+          ctx.fillStyle = '#5a6b73'; ctx.fillRect(tx - 1, fy - h + 5, 2, 4);
+        }
+        tower(cx - 56, 26); tower(cx + 4, 32); tower(cx + 70, 24);
+        ctx.fillStyle = '#ffffff'; ctx.fillRect(cx - 68, fy - 18, 150, 1);
+        ctx.fillStyle = '#6b5a3e'; ctx.fillRect(cx - 2, fy - 8, 6, 8); ctx.fillStyle = '#3a3024'; ctx.fillRect(cx, fy - 7, 2, 7);
+        // frozen river band
+        for (var y = fy + 7; y < fy + 22; y++) { ctx.fillStyle = PA.mix('#c7d8e2', '#9db6c5', (y - fy - 7) / 15); ctx.fillRect(0, y, 320, 1); }
+        ctx.fillStyle = '#8fa8b6'; for (var i = 0; i < 12; i++) { var ix = (i * 31 + 7) % 320; ctx.fillRect(ix, fy + 10 + (i % 3) * 4, 16 + (i % 4) * 6, 1); }
+        ctx.fillStyle = '#eef4f8'; for (var j = 0; j < 10; j++) { var jx = (j * 41 + 15) % 320; ctx.fillRect(jx, fy + 9 + (j % 3) * 4, 8, 1); }
+        // snowy shrubs foreground
+        ctx.fillStyle = '#6b7a55'; PA.circle(ctx, 16, 184, 8); PA.circle(ctx, 306, 188, 9);
+        ctx.fillStyle = '#dfe9ee'; PA.circle(ctx, 16, 180, 6); PA.circle(ctx, 306, 184, 6);
+      },
+      dynamicDraw: function (ctx, t, PA) {
+        // chimney/cannon smoke drifting up behind the walls
+        for (var i = 0; i < 3; i++) {
+          var sx = 120 + i * 36 + Math.sin(t * 0.6 + i) * 3;
+          var sy = 78 - ((t * 6 + i * 16) % 38);
+          ctx.globalAlpha = 0.16; ctx.fillStyle = '#d2d9dd';
+          ctx.fillRect(sx, sy, 5, 5); ctx.fillRect(sx + 2, sy - 4, 4, 4);
+        }
+        ctx.globalAlpha = 1;
+        function flag(bx, by, ph, cloth, mark) {
+          ctx.fillStyle = '#3a2a18'; ctx.fillRect(bx, by - 30, 2, 34);
+          ctx.fillStyle = '#caa24a'; ctx.fillRect(bx - 1, by - 32, 4, 2);
+          for (var i = 0; i < 13; i++) {
+            var sway = Math.round(Math.sin(t * 3 + i * 0.55 + ph) * 2.2);
+            ctx.fillStyle = cloth; ctx.fillRect(bx + 2 + sway, by - 30 + i, 16, 1);
+            if (mark && i > 3 && i < 9) { ctx.fillStyle = mark; ctx.fillRect(bx + 7 + sway, by - 30 + i, 4, 1); }
+          }
+        }
+        flag(36, 150, 0, '#b5302c', '#efe6cf');   // Polish red
+        flag(300, 150, 1.4, '#7a1f24', '#e6c84a'); // Batory's banner
+      }
+    };
+
+    this._scene = new PA.Scene(canvas, spec);
+    PA.startBattle(root, {
+      maxEnemy: 1581, maxPlayer: 1581, outcome: 'win',
+      enemyLines: [
+        'Obrońcy Pskowa stawiają zacięty opór! Ze ścian sypią się strzały i kamienie — wielu polskich żołnierzy pada.',
+        'Mróz i głód dręczą polski obóz. Z baszt Pskowa grzmią rosyjskie działa, lecz mury wciąż się chwieją.',
+        'Rosjanie ślą wyprawy, by zniszczyć polskie armaty. Walka trwa, ale Moskwa traci siły.',
+        'Twierdza wytrzymuje szturmy — ale długa wojna wyniszczyła Carstwo i car musi pertraktować.'
+      ],
+      win: { t: 'ROZEJM!', s: 'Twierdza nie pada, lecz wyczerpana Moskwa oddaje Inflanty. Batory osiąga cel wojny. Rozejm w Jamie Zapolskim, 1582.' },
+      loss: { t: '', s: '' }
+    });
+  }
+  componentWillUnmount() { if (this._scene) this._scene.stop(); if (this._fit) window.removeEventListener('resize', this._fit); }
+}
+</script>
+</body>
+</html>

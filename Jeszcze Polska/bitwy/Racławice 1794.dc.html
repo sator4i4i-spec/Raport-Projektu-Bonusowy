@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link href="https://fonts.googleapis.com/css2?family=Jersey+15&family=VT323&display=swap" rel="stylesheet" />
+  <script src="art/engine.js"></script>
+</helmet>
+<div style="position:fixed; inset:0; background:#080a06; display:flex; align-items:center; justify-content:center; overflow:hidden; font-family:'VT323',monospace;">
+  <div id="stage" style="position:relative; width:1280px; height:800px; transform-origin:center center; overflow:hidden; box-shadow:0 0 0 4px #000, 0 24px 70px rgba(0,0,0,.65); background:#3a5a7a;">
+    <canvas id="scene" width="1280" height="800" style="position:absolute; inset:0; width:1280px; height:800px; image-rendering:pixelated; display:block;"></canvas>
+
+    <!-- ENEMY portrait -->
+    <div style="position:absolute; left:858px; top:236px; width:152px; height:152px; border-radius:50%; overflow:hidden; background:radial-gradient(circle at 50% 38%, #a9c2a4, #5f8a5a 68%, #355a35); box-shadow:0 0 0 4px #20170d, 0 0 0 7px #8a5a2e, 0 10px 22px rgba(0,0,0,.5);">
+      <img src="art/m05_repnin.png" style="position:absolute; width:142%; height:142%; left:-21%; top:-6%; image-rendering:pixelated;" />
+    </div>
+
+    <!-- PLAYER portrait -->
+    <div style="position:absolute; left:300px; top:322px; width:198px; height:198px; border-radius:50%; overflow:hidden; background:radial-gradient(circle at 50% 38%, #f3e4b8, #d8b86e 68%, #a07f3e); box-shadow:0 0 0 5px #20170d, 0 0 0 8px #d8b24a, 0 12px 26px rgba(0,0,0,.55);">
+      <img src="art/m05_kosciuszko.png" style="position:absolute; width:140%; height:140%; left:-20%; top:-4%; image-rendering:pixelated;" />
+    </div>
+
+    <!-- ENEMY nameplate -->
+    <div style="position:absolute; right:26px; top:26px; width:330px; padding:13px 16px 14px; background:linear-gradient(180deg,#f1e7cd,#e2d3b0); border:3px solid #2c2012; box-shadow:inset 0 0 0 2px #c8ab68, 0 6px 18px rgba(0,0,0,.5);">
+      <div style="font-family:'Jersey 15',sans-serif; font-size:26px; color:#2a1d10; letter-spacing:.5px; line-height:1;">GEN. TORMASOW</div>
+      <div style="font-size:21px; color:#6f5d3b; margin-top:5px; line-height:1;">Dowódca wojsk rosyjskich · Lv.28</div>
+      <div style="display:flex; align-items:center; gap:9px; margin-top:9px;">
+        <span style="font-family:'Jersey 15',sans-serif; font-size:17px; color:#7a3128;">HP</span>
+        <div style="position:relative; flex:1; height:13px; background:#1d160b; border:1px solid #0c0a06; box-shadow:inset 0 1px 0 #4a3a1f;">
+          <div data-role="enemy-hp-fill" style="height:100%; width:100%; background:#5bbf5b; transition:width .45s ease;"></div>
+        </div>
+      </div>
+      <div data-role="enemy-hp-text" style="text-align:right; font-size:18px; color:#6f5d3b; margin-top:2px;">1794 / 1794</div>
+    </div>
+
+    <!-- PLAYER nameplate -->
+    <div style="position:absolute; left:26px; top:26px; width:344px; padding:12px 16px 13px; background:linear-gradient(180deg,#1b2a4d,#0f1830); border:2px solid #cf9f3f; box-shadow:inset 0 0 0 2px #2d4170, 0 6px 18px rgba(0,0,0,.5);">
+      <div style="font-family:'Jersey 15',sans-serif; font-size:26px; color:#edc659; letter-spacing:.5px; line-height:1;">TADEUSZ KOŚCIUSZKO</div>
+      <div style="font-size:21px; color:#aebbd6; margin-top:5px; line-height:1;">Naczelnik powstania · z kosynierami · Lv.31</div>
+      <div style="display:flex; align-items:center; gap:9px; margin-top:9px;">
+        <span style="font-family:'Jersey 15',sans-serif; font-size:17px; color:#cf9f3f;">HP</span>
+        <div style="position:relative; flex:1; height:13px; background:#0a1120; border:1px solid #000; box-shadow:inset 0 1px 0 #2d4170;">
+          <div data-role="player-hp-fill" style="height:100%; width:100%; background:#5bbf5b; transition:width .45s ease;"></div>
+        </div>
+        <span data-role="player-hp-text" style="font-size:18px; color:#aebbd6;">1794 / 1794</span>
+      </div>
+    </div>
+
+    <!-- DIALOGUE -->
+    <div data-role="dialogue" data-initial="4 kwietnia 1794 pod Racławicami. Przy wiejskim wiatraku Kościuszko staje na czele wojska i chłopów z kosami. Jak poprowadzi bitwę Naczelnik?" style="position:absolute; left:26px; bottom:24px; width:556px; height:248px; box-sizing:border-box; padding:22px 26px; background:linear-gradient(180deg,#f3ead0,#e6d8b6); border:3px solid #2c2012; box-shadow:inset 0 0 0 2px #c8ab68, 0 6px 18px rgba(0,0,0,.5); font-size:28px; line-height:1.2; color:#2c2012; text-wrap:pretty;">4 kwietnia 1794 pod Racławicami. Przy wiejskim wiatraku Kościuszko staje na czele wojska i chłopów z kosami. Jak poprowadzi bitwę Naczelnik?</div>
+
+    <!-- OPTIONS -->
+    <div style="position:absolute; right:26px; bottom:24px; width:602px; height:248px; display:grid; grid-template-columns:1fr 1fr; grid-template-rows:1fr 1fr; gap:14px;">
+      <button data-opt data-result="Chłopi z kosami rzucają się naprzód z okrzykiem! Kosynierzy wpadają na rosyjskie szeregi szybciej, niż padną strzały." style="display:flex; flex-direction:column; justify-content:center; gap:3px; text-align:left; padding:0 22px; background:linear-gradient(180deg,#16223f,#101a31); border:2px solid #c79a3e; box-shadow:inset 0 0 0 2px #233356; cursor:pointer;" style-hover="background:linear-gradient(180deg,#1d2c50,#16223f);">
+        <div style="font-family:'Jersey 15',sans-serif; font-size:23px; color:#f0cb63; line-height:1.05; white-space:nowrap;">⚔ SZARŻA KOSYNIERÓW</div>
+        <div style="font-size:19px; color:#c9b889; line-height:1.1;">chłopi z kosami atakują z rozpędu</div>
+      </button>
+      <button data-opt data-result="Bartosz Głowacki dopada armaty i czapką gasi lont! Zdobyte rosyjskie działa milkną — to przełom bitwy." style="display:flex; flex-direction:column; justify-content:center; gap:3px; text-align:left; padding:0 22px; background:linear-gradient(180deg,#16223f,#101a31); border:2px solid #c79a3e; box-shadow:inset 0 0 0 2px #233356; cursor:pointer;" style-hover="background:linear-gradient(180deg,#1d2c50,#16223f);">
+        <div style="font-family:'Jersey 15',sans-serif; font-size:23px; color:#f0cb63; line-height:1.05; white-space:nowrap;">◎ ZDOBYĆ DZIAŁA</div>
+        <div style="font-size:19px; color:#c9b889; line-height:1.1;">rzut na rosyjskie armaty</div>
+      </button>
+      <button data-opt data-result="Regularne wojsko obchodzi wroga i uderza z boku. Rosjanie, zaskoczeni z dwóch stron, tracą szyk." style="display:flex; flex-direction:column; justify-content:center; gap:3px; text-align:left; padding:0 22px; background:linear-gradient(180deg,#16223f,#101a31); border:2px solid #c79a3e; box-shadow:inset 0 0 0 2px #233356; cursor:pointer;" style-hover="background:linear-gradient(180deg,#1d2c50,#16223f);">
+        <div style="font-family:'Jersey 15',sans-serif; font-size:23px; color:#f0cb63; line-height:1.05; white-space:nowrap;">⚑ ATAK Z FLANKI</div>
+        <div style="font-size:19px; color:#c9b889; line-height:1.1;">uderzyć wroga z boku</div>
+      </button>
+      <button data-opt data-result="Kosynierzy i wojsko spychają Rosjan z pola! Tormasow rejteruje — zwycięstwo, które rozpaliło nadzieję w całym kraju." style="display:flex; flex-direction:column; justify-content:center; gap:3px; text-align:left; padding:0 22px; background:linear-gradient(180deg,#16223f,#101a31); border:2px solid #c79a3e; box-shadow:inset 0 0 0 2px #233356; cursor:pointer;" style-hover="background:linear-gradient(180deg,#1d2c50,#16223f);">
+        <div style="font-family:'Jersey 15',sans-serif; font-size:23px; color:#f0cb63; line-height:1.05; white-space:nowrap;">✸ NACIERAĆ</div>
+        <div style="font-size:19px; color:#c9b889; line-height:1.1;">zepchnąć Rosjan z pola bitwy</div>
+      </button>
+    </div>
+
+    <!-- RESULT banner -->
+    <div data-role="banner" style="position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:18px; background:rgba(8,10,6,.56); opacity:0; pointer-events:none; transition:opacity .5s ease; color:#f3e2a8;">
+      <div data-role="banner-title" style="font-family:'Jersey 15',sans-serif; font-size:74px; letter-spacing:2px; text-shadow:0 4px 0 #000, 0 0 24px rgba(0,0,0,.6); color:inherit;">ZWYCIĘSTWO!</div>
+      <div data-role="banner-sub" style="font-size:30px; color:#e7dcc2; max-width:760px; text-align:center; text-wrap:pretty;">Kosynierzy zdobywają armaty, a Kościuszko zwycięża pod Racławicami. 4 kwietnia 1794 — iskra nadziei dla powstania.</div>
+      <button data-role="replay" style="margin-top:6px; font-family:'Jersey 15',sans-serif; font-size:28px; color:#0f1830; background:#edc659; border:2px solid #2c2012; padding:12px 28px; cursor:pointer; box-shadow:0 4px 0 #2c2012;">↻ ZAGRAJ PONOWNIE</button>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  componentDidMount() { this.boot(); }
+  boot() {
+    var root = this.root || document;
+    var PA = window.PA;
+    if (!PA || !PA.Scene) { return setTimeout(() => this.boot(), 60); }
+    var stage = root.querySelector('#stage');
+    var canvas = root.querySelector('#scene');
+    var fit = () => { var s = Math.min(window.innerWidth / 1280, window.innerHeight / 800); stage.style.zoom = s; };
+    fit(); this._fit = fit; window.addEventListener('resize', fit);
+
+    var WX = 156, WGY = 100;  // windmill position (tower base)
+    var spec = {
+      horizonY: 110,
+      sky: [[0, '#5e9bd0'], [0.45, '#9fc6e4'], [0.8, '#cae0ec'], [1, '#e4eef0']],
+      sun: { x: 70, y: 32, r: 11, color: '#fff6d2', glow: '#ffeeb0' },
+      cloudBand: 42,
+      layers: [
+        { baseY: 104, amp: 6, freq: 0.04, seed: 61, color: '#5d8048', type: 'forest', lightTop: '#7c9c5c' },
+        { baseY: 109, amp: 9, freq: 0.028, seed: 63, color: '#6f9150', lightTop: '#92b067' }
+      ],
+      ground: { near: '#789a48', far: '#a6bd6e', path: '#bca878', rows: '#7a5a34' },
+      fields: [{ x: 58, y: 156, rx: 40, ry: 8, color: '#8a6a40', a: 0.55 }, { x: 268, y: 158, rx: 42, ry: 8, color: '#8a6a40', a: 0.5 }],
+      platforms: [
+        { x: 236, y: 103, rx: 36, ry: 7, color: '#aeb867', shadow: '#5a6a3c' },
+        { x: 100, y: 143, rx: 54, ry: 12, color: '#a6bd66', shadow: '#4d6036' }
+      ],
+      ambiance: { type: 'none', count: 0, seed: 5, clouds: 5, cloudColor: '#ffffff', cloudShade: '#cfe0ea' },
+      staticDraw: function (ctx, PA) {
+        // ground shadow under the windmill rise
+        PA.oval(ctx, WX, WGY + 2, 22, 5, '#5f7a40', 0.7);
+        // WINDMILL tower (wooden, tapered) — sails drawn in dynamicDraw
+        var topW = 9, botW = 15, h = 24;
+        for (var y = 0; y < h; y++) {
+          var w = Math.round(botW - (botW - topW) * y / h);
+          ctx.fillStyle = PA.mix('#8a5f36', '#6e4a28', y / h); ctx.fillRect(WX - (w >> 1), WGY - y, w, 1);
+          ctx.fillStyle = '#a8784a'; ctx.fillRect(WX - (w >> 1), WGY - y, 1, 1); // light edge
+        }
+        // plank lines
+        ctx.fillStyle = '#5a3c22'; for (var p = 2; p < h; p += 4) ctx.fillRect(WX - 6, WGY - p, 12, 1);
+        // door + window
+        ctx.fillStyle = '#3a281a'; ctx.fillRect(WX - 2, WGY - 7, 4, 7);
+        ctx.fillStyle = '#cdbf8a'; ctx.fillRect(WX - 4, WGY - 16, 3, 3);
+        // cap (dark dome)
+        ctx.fillStyle = '#4a3220'; for (var r = 0; r < 6; r++) ctx.fillRect(WX - 6 + r, WGY - h - r, 12 - r * 2, 1);
+        // village cottages near the mill
+        [[WX - 30, WGY + 4], [WX + 28, WGY + 6], [WX + 46, WGY + 3]].forEach(function (c) {
+          ctx.fillStyle = '#e0d4b6'; ctx.fillRect(c[0] - 5, c[1] - 6, 11, 6);
+          ctx.fillStyle = '#8a5a36'; for (var r = 0; r < 5; r++) ctx.fillRect(c[0] - 5 + r, c[1] - 6 - r, 11 - r * 2, 1);
+          ctx.fillStyle = '#3a281a'; ctx.fillRect(c[0] - 1, c[1] - 4, 2, 4);
+        });
+        // scattered budding spring trees
+        function bush(x, y, s) { ctx.fillStyle = '#4a3220'; ctx.fillRect(x - 1, y - 2, 2, 5); ctx.fillStyle = '#6f9a4e'; PA.circle(ctx, x, y - 5, s); ctx.fillStyle = '#88b365'; PA.circle(ctx, x - 1, y - 6, s - 2); }
+        bush(150, 120, 6); bush(60, 132, 6); bush(286, 130, 7);
+        // plowed-field furrows foreground
+        ctx.fillStyle = '#6a4a2a'; for (var f = 0; f < 8; f++) ctx.fillRect(8 + f * 2, 178 + f * 4, 70 - f * 4, 1);
+        ctx.fillStyle = '#5f8a3c'; for (var g = 0; g < 22; g++) { var gx = (g * 15 + 6) % 320; ctx.fillRect(gx, 192 + (g % 3) * 3, 1, 4); }
+      },
+      dynamicDraw: function (ctx, t, PA) {
+        // ROTATING WINDMILL SAILS
+        var hubX = WX, hubY = WGY - 22, ang = t * 1.1;
+        for (var k = 0; k < 4; k++) {
+          var a = ang + k * Math.PI / 2;
+          var ca = Math.cos(a), sa = Math.sin(a), px = Math.cos(a + Math.PI / 2), py = Math.sin(a + Math.PI / 2);
+          for (var r = 3; r < 17; r++) {
+            var x = hubX + ca * r, y = hubY + sa * r;
+            ctx.fillStyle = '#3a281a'; ctx.fillRect(Math.round(x), Math.round(y), 2, 1);   // spar
+            if (r % 3 === 1) { ctx.fillStyle = '#e6dcbe'; for (var s = 1; s <= 4; s++) ctx.fillRect(Math.round(x + px * s), Math.round(y + py * s), 1, 1); }
+          }
+        }
+        ctx.fillStyle = '#2a1c10'; ctx.fillRect(hubX - 1, hubY - 1, 3, 3); // hub
+        function flag(bx, by, ph, cloth, mark) {
+          ctx.fillStyle = '#3a2a18'; ctx.fillRect(bx, by - 30, 2, 34);
+          ctx.fillStyle = '#caa24a'; ctx.fillRect(bx - 1, by - 32, 4, 2);
+          for (var i = 0; i < 13; i++) {
+            var sway = Math.round(Math.sin(t * 3 + i * 0.55 + ph) * 2.2);
+            ctx.fillStyle = cloth; ctx.fillRect(bx + 2 + sway, by - 30 + i, 16, 1);
+            if (mark && i > 3 && i < 9) { ctx.fillStyle = mark; ctx.fillRect(bx + 7 + sway, by - 30 + i, 4, 1); }
+          }
+        }
+        flag(40, 154, 0, '#b5302c', '#efe6cf');     // Polish red-white
+        flag(300, 156, 1.4, '#7a1f24', '#e6c84a');
+      }
+    };
+
+    this._scene = new PA.Scene(canvas, spec);
+    PA.startBattle(root, {
+      maxEnemy: 1794, maxPlayer: 1794, outcome: 'win',
+      enemyLines: [
+        'Rosjanie witają atak salwą z muszkietów i armat! Pierwsi kosynierzy padają, lecz reszta biegnie dalej przez dym.',
+        'Wróg formuje czworobok i razi ogniem. Bój o wiatrak jest zażarty — ranni leżą po obu stronach.',
+        'Rosyjska piechota próbuje kontry. Kościuszko sam prowadzi ludzi naprzód, byle nie stracić rozpędu.',
+        'Po krwawym starciu opór Rosjan słabnie — chłopi i wojsko spychają ich z pola.'
+      ],
+      win: { t: 'ZWYCIĘSTWO!', s: 'Kosynierzy zdobywają armaty, a Kościuszko zwycięża pod Racławicami. 4 kwietnia 1794 — iskra nadziei dla całego powstania.' },
+      loss: { t: '', s: '' }
+    });
+  }
+  componentWillUnmount() { if (this._scene) this._scene.stop(); if (this._fit) window.removeEventListener('resize', this._fit); }
+}
+</script>
+</body>
+</html>

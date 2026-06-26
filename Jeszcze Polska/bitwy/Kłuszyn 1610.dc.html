@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link href="https://fonts.googleapis.com/css2?family=Jersey+15&family=VT323&display=swap" rel="stylesheet" />
+  <script src="art/engine.js"></script>
+</helmet>
+<div style="position:fixed; inset:0; background:#0d0a08; display:flex; align-items:center; justify-content:center; overflow:hidden; font-family:'VT323',monospace;">
+  <div id="stage" style="position:relative; width:1280px; height:800px; transform-origin:center center; overflow:hidden; box-shadow:0 0 0 4px #000, 0 24px 70px rgba(0,0,0,.65); background:#2a2440;">
+    <canvas id="scene" width="1280" height="800" style="position:absolute; inset:0; width:1280px; height:800px; image-rendering:pixelated; display:block;"></canvas>
+
+    <!-- ENEMY portrait -->
+    <div style="position:absolute; left:858px; top:236px; width:152px; height:152px; border-radius:50%; overflow:hidden; background:radial-gradient(circle at 50% 38%, #b6bcc8, #6f7686 68%, #434a5a); box-shadow:0 0 0 4px #20170d, 0 0 0 7px #8a5a2e, 0 10px 22px rgba(0,0,0,.5);">
+      <img src="art/m04_bojar.png" style="position:absolute; width:142%; height:142%; left:-21%; top:-6%; image-rendering:pixelated;" />
+    </div>
+
+    <!-- PLAYER portrait -->
+    <div style="position:absolute; left:300px; top:322px; width:198px; height:198px; border-radius:50%; overflow:hidden; background:radial-gradient(circle at 50% 38%, #f3e4b8, #d8b86e 68%, #a07f3e); box-shadow:0 0 0 5px #20170d, 0 0 0 8px #d8b24a, 0 12px 26px rgba(0,0,0,.55);">
+      <img src="art/m04_zolkiewski.png" style="position:absolute; width:140%; height:140%; left:-20%; top:-4%; image-rendering:pixelated;" />
+    </div>
+
+    <!-- ENEMY nameplate -->
+    <div style="position:absolute; right:26px; top:26px; width:330px; padding:13px 16px 14px; background:linear-gradient(180deg,#f1e7cd,#e2d3b0); border:3px solid #2c2012; box-shadow:inset 0 0 0 2px #c8ab68, 0 6px 18px rgba(0,0,0,.5);">
+      <div style="font-family:'Jersey 15',sans-serif; font-size:26px; color:#2a1d10; letter-spacing:.5px; line-height:1;">DYMITR SZUJSKI</div>
+      <div style="font-size:21px; color:#6f5d3b; margin-top:5px; line-height:1;">Wódz wojsk Moskwy i najemników · Lv.27</div>
+      <div style="display:flex; align-items:center; gap:9px; margin-top:9px;">
+        <span style="font-family:'Jersey 15',sans-serif; font-size:17px; color:#7a3128;">HP</span>
+        <div style="position:relative; flex:1; height:13px; background:#1d160b; border:1px solid #0c0a06; box-shadow:inset 0 1px 0 #4a3a1f;">
+          <div data-role="enemy-hp-fill" style="height:100%; width:100%; background:#5bbf5b; transition:width .45s ease;"></div>
+        </div>
+      </div>
+      <div data-role="enemy-hp-text" style="text-align:right; font-size:18px; color:#6f5d3b; margin-top:2px;">1610 / 1610</div>
+    </div>
+
+    <!-- PLAYER nameplate -->
+    <div style="position:absolute; left:26px; top:26px; width:344px; padding:12px 16px 13px; background:linear-gradient(180deg,#1b2a4d,#0f1830); border:2px solid #cf9f3f; box-shadow:inset 0 0 0 2px #2d4170, 0 6px 18px rgba(0,0,0,.5);">
+      <div style="font-family:'Jersey 15',sans-serif; font-size:26px; color:#edc659; letter-spacing:.5px; line-height:1;">STANISŁAW ŻÓŁKIEWSKI</div>
+      <div style="font-size:21px; color:#aebbd6; margin-top:5px; line-height:1;">Hetman koronny · dowódca husarii · Lv.32</div>
+      <div style="display:flex; align-items:center; gap:9px; margin-top:9px;">
+        <span style="font-family:'Jersey 15',sans-serif; font-size:17px; color:#cf9f3f;">HP</span>
+        <div style="position:relative; flex:1; height:13px; background:#0a1120; border:1px solid #000; box-shadow:inset 0 1px 0 #2d4170;">
+          <div data-role="player-hp-fill" style="height:100%; width:100%; background:#5bbf5b; transition:width .45s ease;"></div>
+        </div>
+        <span data-role="player-hp-text" style="font-size:18px; color:#aebbd6;">1610 / 1610</span>
+      </div>
+    </div>
+
+    <!-- DIALOGUE -->
+    <div data-role="dialogue" data-initial="Świt 4 lipca 1610 pod Kłuszynem. Garstka husarii staje naprzeciw ogromnej armii Moskwy i obcych najemników. Jak uderzy hetman Żółkiewski?" style="position:absolute; left:26px; bottom:24px; width:556px; height:248px; box-sizing:border-box; padding:22px 26px; background:linear-gradient(180deg,#f3ead0,#e6d8b6); border:3px solid #2c2012; box-shadow:inset 0 0 0 2px #c8ab68, 0 6px 18px rgba(0,0,0,.5); font-size:28px; line-height:1.2; color:#2c2012; text-wrap:pretty;">Świt 4 lipca 1610 pod Kłuszynem. Garstka husarii staje naprzeciw ogromnej armii Moskwy i obcych najemników. Jak uderzy hetman Żółkiewski?</div>
+
+    <!-- OPTIONS -->
+    <div style="position:absolute; right:26px; bottom:24px; width:602px; height:248px; display:grid; grid-template-columns:1fr 1fr; grid-template-rows:1fr 1fr; gap:14px;">
+      <button data-opt data-result="Skrzydlata jazda rusza z kopiami naprzód! Husaria rozbija pierwsze szeregi wroga, a szum skrzydeł sieje popłoch." style="display:flex; flex-direction:column; justify-content:center; gap:3px; text-align:left; padding:0 22px; background:linear-gradient(180deg,#16223f,#101a31); border:2px solid #c79a3e; box-shadow:inset 0 0 0 2px #233356; cursor:pointer;" style-hover="background:linear-gradient(180deg,#1d2c50,#16223f);">
+        <div style="font-family:'Jersey 15',sans-serif; font-size:23px; color:#f0cb63; line-height:1.05; white-space:nowrap;">⚔ SZARŻA HUSARII</div>
+        <div style="font-size:19px; color:#c9b889; line-height:1.1;">skrzydlata jazda atakuje z kopiami</div>
+      </button>
+      <button data-opt data-result="Husaria zawraca i uderza raz po raz — osiem, dziesięć szarż! Wróg nie wytrzymuje fali za falą jazdy." style="display:flex; flex-direction:column; justify-content:center; gap:3px; text-align:left; padding:0 22px; background:linear-gradient(180deg,#16223f,#101a31); border:2px solid #c79a3e; box-shadow:inset 0 0 0 2px #233356; cursor:pointer;" style-hover="background:linear-gradient(180deg,#1d2c50,#16223f);">
+        <div style="font-family:'Jersey 15',sans-serif; font-size:23px; color:#f0cb63; line-height:1.05; white-space:nowrap;">↻ PONOWNA SZARŻA</div>
+        <div style="font-size:19px; color:#c9b889; line-height:1.1;">uderzać falami, raz za razem</div>
+      </button>
+      <button data-opt data-result="Polacy wbijają się między obcych najemników a Moskwę. Cudzoziemski zaciąg łamie szyk i przechodzi na stronę zwycięzcy." style="display:flex; flex-direction:column; justify-content:center; gap:3px; text-align:left; padding:0 22px; background:linear-gradient(180deg,#16223f,#101a31); border:2px solid #c79a3e; box-shadow:inset 0 0 0 2px #233356; cursor:pointer;" style-hover="background:linear-gradient(180deg,#1d2c50,#16223f);">
+        <div style="font-family:'Jersey 15',sans-serif; font-size:23px; color:#f0cb63; line-height:1.05; white-space:nowrap;">⚑ ATAK NA NAJEMNIKÓW</div>
+        <div style="font-size:19px; color:#c9b889; line-height:1.1;">rozbić obcy zaciąg wroga</div>
+      </button>
+      <button data-opt data-result="Szyk Moskwy pęka i rzuca się do ucieczki. Garstka husarii Żółkiewskiego pokonuje wielokrotnie liczniejszą armię!" style="display:flex; flex-direction:column; justify-content:center; gap:3px; text-align:left; padding:0 22px; background:linear-gradient(180deg,#16223f,#101a31); border:2px solid #c79a3e; box-shadow:inset 0 0 0 2px #233356; cursor:pointer;" style-hover="background:linear-gradient(180deg,#1d2c50,#16223f);">
+        <div style="font-family:'Jersey 15',sans-serif; font-size:23px; color:#f0cb63; line-height:1.05; white-space:nowrap;">✸ PRZEŁAMANIE</div>
+        <div style="font-size:19px; color:#c9b889; line-height:1.1;">rozbić ostatecznie szyk wroga</div>
+      </button>
+    </div>
+
+    <!-- RESULT banner -->
+    <div data-role="banner" style="position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:18px; background:rgba(13,10,8,.56); opacity:0; pointer-events:none; transition:opacity .5s ease; color:#f3e2a8;">
+      <div data-role="banner-title" style="font-family:'Jersey 15',sans-serif; font-size:74px; letter-spacing:2px; text-shadow:0 4px 0 #000, 0 0 24px rgba(0,0,0,.6); color:inherit;">ZWYCIĘSTWO!</div>
+      <div data-role="banner-sub" style="font-size:30px; color:#e7dcc2; max-width:760px; text-align:center; text-wrap:pretty;">Husaria Żółkiewskiego rozbija wielokrotnie liczniejszą armię Moskwy. Triumf pod Kłuszynem, 4 lipca 1610.</div>
+      <button data-role="replay" style="margin-top:6px; font-family:'Jersey 15',sans-serif; font-size:28px; color:#0f1830; background:#edc659; border:2px solid #2c2012; padding:12px 28px; cursor:pointer; box-shadow:0 4px 0 #2c2012;">↻ ZAGRAJ PONOWNIE</button>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  componentDidMount() { this.boot(); }
+  boot() {
+    var root = this.root || document;
+    var PA = window.PA;
+    if (!PA || !PA.Scene) { return setTimeout(() => this.boot(), 60); }
+    var stage = root.querySelector('#stage');
+    var canvas = root.querySelector('#scene');
+    var fit = () => { var s = Math.min(window.innerWidth / 1280, window.innerHeight / 800); stage.style.zoom = s; };
+    fit(); this._fit = fit; window.addEventListener('resize', fit);
+
+    var spec = {
+      horizonY: 106,
+      sky: [[0, '#4a5f9a'], [0.34, '#b07f74'], [0.58, '#edc488'], [0.82, '#f6dca0'], [1, '#f7e8c4']],
+      sun: { x: 196, y: 80, r: 15, color: '#ffe7a2', glow: '#ffcf78' },
+      cloudBand: 26,
+      layers: [
+        { baseY: 102, amp: 4, freq: 0.05, seed: 41, color: '#46603f', type: 'forest', lightTop: '#6f8a52' },
+        { baseY: 107, amp: 7, freq: 0.03, seed: 43, color: '#577345', lightTop: '#86a060' }
+      ],
+      ground: { near: '#789a48', far: '#a7b86a', path: '#cabb82', rows: '#5f7d3c' },
+      fields: [{ x: 60, y: 150, rx: 42, ry: 8, color: '#d4c06a', a: 0.85 }, { x: 262, y: 152, rx: 44, ry: 8, color: '#d4c06a', a: 0.85 }],
+      platforms: [
+        { x: 236, y: 101, rx: 36, ry: 7, color: '#b8a85d', shadow: '#5a6a3c' },
+        { x: 100, y: 137, rx: 54, ry: 12, color: '#aebd6f', shadow: '#4d6036' }
+      ],
+      ambiance: { type: 'mist', count: 16, color: '#fff2da', seed: 9, clouds: 3, cloudColor: '#f6e2c4', cloudShade: '#e0c39c' },
+      staticDraw: function (ctx, PA) {
+        // distant tents (enemy camp) on far hill
+        [[150, 96], [164, 98], [178, 95], [192, 98]].forEach(function (p) {
+          ctx.fillStyle = '#d8cbac'; for (var i = 0; i < 6; i++) ctx.fillRect(p[0] - i, p[1] - 6 + i, i * 2 + 1, 1);
+          ctx.fillStyle = '#7a5230'; ctx.fillRect(p[0], p[1] - 5, 1, 2);
+        });
+        // BIRCH TREES — white trunks with black dashes, in foreground corners
+        function birch(x, base, h, lean) {
+          for (var y = 0; y < h; y++) {
+            var tx = x + Math.round(lean * y / h);
+            ctx.fillStyle = '#eef0ea'; ctx.fillRect(tx, base - y, 3, 1);
+            ctx.fillStyle = '#cdd2cc'; ctx.fillRect(tx + 2, base - y, 1, 1);
+          }
+          ctx.fillStyle = '#23201c';
+          for (var d = 0; d < h; d += 5) { var dx = x + Math.round(lean * (h - d) / h); ctx.fillRect(dx + (d % 2), base - d, 2, 1); }
+          // sparse canopy
+          var cx = x + Math.round(lean), cy = base - h;
+          ctx.fillStyle = '#5f8348'; PA.circle(ctx, cx, cy, 7); PA.circle(ctx, cx - 5, cy + 3, 5);
+          ctx.fillStyle = '#7aa05c'; PA.circle(ctx, cx + 2, cy - 2, 5);
+        }
+        birch(20, 196, 56, 2); birch(40, 200, 40, -2);
+        birch(298, 200, 50, -2); birch(282, 194, 36, 2);
+        // foreground grass tufts
+        ctx.fillStyle = '#5f8a3c'; for (var g = 0; g < 26; g++) { var gx = (g * 13 + 5) % 320; ctx.fillRect(gx, 192 + (g % 4) * 3, 1, 4); }
+      },
+      dynamicDraw: function (ctx, t, PA) {
+        // warm sun rays over the field
+        ctx.globalAlpha = 0.06; ctx.fillStyle = '#fff0c0';
+        for (var r = 0; r < 5; r++) { var rx = 196 + Math.sin(t * 0.2 + r) * 3; ctx.fillRect(rx - r * 14, 80, 2, 80); ctx.fillRect(rx + r * 14, 80, 2, 80); }
+        ctx.globalAlpha = 1;
+        function flag(bx, by, ph, cloth, mark) {
+          ctx.fillStyle = '#3a2a18'; ctx.fillRect(bx, by - 30, 2, 34);
+          ctx.fillStyle = '#caa24a'; ctx.fillRect(bx - 1, by - 32, 4, 2);
+          for (var i = 0; i < 13; i++) {
+            var sway = Math.round(Math.sin(t * 3 + i * 0.55 + ph) * 2.2);
+            ctx.fillStyle = cloth; ctx.fillRect(bx + 2 + sway, by - 30 + i, 16, 1);
+            if (mark && i > 3 && i < 9) { ctx.fillStyle = mark; ctx.fillRect(bx + 7 + sway, by - 30 + i, 4, 1); }
+          }
+        }
+        flag(58, 150, 0, '#b5302c', '#efe6cf');    // Polish red
+        flag(284, 150, 1.4, '#7a1f24', '#e6c84a');  // hetman's banner
+      }
+    };
+
+    this._scene = new PA.Scene(canvas, spec);
+    PA.startBattle(root, {
+      maxEnemy: 1610, maxPlayer: 1610, outcome: 'win',
+      enemyLines: [
+        'Moskwa i obcy najemnicy odpierają pierwsze uderzenie! Ogień z rusznic dziesiątkuje husarię — giną towarzysze i konie.',
+        'Wróg zwiera szyki za płotami. Husaria łamie kopie i sięga po szable — bój robi się krwawy i zacięty.',
+        'Najemna jazda kontratakuje skrzydło Żółkiewskiego. Hetman z trudem utrzymuje swoje nieliczne chorągwie.',
+        'Przewaga liczebna Moskwy topnieje pod kolejnymi szarżami — szyk wroga zaczyna pękać.'
+      ],
+      win: { t: 'ZWYCIĘSTWO!', s: 'Po krwawym, wielogodzinnym boju husaria Żółkiewskiego rozbija wielokrotnie liczniejszą armię Moskwy. Triumf pod Kłuszynem, 4 lipca 1610.' },
+      loss: { t: '', s: '' }
+    });
+  }
+  componentWillUnmount() { if (this._scene) this._scene.stop(); if (this._fit) window.removeEventListener('resize', this._fit); }
+}
+</script>
+</body>
+</html>
