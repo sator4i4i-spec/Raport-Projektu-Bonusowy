@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI w Edukacji — Raport Projektu · UMK Toruń 2025/2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --navy:#1a2342; --ink:#1e1e2e; --ink2:#374151; --ink3:#6b7280;
+  --bg:#f9f8f6; --white:#fff; --rule:#e5e7eb;
+  --blue:#2563eb; --blue2:#1d4ed8; --teal:#0d9488;
+  --amber:#d97706; --purple:#7c3aed; --red:#dc2626;
+  --blue-bg:#eff6ff; --teal-bg:#f0fdfa; --amber-bg:#fffbeb;
+  --sb:230px; --mono:'JetBrains Mono',monospace;
+}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',system-ui,sans-serif;background:var(--bg);color:var(--ink2);line-height:1.7;font-size:16px;-webkit-font-smoothing:antialiased}
+img{max-width:100%;display:block}
+a{color:var(--blue)}
+a:hover{color:var(--blue2)}
+
+/* LAYOUT */
+.layout{display:flex;min-height:100vh}
+.sidebar{width:var(--sb);flex-shrink:0;background:var(--navy);position:fixed;top:0;left:0;bottom:0;overflow-y:auto;z-index:200;display:flex;flex-direction:column}
+.sb-brand{padding:1.75rem 1.25rem 1.25rem;border-bottom:1px solid rgba(255,255,255,.07)}
+.sb-uni{font-size:.6rem;font-weight:600;text-transform:uppercase;letter-spacing:.14em;color:rgba(255,255,255,.35);display:block;margin-bottom:.5rem}
+.sb-title{font-family:'DM Serif Display',serif;font-size:1rem;line-height:1.3;color:#fff}
+.sb-year{font-size:.65rem;color:rgba(255,255,255,.28);display:block;margin-top:.4rem}
+.sb-nav{padding:.75rem .5rem;flex:1}
+.sb-gl{font-size:.58rem;font-weight:700;text-transform:uppercase;letter-spacing:.16em;color:rgba(255,255,255,.22);padding:.8rem .75rem .3rem;display:block}
+.sb-link{display:flex;align-items:center;gap:.55rem;padding:.4rem .75rem;border-radius:6px;text-decoration:none;font-size:.78rem;color:rgba(255,255,255,.5);transition:all .15s;border-left:2px solid transparent;margin-bottom:.05rem}
+.sb-link:hover{color:#fff;background:rgba(255,255,255,.07)}
+.sb-link.active{color:#fff;background:rgba(255,255,255,.1);border-left-color:#60a5fa}
+.sb-n{font-family:var(--mono);font-size:.6rem;color:rgba(255,255,255,.2);flex-shrink:0;min-width:18px}
+.sb-link.active .sb-n{color:#60a5fa}
+.sb-cta{padding:1rem 1.25rem;border-top:1px solid rgba(255,255,255,.07)}
+.sb-btn{display:block;width:100%;background:#2563eb;color:#fff;text-decoration:none;text-align:center;padding:.6rem .75rem;border-radius:8px;font-size:.78rem;font-weight:600;transition:background .15s}
+.sb-btn:hover{background:#1d4ed8;color:#fff}
+.sb-foot{padding:.75rem 1.25rem 1.25rem;font-size:.65rem;color:rgba(255,255,255,.22);line-height:1.6}
+.main{margin-left:var(--sb);flex:1;min-width:0}
+#prog{position:fixed;top:0;left:var(--sb);right:0;height:3px;z-index:300;background:rgba(0,0,0,.06)}
+#pf{height:100%;width:0;background:linear-gradient(90deg,#2563eb,#0d9488);transition:width .1s}
+
+/* COVER */
+.cover{background:var(--navy);padding:4rem 3.5rem 3.5rem;position:relative}
+.cover::after{content:'';position:absolute;bottom:0;left:0;right:0;height:4px;background:linear-gradient(90deg,#2563eb 0%,#0d9488 50%,#7c3aed 100%)}
+.cover-badge{display:inline-flex;align-items:center;gap:.5rem;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);color:rgba(255,255,255,.65);padding:.3rem .9rem;border-radius:999px;font-size:.72rem;font-weight:500;letter-spacing:.04em;margin-bottom:2rem}
+.cover h1{font-family:'DM Serif Display',serif;font-size:clamp(2.25rem,5vw,3.5rem);line-height:1.1;color:#fff;margin-bottom:1rem;font-weight:400}
+.cover h1 em{color:#93c5fd;font-style:italic}
+.cover-sub{font-size:1.05rem;color:rgba(255,255,255,.55);max-width:580px;line-height:1.7;margin-bottom:2.5rem}
+.cover-chips{display:flex;flex-wrap:wrap;gap:1.5rem;padding:1.5rem 0;border-top:1px solid rgba(255,255,255,.1);border-bottom:1px solid rgba(255,255,255,.1);margin-bottom:2rem}
+.chip-label{font-size:.6rem;font-weight:600;text-transform:uppercase;letter-spacing:.12em;color:rgba(255,255,255,.3);display:block;margin-bottom:.2rem}
+.chip-val{font-size:.85rem;color:rgba(255,255,255,.75)}
+.cover-kpis{display:flex;gap:2.5rem;flex-wrap:wrap;margin-bottom:2.5rem}
+.kpi-n{font-family:'DM Serif Display',serif;font-size:2.75rem;color:#fff;line-height:1;display:block}
+.kpi-l{font-size:.72rem;color:rgba(255,255,255,.38);text-transform:uppercase;letter-spacing:.08em;margin-top:.25rem}
+.cover-btns{display:flex;gap:.75rem;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:.4rem;padding:.65rem 1.5rem;border-radius:8px;font-size:.875rem;font-weight:600;text-decoration:none;cursor:pointer;border:none;transition:all .18s}
+.btn-w{background:#fff;color:var(--navy)}
+.btn-w:hover{background:#e8f0fe;color:var(--navy)}
+.btn-g{background:rgba(255,255,255,.09);color:rgba(255,255,255,.75);border:1px solid rgba(255,255,255,.18)}
+.btn-g:hover{background:rgba(255,255,255,.15);color:#fff}
+
+/* CONTENT */
+.wrap{max-width:900px;padding:0 3.5rem;margin:0 auto}
+.sec{padding:4rem 0 2.5rem;border-bottom:1px solid var(--rule)}
+.sec:last-of-type{border-bottom:none}
+.sec-tag{display:inline-flex;align-items:center;gap:.5rem;font-family:var(--mono);font-size:.65rem;font-weight:500;color:var(--blue);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.75rem}
+.sec-tag::before{content:'§'}
+.sec-tag.teal{color:var(--teal)}
+.sec-tag.amber{color:var(--amber)}
+.sec-tag.purple{color:var(--purple)}
+.sec-h2{font-family:'DM Serif Display',serif;font-size:clamp(1.6rem,3vw,2.2rem);font-weight:400;line-height:1.2;color:var(--ink);margin-bottom:.6rem;letter-spacing:-.01em}
+.lead{font-size:1.05rem;color:var(--ink3);max-width:660px;line-height:1.8;margin-bottom:2.5rem}
+h3{font-family:'DM Serif Display',serif;font-size:1.2rem;font-weight:400;color:var(--ink);margin:2rem 0 .75rem}
+p{margin-bottom:.9rem;color:var(--ink2);line-height:1.75}
+p:last-child{margin-bottom:0}
+strong{color:var(--ink);font-weight:600}
+
+/* CARDS */
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;margin:1.5rem 0}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem;margin:1.5rem 0}
+.card{background:var(--white);border:1px solid var(--rule);border-radius:12px;padding:1.5rem;transition:box-shadow .2s,transform .2s}
+.card:hover{box-shadow:0 6px 24px rgba(0,0,0,.07);transform:translateY(-2px)}
+.card-n{font-family:var(--mono);font-size:.62rem;color:var(--blue);text-transform:uppercase;letter-spacing:.1em;display:block;margin-bottom:.5rem}
+.card h3{font-size:1rem;margin:0 0 .5rem}
+.card p{font-size:.875rem}
+.card.bl{border-top:3px solid var(--blue)}
+.card.te{border-top:3px solid var(--teal)}
+.card.am{border-top:3px solid var(--amber)}
+.card.pu{border-top:3px solid var(--purple)}
+
+/* CALLOUTS */
+.box{border-radius:10px;padding:1.25rem 1.5rem;margin:1.5rem 0;border-left:4px solid transparent}
+.box p{font-size:.9rem;margin:0}
+.box-l{font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;display:block;margin-bottom:.4rem}
+.box.bl{background:var(--blue-bg);border-left-color:var(--blue)}
+.box.bl .box-l{color:var(--blue)}
+.box.te{background:var(--teal-bg);border-left-color:var(--teal)}
+.box.te .box-l{color:var(--teal)}
+.box.am{background:var(--amber-bg);border-left-color:var(--amber)}
+.box.am .box-l{color:var(--amber)}
+
+/* TABLE */
+.tbl{overflow-x:auto;margin:1.5rem 0;border-radius:10px;border:1px solid var(--rule)}
+table{width:100%;border-collapse:collapse;font-size:.875rem}
+thead{background:var(--navy)}
+th{color:rgba(255,255,255,.85);text-align:left;padding:.75rem 1rem;font-size:.7rem;font-weight:600;text-transform:uppercase;letter-spacing:.09em}
+td{padding:.75rem 1rem;color:var(--ink2);border-bottom:1px solid var(--rule);vertical-align:top}
+tr:last-child td{border-bottom:none}
+tbody tr:hover td{background:#f5f7ff}
+
+/* PHOTOS */
+.photo-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1rem;margin:1.75rem 0}
+.photo{border-radius:10px;overflow:hidden;border:1px solid var(--rule);background:var(--white)}
+.photo img{width:100%;display:block;height:210px;object-fit:cover;cursor:zoom-in;transition:transform .3s}
+.photo:hover img{transform:scale(1.03)}
+.photo-cap{padding:.6rem .9rem;font-size:.75rem;color:var(--ink3);line-height:1.5;border-top:1px solid var(--rule)}
+
+/* MODULES */
+.module{background:var(--white);border:1px solid var(--rule);border-radius:12px;margin-bottom:1.25rem;overflow:hidden;transition:box-shadow .2s}
+.module:hover{box-shadow:0 4px 20px rgba(0,0,0,.07)}
+.mod-hd{display:flex;align-items:flex-start;gap:1rem;padding:1.5rem}
+.mod-ico{width:44px;height:44px;flex-shrink:0;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.35rem;background:var(--blue-bg)}
+.mod-ico.te{background:var(--teal-bg)}
+.mod-ico.am{background:var(--amber-bg)}
+.mod-hd h3{font-size:1.05rem;margin:0 0 .35rem}
+.mod-hd p{font-size:.875rem;margin:0}
+.mod-tags{display:flex;gap:.4rem;flex-wrap:wrap;margin-top:.6rem}
+.tag{font-size:.67rem;font-weight:600;text-transform:uppercase;letter-spacing:.07em;padding:.18rem .55rem;border-radius:4px}
+.tag.bl{background:var(--blue-bg);color:var(--blue)}
+.tag.te{background:var(--teal-bg);color:var(--teal)}
+.tag.am{background:var(--amber-bg);color:var(--amber)}
+.tag.pu{background:rgba(124,58,237,.08);color:var(--purple)}
+.mod-img{border-top:1px solid var(--rule)}
+.mod-img img{width:100%;display:block;max-height:220px;object-fit:cover;object-position:top;cursor:zoom-in}
+
+/* TOOLS */
+.tool-list{margin:1.5rem 0}
+.tool{display:grid;grid-template-columns:140px 1fr auto;gap:1rem;padding:1rem 0;border-bottom:1px solid var(--rule);align-items:start}
+.tool:first-child{border-top:1px solid var(--rule)}
+.tool-n{font-weight:700;font-size:.9rem;color:var(--ink)}
+.tool-r{font-size:.875rem;color:var(--ink2)}
+.tool-p{font-size:.68rem;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--blue);white-space:nowrap;padding-top:2px}
+
+/* RESULTS */
+.result-list{margin:1.5rem 0}
+.ri{display:grid;grid-template-columns:220px 1fr 90px;align-items:center;gap:1rem;padding:.75rem 0;border-bottom:1px solid var(--rule)}
+.ri:first-child{border-top:1px solid var(--rule)}
+.ri-l{font-size:.875rem;color:var(--ink2)}
+.bar-bg{height:8px;background:#e5e7eb;border-radius:99px;overflow:hidden}
+.bar-f{height:100%;border-radius:99px;background:var(--blue);transition:width 1s ease;width:0}
+.bar-f.te{background:var(--teal)}
+.bar-f.gr{background:#10b981}
+.ri-v{font-family:var(--mono);font-size:.8rem;color:var(--ink);font-weight:500;text-align:right}
+
+/* TOOL CARDS */
+.tool-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:1rem;margin:1.5rem 0}
+.tool-card{display:flex;flex-direction:column;border:1.5px solid var(--rule);border-radius:10px;overflow:hidden;text-decoration:none;color:inherit;transition:box-shadow .15s,border-color .15s}
+.tool-card:hover{box-shadow:0 4px 16px rgba(0,0,0,.1);border-color:var(--blue)}
+.tool-card img{width:100%;height:100px;object-fit:cover}
+.tool-card-body{padding:.75rem .9rem;display:flex;flex-direction:column;gap:.25rem}
+.tool-card-body strong{font-size:.9rem;color:var(--ink)}
+.tool-card-body span{font-size:.78rem;color:var(--ink3);line-height:1.4}
+.tool-card-ea{background:var(--blue-bg)}
+.tool-card-ea-ico{font-size:2.5rem;height:100px;display:flex;align-items:center;justify-content:center;background:var(--blue-bg)}
+
+/* TIMELINE */
+.timeline{padding-left:1.5rem;position:relative;margin:1.5rem 0}
+.timeline::before{content:'';position:absolute;left:0;top:10px;bottom:10px;width:2px;background:linear-gradient(180deg,var(--blue),var(--teal));border-radius:2px}
+.tli{position:relative;margin-bottom:2rem}
+.tli:last-child{margin-bottom:0}
+.tli::before{content:'';position:absolute;left:-1.5rem;top:7px;width:10px;height:10px;border-radius:50%;background:var(--white);border:2.5px solid var(--blue);margin-left:-4px;box-shadow:0 0 0 3px rgba(37,99,235,.15)}
+.tl-ph{font-family:var(--mono);font-size:.65rem;color:var(--blue);display:block;margin-bottom:.2rem;letter-spacing:.06em;text-transform:uppercase}
+.tli h4{font-size:.95rem;font-weight:600;text-transform:none;letter-spacing:0;color:var(--ink);margin-bottom:.35rem}
+.tli p{font-size:.875rem;margin:0}
+.tli-btn{display:inline-block;margin-top:.65rem;padding:.35rem .85rem;border-radius:6px;background:var(--blue);color:#fff;font-size:.78rem;font-weight:600;text-decoration:none;transition:background .15s}
+.tli-btn:hover{background:var(--blue2)}
+
+/* ACCORDION */
+.acc{margin:1.5rem 0}
+.ai{border-bottom:1px solid var(--rule)}
+.ai:first-child{border-top:1px solid var(--rule)}
+.ah{display:flex;justify-content:space-between;align-items:center;padding:.9rem 0;cursor:pointer;user-select:none;transition:color .15s}
+.ah:hover{color:var(--blue)}
+.ah span{font-size:.9rem;font-weight:600}
+.aa{font-size:.75rem;color:var(--ink3);transition:transform .3s}
+.ai.open .aa{transform:rotate(180deg)}
+.ab{max-height:0;overflow:hidden;transition:max-height .35s ease,padding .3s;padding:0}
+.ai.open .ab{max-height:500px;padding-bottom:1rem}
+.ab-in{font-size:.875rem;color:var(--ink2);line-height:1.75}
+
+/* HL */
+.hl{background:linear-gradient(135deg,#eff6ff,#f0fdfa);border:1px solid #bfdbfe;border-radius:12px;padding:1.75rem 2rem;margin:1.5rem 0}
+.hl p{font-size:1rem;line-height:1.8;margin:0;color:var(--ink)}
+
+/* TEAM */
+.team{background:var(--white);border:1px solid var(--rule);border-radius:12px;padding:1.75rem 2rem;margin:1.5rem 0;text-align:center}
+.team-t{font-family:'DM Serif Display',serif;font-size:1.15rem;margin-bottom:.3rem;color:var(--ink)}
+.team-s{font-size:.85rem;color:var(--ink3);margin-bottom:1.25rem}
+.pills{display:flex;flex-wrap:wrap;gap:.6rem;justify-content:center}
+.pill{background:var(--blue-bg);color:var(--blue);border:1px solid #bfdbfe;font-size:.82rem;font-weight:600;padding:.35rem 1rem;border-radius:999px}
+
+/* DOCS */
+.doc-list{margin:1.5rem 0}
+.doc{display:flex;align-items:flex-start;gap:1rem;padding:1rem .75rem;border-radius:8px;text-decoration:none;color:inherit;transition:background .15s;border-bottom:1px solid var(--rule)}
+.doc:first-child{border-top:1px solid var(--rule)}
+.doc:hover{background:#f0f4ff}
+.doc-ico{width:38px;height:38px;border-radius:8px;background:var(--blue-bg);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;margin-top:1px}
+.doc-n{font-size:.875rem;font-weight:600;color:var(--blue);margin-bottom:.25rem}
+.doc-d{font-size:.8rem;color:var(--ink3);line-height:1.5}
+
+/* EMBED */
+.embed{border:1px solid var(--rule);border-radius:12px;overflow:hidden;margin:2rem 0;box-shadow:0 8px 40px rgba(0,0,0,.08)}
+.embed-bar{background:var(--navy);padding:.75rem 1.25rem;display:flex;align-items:center;justify-content:space-between;gap:1rem}
+.dots{display:flex;gap:5px}
+.dots span{width:10px;height:10px;border-radius:2px;background:rgba(255,255,255,.2)}
+.embed-url{font-family:var(--mono);font-size:.72rem;color:rgba(255,255,255,.5);flex:1;text-align:center}
+.embed-op{font-size:.72rem;color:#60a5fa;text-decoration:none;font-family:var(--mono);white-space:nowrap}
+.embed-op:hover{color:#93c5fd}
+.embed-frame{width:100%;border:none;display:block;background:#fff}
+.embed-note{background:var(--bg);padding:.6rem 1rem;font-size:.75rem;color:var(--ink3);text-align:center;border-top:1px solid var(--rule);font-style:italic}
+
+/* LIGHTBOX */
+#lb{position:fixed;inset:0;z-index:9999;background:rgba(10,10,20,.92);display:flex;align-items:center;justify-content:center;cursor:zoom-out;animation:fi .2s ease}
+#lb img{max-width:90vw;max-height:88vh;border-radius:8px;object-fit:contain;animation:si .25s ease;cursor:default}
+#lb-cap{position:absolute;bottom:1.5rem;left:50%;transform:translateX(-50%);color:rgba(255,255,255,.65);font-size:.8rem;background:rgba(0,0,0,.5);padding:.35rem 1rem;border-radius:20px;white-space:nowrap;pointer-events:none}
+#lb-x{position:absolute;top:1rem;right:1.5rem;color:rgba(255,255,255,.6);font-size:1.5rem;cursor:pointer;line-height:1;transition:color .15s}
+#lb-x:hover{color:#fff}
+@keyframes fi{from{opacity:0}to{opacity:1}}
+@keyframes si{from{opacity:0;transform:scale(.93)}to{opacity:1;transform:scale(1)}}
+
+/* FOOTER */
+.footer{padding:2.5rem 0 3rem;border-top:1px solid var(--rule);margin-top:3rem}
+.footer p{font-size:.8rem;color:var(--ink3);margin-bottom:.3rem}
+
+@media(max-width:860px){
+  :root{--sb:0px}
+  .sidebar{display:none}
+  .main{margin-left:0}
+  #prog{left:0}
+  .cover{padding:2.5rem 1.5rem}
+  .wrap{padding:0 1.5rem}
+  .grid2,.grid3{grid-template-columns:1fr}
+  .ri{grid-template-columns:1fr;gap:.4rem}
+  .tool{grid-template-columns:1fr;gap:.25rem}
+}
+</style>
+</head>
+<body>
+<div id="prog"><div id="pf"></div></div>
+<div class="layout">
+
+<aside class="sidebar">
+  <div class="sb-brand">
+    <span class="sb-uni">UMK · Kognitywistyka i Psychologia</span>
+    <div class="sb-title">AI w&nbsp;Edukacji<br>Raport Projektu</div>
+    <span class="sb-year">Rok akademicki 2025/2026</span>
+  </div>
+  <nav class="sb-nav">
+    <span class="sb-gl">Sekcje raportu</span>
+    <a href="#cover" class="sb-link active"><span class="sb-n">00</span> Strona tytułowa</a>
+    <a href="#s1" class="sb-link"><span class="sb-n">01</span> O projekcie</a>
+    <a href="#s2" class="sb-link"><span class="sb-n">02</span> Współpraca z AI</a>
+    <a href="#s3" class="sb-link"><span class="sb-n">03</span> Aplikacja</a>
+    <a href="#s4" class="sb-link"><span class="sb-n">04</span> Co udało się zrealizować</a>
+    <a href="#s5" class="sb-link"><span class="sb-n">05</span> Co przekazujemy dalej</a>
+    <a href="#s6" class="sb-link"><span class="sb-n">06</span> Wnioski</a>
+    <a href="#s7" class="sb-link"><span class="sb-n">07</span> Dokumentacja</a>
+    <a href="#s8" class="sb-link"><span class="sb-n">08</span> Jak powstał raport</a>
+  </nav>
+  <div class="sb-cta">
+    <a href="https://apka-klasy-1-3.netlify.app/" target="_blank" class="sb-btn">🚀 Uruchom aplikację</a>
+  </div>
+  <div class="sb-foot">Nadzór: mgr Piotr Jarczyk<br>Kwiecień–Czerwiec 2026</div>
+</aside>
+
+<main class="main">
+
+<div class="cover" id="cover">
+  <div class="cover-badge">📍 UMK Toruń &nbsp;·&nbsp; Kognitywistyka i Psychologia (S1) &nbsp;·&nbsp; 2025/2026</div>
+  <h1>AI <em>w Edukacji</em><br>Raport Końcowy</h1>
+  <p class="cover-sub">Jak 6 studentów zaprojektowało i wdrożyło działającą aplikację dydaktyczną dla szkół podstawowych — w 4 dni, bez pisania kodu ręcznie, przy użyciu narzędzi sztucznej inteligencji.</p>
+  <div class="cover-chips">
+    <div><span class="chip-label">Uczelnia</span><span class="chip-val">Uniwersytet Mikołaja Kopernika w Toruniu</span></div>
+    <div><span class="chip-label">Kierunek</span><span class="chip-val">Kognitywistyka i Psychologia (S1)</span></div>
+    <div><span class="chip-label">Prowadzący</span><span class="chip-val">mgr Piotr Jarczyk</span></div>
+    <div><span class="chip-label">Data</span><span class="chip-val">Kwiecień–Czerwiec 2026</span></div>
+  </div>
+  <div class="cover-kpis">
+    <div><span class="kpi-n">4</span><div class="kpi-l">Uczestników ze szkoły</div></div>
+    <div><span class="kpi-n">5</span><div class="kpi-l">Modułów aplikacji</div></div>
+    <div><span class="kpi-n">4</span><div class="kpi-l">Dni budowy</div></div>
+    <div><span class="kpi-n">4/5</span><div class="kpi-l">Śr. ocena pilotażu</div></div>
+  </div>
+  <div class="cover-btns">
+    <a href="https://apka-klasy-1-3.netlify.app/" target="_blank" class="btn btn-w">🚀 Uruchom aplikację</a>
+    <a href="#s1" class="btn btn-g">Czytaj raport ↓</a>
+  </div>
+</div>
+
+<div class="wrap">
+
+<!-- §01 O PROJEKCIE -->
+<section class="sec" id="s1">
+  <div class="sec-tag">01 — O projekcie</div>
+  <h2 class="sec-h2">Skąd wziął się projekt i czemu służy?</h2>
+  <p class="lead">Projekt powstał w odpowiedzi na realne przeciążenie nauczycieli klas 1–3, którzy jednocześnie pełnią rolę wykładowcy, wychowawcy, mediatora i animatora — bez narzędzi, które odciążyłyby ich w codziennej pracy.</p>
+
+  <p><strong>AI w Edukacji</strong> to projekt realizowany przez 6-osobowy zespół studentów Kognitywistyki i Psychologii (S1) Uniwersytetu Mikołaja Kopernika w Toruniu. Cel projektu to zaprojektowanie i pilotażowe wdrożenie aplikacji dydaktyczno-rekreacyjnej wspierającej pracę w klasach edukacji wczesnoszkolnej.</p>
+  <p>Aplikacja odpowiada na trzy konkretne potrzeby zidentyfikowane w ankiecie przeprowadzonej wśród nauczycieli:</p>
+
+  <div class="grid3">
+    <div class="card bl">
+      <span class="card-n">Potrzeba 01</span>
+      <h3>Odciążenie nauczyciela</h3>
+      <p>Przejęcie przez aplikację części aktywności klasowych wymagających dotąd bezpośredniego zaangażowania pedagoga.</p>
+    </div>
+    <div class="card te">
+      <span class="card-n">Potrzeba 02</span>
+      <h3>Zaangażowanie uczniów</h3>
+      <p>Elementy gier i rywalizacji jako mechanizm motywacyjny — nauka przez zabawę dopasowana do klas 1–3.</p>
+    </div>
+    <div class="card pu">
+      <span class="card-n">Potrzeba 03</span>
+      <h3>Regulacja emocjonalna</h3>
+      <p>Wyciszenie klasy jako realne narzędzie pedagogiczne, zaimplementowane bezpośrednio w interfejsie.</p>
+    </div>
+  </div>
+
+  <h3>Współpraca ze szkołą</h3>
+  <p>Projekt obejmuje współpracę z realną szkołą podstawową. Odbyły się dwa spotkania — z dyrekcją oraz szkolenie nauczycielek — przekazano dokumenty formalne i przeprowadzono pilotaż z udziałem klas 1a, 1c, 2a i 3c.</p>
+
+  <div class="photo-row">
+    <div class="photo">
+      <img src="20260410_123710.jpg" alt="Pierwsze spotkanie z dyrekcją szkoły" loading="lazy">
+      <div class="photo-cap">📍 Pierwsze spotkanie z dyrekcją szkoły — kwiecień 2026</div>
+    </div>
+    <div class="photo">
+      <img src="WhatsApp%20Image%202026-04-27%20at%2020.11.55.jpeg" alt="Szkolenie nauczycielek" loading="lazy">
+      <div class="photo-cap">🎓 Szkolenie nauczycielek — demonstracja aplikacji, kwiecień 2026</div>
+    </div>
+  </div>
+
+  <h3>Skład zespołu</h3>
+  <div class="team">
+    <div class="team-t">6 studentów UMK w Toruniu</div>
+    <div class="team-s">Kognitywistyka i Psychologia (S1) · pod nadzorem mgr Piotra Jarczyka</div>
+    <div class="pills">
+      <span class="pill">Whomean</span>
+      <span class="pill">Maciej P</span>
+      <span class="pill">tangerine</span>
+      <span class="pill">alicjamilicja</span>
+      <span class="pill">Imagine_girl</span>
+      <span class="pill">D. Satorska</span>
+    </div>
+  </div>
+
+</section>
+
+<!-- §02 WSPÓŁPRACA Z AI -->
+<section class="sec" id="s2">
+  <div class="sec-tag teal">02 — Współpraca z AI</div>
+  <h2 class="sec-h2">Narzędzia AI i metodologia pracy</h2>
+  <p class="lead">Zespół wykorzystał 5 narzędzi AI, każde przypisane do konkretnego etapu pracy. Projekt stanowi praktyczny dowód na dostępność tego rodzaju rozwiązań dla osób bez zaplecza technicznego.</p>
+
+  <h3>Narzędzia użyte w projekcie</h3>
+  <div class="tool-list">
+    <div class="tool">
+      <div class="tool-n">Lovable</div>
+      <div class="tool-r">Generowanie aplikacji webowej przez opis w języku naturalnym. Bezpłatna wersja wystarczyła w pełni. Kod trafiał automatycznie do repozytorium GitHub, co umożliwiło pracę lokalną przez terminal.</div>
+      <div class="tool-p">Budowa UI</div>
+    </div>
+    <div class="tool">
+      <div class="tool-n">Claude Projects</div>
+      <div class="tool-r">Planowanie struktury projektu, dokumentacja i rozmowy robocze na etapie koncepcyjnym.</div>
+      <div class="tool-p">Koncepcja</div>
+    </div>
+    <div class="tool">
+      <div class="tool-n">Claude Code</div>
+      <div class="tool-r">Pełna praca z aplikacją przez terminal. Dostęp do systemu plików, czytanie struktury projektu, uruchamianie komend i naprawianie błędów. Umożliwił zbudowanie działającej aplikacji osobom bez wcześniejszego doświadczenia w kodowaniu.</div>
+      <div class="tool-p">Implementacja</div>
+    </div>
+    <div class="tool">
+      <div class="tool-n">Grok</div>
+      <div class="tool-r">Generowanie animacji wideo smoka wykorzystanej w module Oddech Smoka.</div>
+      <div class="tool-p">Media</div>
+    </div>
+    <div class="tool">
+      <div class="tool-n">Canva AI</div>
+      <div class="tool-r">Tworzenie grafik i materiałów wizualnych, w tym prezentacji przekazanej nauczycielkom podczas szkolenia.</div>
+      <div class="tool-p">Materiały</div>
+    </div>
+  </div>
+
+  <h3>Wnioski z pracy z AI</h3>
+  <div class="acc">
+    <div class="ai open">
+      <div class="ah" onclick="toggleAcc(this)"><span>Dobry plan przed kodowaniem znacząco redukuje liczbę błędów</span><span class="aa">▾</span></div>
+      <div class="ab"><div class="ab-in">Przygotowanie szczegółowego planu przed uruchomieniem narzędzi generatywnych przyspieszyło całą pracę. Modele wykonujące zadania z gotowym planem rzadziej generowały rozwiązania wymagające refaktoryzacji.</div></div>
+    </div>
+    <div class="ai">
+      <div class="ah" onclick="toggleAcc(this)"><span>Małe, izolowane zadania ograniczają kaskadowe problemy</span><span class="aa">▾</span></div>
+      <div class="ab"><div class="ab-in">Podział pracy na małe zadania z wyraźnymi granicami istotnie redukował liczbę koniecznych poprawek i ułatwiał lokalizację problemów.</div></div>
+    </div>
+    <div class="ai">
+      <div class="ah" onclick="toggleAcc(this)"><span>Narzędzie AI bez dostępu do kontekstu projektu drastycznie traci na użyteczności</span><span class="aa">▾</span></div>
+      <div class="ab"><div class="ab-in">Odbudowywanie kontekstu przy każdej zmianie narzędzia lub przekazywaniu zadania spowalniało pracę. Kluczowe okazało się utrzymywanie jednego aktywnego pliku kontekstu projektu.</div></div>
+    </div>
+  </div>
+
+</section>
+
+<!-- §03 APLIKACJA -->
+<section class="sec" id="s3">
+  <div class="sec-tag purple">03 — Aplikacja</div>
+  <h2 class="sec-h2">Pięć modułów — jedno narzędzie dydaktyczne</h2>
+  <p class="lead">Aplikacja powstała w ciągu czterech dni intensywnych prac i jest wynikiem świadomej selekcji spośród znacznie szerszego zbioru pierwotnych założeń.</p>
+
+  <div class="box bl">
+    <span class="box-l">Kontekst projektowy</span>
+    <p>Pierwotna koncepcja zakładała trzy tematyczne światy z rozbudowanym drzewem funkcji. Redukcja zakresu była <strong>decyzją projektową, nie niepowodzeniem</strong>. Kryteria selekcji: nauczyciel musi chcieć tego używać, dzieci muszą to lubić, narzędzie musi dać się zbudować w rozsądnym czasie.</p>
+  </div>
+
+  <div class="photo-row" style="grid-template-columns:1fr">
+    <div class="photo">
+      <img src="5.%20projekt%20per%20se/plan%20APKI.jpeg" alt="Odręczny plan aplikacji" loading="lazy" style="height:260px;object-fit:contain;background:#f5f0e8">
+      <div class="photo-cap">Odręczny plan aplikacji z etapu koncepcyjnego — pełne drzewo opcji</div>
+    </div>
+  </div>
+
+  <div class="module">
+    <div class="mod-hd">
+      <div class="mod-ico">🤔</div>
+      <div>
+        <h3>Prawda czy Fałsz?</h3>
+        <p>Interaktywny zestaw zadań weryfikacyjnych wyświetlanych na tablicy. Uczniowie oceniają zaskakujące twierdzenia, co trenuje krytyczne myślenie i rozbudza ciekawość poznawczą. Po trzech poprawnych odpowiedziach aktywuje się nagroda w postaci żartu — element motywacyjny rozluźniający atmosferę.</p>
+        <div class="mod-tags"><span class="tag bl">Krytyczne myślenie</span><span class="tag te">Cała klasa</span><span class="tag pu">Motywacja</span></div>
+      </div>
+    </div>
+    <div class="mod-img"><img src="5.%20projekt%20per%20se/prawda%20czy%20falsz.jpg" alt="Moduł Prawda czy Fałsz" loading="lazy"></div>
+  </div>
+
+  <div class="module">
+    <div class="mod-hd">
+      <div class="mod-ico te">🌫️</div>
+      <div>
+        <h3>Mgła</h3>
+        <p>Trzystopniowa misja klasowa łącząca regulację emocjonalną z budowaniem poczucia wspólnoty. Uczniowie kolejno: łączą wyrazy w pary dotyczące zasad współpracy, wykonują ćwiczenie oddechowe ze smokiem, rozwiązują zagadkę logiczną. Finałem jest edukacyjna nagroda o neuronach lustrzanych.</p>
+        <div class="mod-tags"><span class="tag te">Integracja klasy</span><span class="tag bl">Regulacja emocji</span><span class="tag pu">Myślenie logiczne</span></div>
+      </div>
+    </div>
+    <div class="mod-img"><img src="5.%20projekt%20per%20se/mgla.jpg" alt="Moduł Mgła" loading="lazy"></div>
+  </div>
+
+  <div class="module">
+    <div class="mod-hd">
+      <div class="mod-ico am">🏗️</div>
+      <div>
+        <h3>Architekci na Czas</h3>
+        <p>Matematyczna gra rywalizacyjna dla dwóch drużyn. Poprawne odpowiedzi na zadania arytmetyczne (dodawanie, mnożenie) przekładają się na wizualne budowanie wieży z klocków. Moduł zawiera panel nauczyciela z funkcją <strong>Ciszo-Metr</strong> — animacją pauzującą grę przy nadmiernym hałasie w klasie.</p>
+        <div class="mod-tags"><span class="tag am">Matematyka</span><span class="tag pu">Rywalizacja</span><span class="tag te">Panel nauczyciela</span></div>
+      </div>
+    </div>
+    <div class="mod-img"><img src="5.%20projekt%20per%20se/architekci%20budowy.png" alt="Moduł Architekci na Czas" loading="lazy"></div>
+  </div>
+
+  <div class="module">
+    <div class="mod-hd">
+      <div class="mod-ico">🔤</div>
+      <div>
+        <h3>Literowe Memory</h3>
+        <p>Klasyczna gra pamięciowa w wersji językowej angażująca całą klasę jednocześnie. Dostępne tryby: wielka/mała litera (klasa 1, I semestr), litera/obrazek (klasa 1, II semestr) oraz sylaby tworzące słowa (klasa 2). System rejestruje rekordy klasy, co motywuje do powtarzania.</p>
+        <div class="mod-tags"><span class="tag bl">Nauka liter</span><span class="tag te">Pamięć</span><span class="tag am">Klasa 1–2</span></div>
+      </div>
+    </div>
+    <div class="mod-img"><img src="5.%20projekt%20per%20se/literowe%20memory.png" alt="Moduł Literowe Memory" loading="lazy"></div>
+  </div>
+
+  <div class="module">
+    <div class="mod-hd">
+      <div class="mod-ico te">🐉</div>
+      <div>
+        <h3>Oddech Smoka</h3>
+        <p>Krótkie ćwiczenie oddechowe prowadzone przez animowanego smoka, oparte na trójfazowym cyklu: wdech (2 s) → zatrzymanie (3 s) → wydech (3 s), powtórzonym trzykrotnie. Służy wyciszeniu klasy i przywróceniu koncentracji. Przewodnik proponuje konkurs na imię smoka przed pierwszym użyciem — mechanizm budujący poczucie współwłasności narzędzia wśród uczniów.</p>
+        <div class="mod-tags"><span class="tag te">Regulacja emocji</span><span class="tag bl">Oddychanie</span><span class="tag pu">Wyciszenie</span></div>
+      </div>
+    </div>
+    <div class="mod-img"><img src="5.%20projekt%20per%20se/oddech%20smoka%20Start.png" alt="Moduł Oddech Smoka" loading="lazy" style="object-fit:contain;background:#e8f4fd;max-height:160px"></div>
+  </div>
+
+  <h3>Wypróbuj aplikację</h3>
+  <p>Działająca aplikacja osadzona poniżej. Możesz też otworzyć ją w pełnym oknie: <a href="https://apka-klasy-1-3.netlify.app/" target="_blank">apka-klasy-1-3.netlify.app</a>.</p>
+  <div class="embed">
+    <div class="embed-bar">
+      <div class="dots"><span></span><span></span><span></span></div>
+      <div class="embed-url">apka-klasy-1-3.netlify.app</div>
+      <a href="https://apka-klasy-1-3.netlify.app/" target="_blank" class="embed-op">otwórz ↗</a>
+    </div>
+    <iframe class="embed-frame" src="https://apka-klasy-1-3.netlify.app/" title="Aplikacja AI w Edukacji" loading="lazy" allow="autoplay; fullscreen" style="height:680px"></iframe>
+  </div>
+</section>
+
+<!-- §04 CO UDAŁO SIĘ ZREALIZOWAĆ -->
+<section class="sec" id="s4">
+  <div class="sec-tag teal">04 — Co udało się zrealizować</div>
+  <h2 class="sec-h2">Pilotaż — 29 maja 2026</h2>
+  <p class="lead">Zespołowi udało się zaprojektować i wdrożyć działającą aplikację złożoną z 5 modułów, przeprowadzić szkolenie nauczycielek oraz zrealizować pilotaż z udziałem klas 1a, 1c, 2a i 3c.</p>
+
+  <p>Aplikacja została zbudowana bez ręcznego pisania kodu, z wykorzystaniem narzędzi AI, co stanowi istotny dowód na dostępność tego typu rozwiązań dla osób bez zaplecza technicznego.</p>
+  <p>Szkolenie nauczycielek odbyło się <strong>27 kwietnia 2026</strong>. Ankiety ewaluacyjne przekazano <strong>28 maja</strong>, sesje pilotażowe przeprowadzono <strong>29 maja 2026</strong> — zebrano 4 wypełnione ankiety od nauczycielek klas 1a, 1c, 2a i 3c.</p>
+
+  <div class="box am">
+    <span class="box-l">Uwaga interpretacyjna</span>
+    <p>Aplikacja była projektowana z myślą o uczniach klasy 2. Udział nauczycielek klas 1 i 3 nastąpił bez wcześniejszego uzgodnienia z zespołem — należy uwzględnić przy interpretacji wyników.</p>
+  </div>
+
+  <div class="hl">
+    <p>Ogólna ocena sesji we wszystkich czterech przypadkach wyniosła <strong>4–5 punktów w każdej kategorii</strong>. Wszystkie 5 modułów było używanych na lekcjach. Zaangażowanie uczniów oraz przydatność narzędzia dla nauczyciela oceniono konsekwentnie na poziomie <strong>4–5/5</strong>. Instrukcja obsługi oceniona jako w pełni wystarczająca. W jednej z ankiet odnotowano odręczną uwagę wskazującą element do poprawy.</p>
+  </div>
+
+  <h3>Wyniki ewaluacji</h3>
+  <div class="result-list">
+    <div class="ri"><span class="ri-l">Ogólna ocena sesji</span><div class="bar-bg"><div class="bar-f" data-w="90"></div></div><span class="ri-v">4–5 / 5</span></div>
+    <div class="ri"><span class="ri-l">Zaangażowanie uczniów</span><div class="bar-bg"><div class="bar-f" data-w="90"></div></div><span class="ri-v">4–5 / 5</span></div>
+    <div class="ri"><span class="ri-l">Przydatność dla nauczyciela</span><div class="bar-bg"><div class="bar-f" data-w="88"></div></div><span class="ri-v">4–5 / 5</span></div>
+    <div class="ri"><span class="ri-l">Zrozumiałość poleceń przez uczniów</span><div class="bar-bg"><div class="bar-f te" data-w="95"></div></div><span class="ri-v">tak</span></div>
+    <div class="ri"><span class="ri-l">Ocena instrukcji obsługi</span><div class="bar-bg"><div class="bar-f te" data-w="100"></div></div><span class="ri-v">wystarczająca</span></div>
+    <div class="ri"><span class="ri-l">Problemy techniczne</span><div class="bar-bg"><div class="bar-f gr" data-w="12"></div></div><span class="ri-v">nieliczne</span></div>
+  </div>
+
+  <h3>Obserwacje z pilotażu</h3>
+  <div class="grid3">
+    <div class="card te">
+      <span class="card-n">✓ Pozytywne</span>
+      <h3>Uczniowie rozumieli polecenia</h3>
+      <p>Bez dodatkowych wyjaśnień ze strony nauczyciela — w każdym testowanym roczniku.</p>
+    </div>
+    <div class="card bl">
+      <span class="card-n">✓ Pozytywne</span>
+      <h3>Rywalizacja w Architektach</h3>
+      <p>Elementy rywalizacji wywoływały bardzo pozytywną reakcję klasy.</p>
+    </div>
+    <div class="card pu">
+      <span class="card-n">✓ Pozytywne</span>
+      <h3>Oddech Smoka wyciszał klasę</h3>
+      <p>Skutecznie w trzech na cztery przypadki.</p>
+    </div>
+  </div>
+
+  <h3>Uwagi konstruktywne nauczycielek</h3>
+  <p>Wśród uwag konstruktywnych wskazano: zbyt niski poziom trudności zadań w klasie 3, powtarzalność zadań matematycznych w module Architekci na Czas, potrzebę urozmaicenia grafiki liter w module Literowe Memory oraz powtarzające się ciekawostki w module Prawda czy Fałsz.</p>
+
+  <h3>Dokumentacja ankiet ewaluacyjnych</h3>
+  <div class="photo-row" style="grid-template-columns:repeat(auto-fit,minmax(190px,1fr))">
+    <div class="photo"><img src="4.%20CO%20UDA%C5%81O%20SI%C4%98%20ZREALIZOWA%C4%86/ankiety/WhatsApp%20Image%202026-06-10%20at%2008.18.29.jpeg" alt="Ankieta ewaluacyjna 1" loading="lazy"><div class="photo-cap">Pilotaż 29.05.2026</div></div>
+    <div class="photo"><img src="4.%20CO%20UDA%C5%81O%20SI%C4%98%20ZREALIZOWA%C4%86/ankiety/WhatsApp%20Image%202026-06-10%20at%2008.19.01.jpeg" alt="Ankieta ewaluacyjna 2" loading="lazy"><div class="photo-cap">Oceny 4–5 we wszystkich kategoriach</div></div>
+    <div class="photo"><img src="4.%20CO%20UDA%C5%81O%20SI%C4%98%20ZREALIZOWA%C4%86/ankiety/WhatsApp%20Image%202026-06-10%20at%2008.19.21.jpeg" alt="Ankieta ewaluacyjna 3" loading="lazy"><div class="photo-cap">Uwagi z ankiet</div></div>
+    <div class="photo"><img src="4.%20CO%20UDA%C5%81O%20SI%C4%98%20ZREALIZOWA%C4%86/ankiety/WhatsApp%20Image%202026-06-10%20at%2008.19.30.jpeg" alt="Ankieta ewaluacyjna 4" loading="lazy"><div class="photo-cap">Czwarta ankieta</div></div>
+  </div>
+</section>
+
+<!-- §05 CO PRZEKAZUJEMY DALEJ -->
+<section class="sec" id="s5">
+  <div class="sec-tag teal">05 — Co przekazujemy dalej</div>
+  <h2 class="sec-h2">Co przekazujemy dalej</h2>
+  <p class="lead">Projekt zostaje zamknięty. Poniżej zestawienie zasobów wytworzonych w jego trakcie, które pozostają dostępne i mogą być swobodnie wykorzystywane.</p>
+
+  <div class="timeline">
+    <div class="tli">
+      <span class="tl-ph">Zasób materialny</span>
+      <h4>Działająca aplikacja webowa</h4>
+      <p>Dostępna pod stałym adresem, z pełną dokumentacją techniczną w repozytorium GitHub.</p>
+      <a href="https://apka-klasy-1-3.netlify.app/" target="_blank" class="tli-btn">🚀 Otwórz aplikację</a>
+    </div>
+    <div class="tli">
+      <span class="tl-ph">Zasób materialny</span>
+      <h4>Przewodnik użytkownika</h4>
+      <p>Opracowany z myślą o nauczycielach bez zaplecza technicznego — wystarczy do samodzielnego użycia bez wsparcia ze strony zespołu.</p>
+      <a href="8.%20DOKUMENTACJA/Przewodnik_AI_Edukacja_FULL.pdf" target="_blank" class="tli-btn">📖 Pobierz przewodnik</a>
+    </div>
+    <div class="tli">
+      <span class="tl-ph">Zasób materialny</span>
+      <h4>Materiały szkoleniowe i ankieta ewaluacyjna</h4>
+      <p>Materiały szkoleniowe i ankieta gotowe do użycia.</p>
+      <div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.6rem">
+        <a href="8.%20DOKUMENTACJA/materialy_aplikacji_v2.pdf" target="_blank" class="tli-btn">📄 Materiały szkoleniowe</a>
+        <a href="8.%20DOKUMENTACJA/Ankieta_AI_Edukacja.pdf" target="_blank" class="tli-btn">📋 Ankieta ewaluacyjna</a>
+      </div>
+    </div>
+    <div class="tli">
+      <span class="tl-ph">Zasób niematerialny</span>
+      <h4>Wiedza procesowa — workflow AI</h4>
+      <p>Udokumentowany workflow budowania aplikacji dydaktycznej przy użyciu narzędzi AI (Lovable + Claude Code), który może zostać odtworzony bez specjalistycznego przygotowania technicznego.</p>
+    </div>
+    <div class="tli">
+      <span class="tl-ph">Zasób niematerialny</span>
+      <h4>Raport, wnioski i przykładowe projekty</h4>
+      <p>Raport i wnioski z projektu, inne przykładowe projekty z tematyki historycznej oraz źródła do narzędzi AI w polskich szkołach.</p>
+      <a href="#cover" class="tli-btn">📑 Ten raport</a>
+    </div>
+    <div class="tli">
+      <span class="tl-ph">Status projektu</span>
+      <h4>Pełny cykl ewaluacyjny</h4>
+      <p>Pilotaż przeprowadzony, ankiety zebrane. Projekt zostaje zamknięty na tym etapie.</p>
+    </div>
+  </div>
+
+  <div class="box bl">
+    <span class="box-l">Wniosek</span>
+    <p>Projekt dowodzi, że tego typu narzędzia są dziś dostępne dla studentów humanistycznych kierunków — czas i koszt wdrożenia są niskie, a bariera wejścia niższa niż powszechnie się zakłada.</p>
+  </div>
+
+  <h3>Leksykon AI — przewodnik dla nauczycieli</h3>
+  <p>W ramach projektu opracowano leksykon AI adresowany do nauczycieli. Obejmuje opis modeli językowych (LLM), narzędzi dydaktycznych (NotebookLM, Gamma.app, Quizizz, Kahoot) oraz zasady skutecznego promptowania.</p>
+  <div class="box am">
+    <span class="box-l">Obserwacja o modelach językowych</span>
+    <p>Modele często ignorują błędy wynikające z wielkości liter (np. „pomorze" zamiast „Pomorze"), przedkładając ogólne znaczenie semantyczne nad ścisłą ortografię — efekt mechanizmu uwagi tokenizatora.</p>
+  </div>
+  <div class="box te">
+    <span class="box-l">3 złote zasady skutecznego promptu</span>
+    <p><strong>Cel</strong> — jasno określ zadanie (np. „Stwórz 5 pytań zamkniętych"). &nbsp;<strong>Kontekst</strong> — podaj grupę docelową i temat (np. „dla uczniów klasy 5"). &nbsp;<strong>Precyzja</strong> — unikaj ogólników; zamiast „o zwierzętach" napisz „o ssakach morskich".</p>
+  </div>
+
+  <h3>Polecane narzędzia AI do pracy w szkole</h3>
+  <div class="tool-cards">
+    <a href="https://notebooklm.google.com" target="_blank" class="tool-card">
+      <img src="6.%20CO%20PRZEKAZUJEMY%20DALEJ/notebooklm.jpg" alt="NotebookLM">
+      <div class="tool-card-body"><strong>NotebookLM</strong><span>Asystent badawczy — pracuje wyłącznie na Twoich źródłach, bez halucynacji</span></div>
+    </a>
+    <a href="https://gamma.app" target="_blank" class="tool-card">
+      <img src="6.%20CO%20PRZEKAZUJEMY%20DALEJ/gamma.jpg" alt="Gamma.app">
+      <div class="tool-card-body"><strong>Gamma.app</strong><span>Interaktywne lekcje i prezentacje w kilka minut</span></div>
+    </a>
+    <a href="https://quizizz.com" target="_blank" class="tool-card">
+      <img src="6.%20CO%20PRZEKAZUJEMY%20DALEJ/quizizz.jpg" alt="Quizizz">
+      <div class="tool-card-body"><strong>Quizizz</strong><span>Grywalizacja i sprawdzanie wiedzy — AI generuje pytania z notatek</span></div>
+    </a>
+    <a href="https://chat.openai.com" target="_blank" class="tool-card">
+      <img src="6.%20CO%20PRZEKAZUJEMY%20DALEJ/chatgpt.jpg" alt="ChatGPT">
+      <div class="tool-card-body"><strong>ChatGPT</strong><span>Wszechstronny asystent do tworzenia materiałów i planów lekcji</span></div>
+    </a>
+    <a href="https://gemini.google.com" target="_blank" class="tool-card">
+      <img src="6.%20CO%20PRZEKAZUJEMY%20DALEJ/gmini.jpg" alt="Google Gemini">
+      <div class="tool-card-body"><strong>Google Gemini</strong><span>Asystent Google zintegrowany z Dyskiem i Dokumentami</span></div>
+    </a>
+    <a href="https://www.canva.com" target="_blank" class="tool-card">
+      <img src="6.%20CO%20PRZEKAZUJEMY%20DALEJ/canva.jpg" alt="Canva AI">
+      <div class="tool-card-body"><strong>Canva AI</strong><span>Materiały wizualne i grafiki do lekcji bez umiejętności graficznych</span></div>
+    </a>
+    <a href="https://bielik.ai" target="_blank" class="tool-card">
+      <img src="6.%20CO%20PRZEKAZUJEMY%20DALEJ/bielik.jpg" alt="Bielik.ai">
+      <div class="tool-card-body"><strong>Bielik.ai</strong><span>Polski model językowy — rozumie polskie realia i kontekst edukacyjny</span></div>
+    </a>
+    <a href="https://experience-ai.org/pl/units" target="_blank" class="tool-card tool-card-ea">
+      <div class="tool-card-ea-ico">🌐</div>
+      <div class="tool-card-body"><strong>Experience AI</strong><span>Gotowe materiały lekcyjne o sztucznej inteligencji dla nauczycieli</span></div>
+    </a>
+  </div>
+
+  <h3 style="margin-top:3rem">🎉 Prezentacja przekazana szkole</h3>
+  <p>W ramach materiałów szkoleniowych zespół przygotował dedykowaną prezentację dla nauczycielek — skondensowane wprowadzenie do możliwości AI w edukacji wczesnoszkolnej.</p>
+  <div class="embed">
+    <div class="embed-bar">
+      <div class="dots"><span></span><span></span><span></span></div>
+      <div class="embed-url" style="font-family:'DM Sans',sans-serif;font-size:.8rem;font-weight:500;color:rgba(255,255,255,.7)">Prezentacja AI w Edukacji — materiał dla nauczycielek</div>
+      <a href="https://pirytos25-creator.github.io/Doris/" target="_blank" class="embed-op">otwórz ↗</a>
+    </div>
+    <iframe class="embed-frame" src="https://pirytos25-creator.github.io/Doris/" title="Prezentacja AI w Edukacji" loading="lazy" allow="fullscreen" style="height:620px"></iframe>
+    <div class="embed-note">Prezentacja przygotowana przez zespół projektu · pirytos25-creator.github.io/Doris/</div>
+  </div>
+</section>
+
+<!-- §06 WNIOSKI -->
+<section class="sec" id="s6">
+  <div class="sec-tag purple">06 — Wnioski</div>
+  <h2 class="sec-h2">Co z tego wynika?</h2>
+  <p class="lead">Projekt zostaje uznany za zamknięty. Poniżej wnioski ogólne.</p>
+
+  <div class="hl">
+    <p>Da się łatwo zrobić narzędzie, które — choć nie jest doskonałe i można je poprawić w kilku aspektach — okazuje się przydatnym narzędziem dla docelowych nauczycieli i uczniów.</p>
+  </div>
+
+  <div class="grid2">
+    <div class="card bl">
+      <span class="card-n">Wniosek metodyczny</span>
+      <h3>Rola kontekstu jest kluczowa</h3>
+      <p>Narzędzie AI pozbawione dostępu do struktury projektu traci znaczną część użyteczności. Małe, izolowane zadania oraz szczegółowy plan przed kodowaniem istotnie redukowały liczbę błędów i przyspieszały pracę.</p>
+    </div>
+    <div class="card am">
+      <span class="card-n">Wniosek praktyczny</span>
+      <h3>Timing w szkołach ma znaczenie</h3>
+      <p>Okres maj–czerwiec okazał się mocno zagospodarowaną porą na wdrożenia pilotażowe. Tego typu projekty wymagają wcześniejszego zakotwiczenia w kalendarzu szkolnym, najlepiej w okresie jesiennym.</p>
+    </div>
+  </div>
+</section>
+
+<!-- §07 DOKUMENTACJA -->
+<section class="sec" id="s7">
+  <div class="sec-tag">07 — Dokumentacja</div>
+  <h2 class="sec-h2">Pliki i zasoby projektu</h2>
+  <p class="lead">Wszystkie dokumenty wytworzone w trakcie projektu. Kliknij, aby otworzyć lub pobrać.</p>
+
+  <div class="doc-list">
+    <a class="doc" href="8.%20DOKUMENTACJA/Przewodnik_AI_Edukacja_FULL.pdf" target="_blank">
+      <div class="doc-ico">📖</div>
+      <div><div class="doc-n">Przewodnik_AI_Edukacja_FULL.pdf</div><div class="doc-d">Kompletny przewodnik użytkownika aplikacji przeznaczony dla nauczycieli bez wymaganego zaplecza technicznego.</div></div>
+    </a>
+    <a class="doc" href="8.%20DOKUMENTACJA/materialy_aplikacji_v2.pdf" target="_blank">
+      <div class="doc-ico">📄</div>
+      <div><div class="doc-n">materialy_aplikacji_v2.pdf</div><div class="doc-d">Materiały pomocnicze do aplikacji — szczegółowy opis modułów. Dokument przekazany szkole podczas szkolenia.</div></div>
+    </a>
+    <a class="doc" href="8.%20DOKUMENTACJA/Ankieta_AI_Edukacja.pdf" target="_blank">
+      <div class="doc-ico">📋</div>
+      <div><div class="doc-n">Ankieta_AI_Edukacja.pdf</div><div class="doc-d">Ankieta ewaluacyjna gotowa do wydruku i ponownego użycia w kolejnych cyklach ewaluacyjnych.</div></div>
+    </a>
+    <a class="doc" href="8.%20DOKUMENTACJA/Zasady_uczestnictwa.pdf" target="_blank">
+      <div class="doc-ico">📜</div>
+      <div><div class="doc-n">Zasady_uczestnictwa.pdf</div><div class="doc-d">Formalne zasady uczestnictwa w projekcie — przekazane szkole przed pilotażem.</div></div>
+    </a>
+    <a class="doc" href="8.%20DOKUMENTACJA/P.Jarczyk%20ws.%20AI%20w%20Edukacji.pdf" target="_blank">
+      <div class="doc-ico">🎓</div>
+      <div><div class="doc-n">P.Jarczyk ws. AI w Edukacji.pdf</div><div class="doc-d">Dokument formalny dotyczący projektu — kontekst instytucjonalny i ramy współpracy z uczelnią.</div></div>
+    </a>
+  </div>
+</section>
+
+<!-- §08 JAK POWSTAŁ RAPORT -->
+<section class="sec" id="s8">
+  <div class="sec-tag amber">08 — Jak powstał ten raport</div>
+  <h2 class="sec-h2">AI buduje raport o AI</h2>
+  <p class="lead">Na podstawie zdjęcia slajdu z wytycznymi, zebranych materiałów i dostępu do Claude Code — raport powstał z użyciem narzędzi AI.</p>
+
+  <div class="timeline">
+    <div class="tli">
+      <span class="tl-ph">Krok 1</span>
+      <h4>Planowanie — LLM generuje strukturę i prompty</h4>
+      <p>LLM dostał wytyczne i wypluł strukturę raportu oraz gotowe prompty dla każdej sekcji.</p>
+    </div>
+    <div class="tli">
+      <span class="tl-ph">Krok 2</span>
+      <h4>Treść — plik Word odpowiadający na każdy punkt</h4>
+      <p>Powstał plik Word odpowiadający na każdy punkt ze slajdu. Tekst doszlifowany przez AI.</p>
+    </div>
+    <div class="tli">
+      <span class="tl-ph">Krok 3</span>
+      <h4>Pogłębianie — AI zadaje pytania o projekt</h4>
+      <p>LLM dostał zadanie „wymyśl pytania nt. ważnych kwestii projektu, które powinny znaleźć się w raporcie". Odpowiedzi trafiły do Worda — do specjalnie utworzonego folderu „Raport Interaktywny".</p>
+    </div>
+    <div class="tli">
+      <span class="tl-ph">Krok 4</span>
+      <h4>Porządkowanie — podfoldery tematyczne</h4>
+      <p>Folder główny podzielono na podfoldery tematyczne, gdzie wrzucono teksty, zdjęcia i resztę materiałów.</p>
+    </div>
+    <div class="tli">
+      <span class="tl-ph">Krok 5</span>
+      <h4>Kodowanie — Claude Code wyczarowuje stronę</h4>
+      <p>Claude Code dostał dostęp do folderu i dwa zdania opisu stylu. Wyczarował z tego interaktywną stronę, która od razu wylądowała na GitHubie z publicznym linkiem.</p>
+    </div>
+  </div>
+
+  <div class="photo-row">
+    <div class="photo"><img src="9.%20Powstanie%20Raportu/Zrzut%20ekranu%202026-06-03%20124705.jpg" alt="Praca z Claude Code" loading="lazy"><div class="photo-cap">Praca z Claude Code przy tworzeniu raportu — czerwiec 2026</div></div>
+    <div class="photo"><img src="9.%20Powstanie%20Raportu/Zrzut%20ekranu%202026-06-06%20095402.jpg" alt="Iteracyjny proces z AI" loading="lazy"><div class="photo-cap">Iteracyjny proces redakcji z asystą modelu językowego</div></div>
+  </div>
+</section>
+
+<div class="footer">
+  <p><strong style="color:var(--ink)">AI w Edukacji</strong> — Raport końcowy projektu studenckiego</p>
+  <p>Kognitywistyka i Psychologia (S1) · Uniwersytet Mikołaja Kopernika w Toruniu · 2025/2026</p>
+  <p>Nadzór merytoryczny: mgr Piotr Jarczyk · Kwiecień–Czerwiec 2026</p>
+  <p style="margin-top:.75rem;color:#9ca3af">Raport wygenerowany przy użyciu Claude Code na podstawie materiałów zespołu projektowego.</p>
+</div>
+
+</div><!-- .wrap -->
+</main>
+</div><!-- .layout -->
+
+<script>
+document.addEventListener('click', function(e) {
+  const img = e.target.closest('.photo img, .mod-img img');
+  if (!img || document.getElementById('lb')) return;
+  e.stopPropagation();
+  const cap = img.closest('.photo')?.querySelector('.photo-cap')?.textContent?.trim() || img.alt || '';
+  const lb = document.createElement('div');
+  lb.id = 'lb';
+  lb.innerHTML = `<span id="lb-x">✕</span><img src="${img.src}" alt="${img.alt}">${cap ? `<div id="lb-cap">${cap}</div>` : ''}`;
+  lb.onclick = e => { if (e.target === lb) lb.remove(); };
+  lb.querySelector('#lb-x').onclick = () => lb.remove();
+  document.body.appendChild(lb);
+  document.addEventListener('keydown', function esc(e) { if (e.key === 'Escape') { lb.remove(); document.removeEventListener('keydown', esc); } });
+});
+window.addEventListener('scroll', function() {
+  const d = document.documentElement;
+  document.getElementById('pf').style.width = (d.scrollTop / (d.scrollHeight - d.clientHeight) * 100) + '%';
+});
+(function() {
+  const links = document.querySelectorAll('.sb-link[href^="#"]');
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        links.forEach(l => l.classList.remove('active'));
+        const a = document.querySelector('.sb-link[href="#' + entry.target.id + '"]');
+        if (a) a.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-30% 0px -60% 0px' });
+  document.querySelectorAll('[id]').forEach(s => obs.observe(s));
+})();
+function toggleAcc(hd) {
+  const item = hd.closest('.ai');
+  const open = item.classList.contains('open');
+  document.querySelectorAll('.ai.open').forEach(el => el.classList.remove('open'));
+  if (!open) item.classList.add('open');
+}
+(function() {
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const b = entry.target;
+        setTimeout(() => { b.style.width = b.dataset.w + '%'; }, 150);
+        obs.unobserve(b);
+      }
+    });
+  }, { threshold: 0.3 });
+  document.querySelectorAll('.bar-f[data-w]').forEach(b => obs.observe(b));
+})();
+</script>
+</body>
+</html>

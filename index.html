@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bydgoszcz — Dynasties</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;800&family=Cinzel+Decorative:wght@400;700&family=Cardo:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --gold:    #c9a84c;
+      --gold-lt: #e8d08a;
+      --dark:    #0d0a07;
+      --ink:     #1a140e;
+      --parch:   #f5edd8;
+      --blood:   #6b1a1a;
+      --shadow:  rgba(0,0,0,.75);
+    }
+
+    /* ── BASE ── */
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Cardo', Georgia, serif;
+      background: var(--dark);
+      color: var(--parch);
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
+
+    /* ── TEXTURE OVERLAY ── */
+    body::before {
+      content: '';
+      position: fixed; inset: 0; z-index: 0;
+      background-image:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 2rem 1rem 6rem;
+      overflow: hidden;
+    }
+
+    .hero__bg {
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse at 50% 60%, rgba(100,60,10,.55) 0%, transparent 70%),
+        radial-gradient(ellipse at 20% 80%, rgba(107,26,26,.3) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 20%, rgba(50,30,5,.4) 0%, transparent 50%),
+        linear-gradient(to bottom, #0d0a07 0%, #1a0f06 40%, #0d0a07 100%);
+    }
+
+    /* subtle animated embers */
+    .hero__bg::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse at 50% 50%, rgba(201,168,76,.06) 0%, transparent 65%);
+      animation: pulse 6s ease-in-out infinite alternate;
+    }
+    @keyframes pulse { from { opacity: .4 } to { opacity: 1 } }
+
+    /* decorative border frame */
+    .hero__frame {
+      position: absolute; inset: 1.2rem;
+      border: 1px solid rgba(201,168,76,.18);
+      pointer-events: none;
+    }
+    .hero__frame::before, .hero__frame::after {
+      content: '✦';
+      position: absolute;
+      color: var(--gold);
+      opacity: .5;
+      font-size: 1rem;
+    }
+    .hero__frame::before { top: -.6rem; left: 50%; transform: translateX(-50%); }
+    .hero__frame::after  { bottom: -.6rem; left: 50%; transform: translateX(-50%); }
+
+    .hero__inner {
+      position: relative; z-index: 2;
+      max-width: 860px;
+      display: flex; flex-direction: column; align-items: center; gap: 1.2rem;
+    }
+
+    .hero__crown {
+      font-size: 3rem;
+      color: var(--gold);
+      text-shadow: 0 0 30px rgba(201,168,76,.6);
+      animation: float 4s ease-in-out infinite;
+    }
+    @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
+
+    .hero__overline {
+      font-family: 'Cardo', serif;
+      font-style: italic;
+      font-size: .85rem;
+      letter-spacing: .2em;
+      color: var(--gold);
+      opacity: .8;
+      text-transform: uppercase;
+    }
+
+    .hero__title {
+      font-family: 'Cinzel Decorative', serif;
+      font-size: clamp(2.2rem, 6vw, 4.2rem);
+      font-weight: 700;
+      line-height: 1.1;
+      color: var(--gold-lt);
+      text-shadow: 0 2px 30px rgba(201,168,76,.35), 0 0 80px rgba(201,168,76,.15);
+    }
+    .hero__title span { color: var(--gold); }
+
+    .hero__subtitle {
+      font-family: 'Cardo', serif;
+      font-style: italic;
+      font-size: clamp(1rem, 2.2vw, 1.25rem);
+      color: rgba(245,237,216,.7);
+      max-width: 560px;
+      line-height: 1.6;
+    }
+
+    .hero__divider {
+      width: 200px; height: 1px;
+      background: linear-gradient(to right, transparent, var(--gold), transparent);
+      opacity: .5;
+    }
+
+    /* ── MUSIC TOGGLE ── */
+    .music-btn {
+      position: fixed; top: 1.2rem; right: 1.4rem; z-index: 100;
+      background: rgba(13,10,7,.85);
+      border: 1px solid rgba(201,168,76,.35);
+      color: var(--gold);
+      font-size: 1.3rem;
+      width: 2.6rem; height: 2.6rem;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: border-color .3s, box-shadow .3s;
+      backdrop-filter: blur(6px);
+    }
+    .music-btn:hover { border-color: var(--gold); box-shadow: 0 0 12px rgba(201,168,76,.3); }
+
+    /* ── MUSIC NUDGE ── */
+    #musicNudge {
+      position: fixed; bottom: 1.6rem; left: 50%; transform: translateX(-50%);
+      z-index: 100;
+      background: rgba(13,10,7,.88);
+      border: 1px solid rgba(201,168,76,.3);
+      color: rgba(245,237,216,.7);
+      font-family: 'Cardo', serif;
+      font-style: italic;
+      font-size: .82rem;
+      letter-spacing: .06em;
+      padding: .55rem 1.4rem;
+      border-radius: 2rem;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .6s;
+      backdrop-filter: blur(6px);
+      white-space: nowrap;
+    }
+
+    /* ── MODULES ── */
+    .modules {
+      position: relative; z-index: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      max-width: 900px;
+      margin: -2rem auto 0;
+      padding: 0 1.2rem 4rem;
+    }
+
+    .module {
+      border: 1px solid rgba(201,168,76,.18);
+      border-top: none;
+      background: linear-gradient(135deg, rgba(26,20,14,.9) 0%, rgba(20,14,8,.95) 100%);
+      transition: border-color .35s;
+    }
+    .module:first-child { border-top: 1px solid rgba(201,168,76,.18); border-radius: .4rem .4rem 0 0; }
+    .module:last-child  { border-radius: 0 0 .4rem .4rem; }
+    .module:hover { border-color: rgba(201,168,76,.45); }
+
+    .module__header {
+      display: flex;
+      align-items: center;
+      gap: 1.2rem;
+      padding: 1.4rem 1.8rem;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .module__num {
+      font-family: 'Cinzel', serif;
+      font-size: .75rem;
+      font-weight: 600;
+      color: var(--gold);
+      opacity: .6;
+      min-width: 1.5rem;
+    }
+
+    .module__icon {
+      font-size: 1.8rem;
+      color: var(--gold);
+      text-shadow: 0 0 12px rgba(201,168,76,.4);
+      min-width: 2.2rem;
+      text-align: center;
+    }
+
+    .module__title-wrap { flex: 1; }
+    .module__title {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(1rem, 2.5vw, 1.2rem);
+      font-weight: 600;
+      color: var(--gold-lt);
+      line-height: 1.25;
+    }
+    .module__sub {
+      font-size: .78rem;
+      font-style: italic;
+      color: rgba(245,237,216,.45);
+      margin-top: .2rem;
+    }
+
+    .module__chevron {
+      color: var(--gold);
+      opacity: .5;
+      font-size: .9rem;
+      transition: transform .35s;
+    }
+    .module.open .module__chevron { transform: rotate(180deg); opacity: .9; }
+
+    /* ── EXPANDED PANEL ── */
+    .module__panel {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height .5s cubic-bezier(.4,0,.2,1);
+    }
+    .module.open .module__panel { max-height: 600px; }
+
+    .module__body {
+      padding: 0 1.8rem 1.8rem 1.8rem;
+      padding-left: calc(1.8rem + 1.5rem + 1.2rem + 2.2rem + 1.2rem);
+    }
+
+    .module__separator {
+      height: 1px;
+      background: linear-gradient(to right, transparent, rgba(201,168,76,.2), transparent);
+      margin-bottom: 1.4rem;
+    }
+
+    .module__text {
+      font-family: 'Cardo', serif;
+      font-size: 1.05rem;
+      line-height: 1.75;
+      color: rgba(245,237,216,.82);
+    }
+    .module__text em { color: var(--gold-lt); font-style: normal; }
+    .module__text strong { color: var(--gold); font-weight: normal; }
+
+    .module__cta {
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+      margin-top: 1.4rem;
+      padding: .65rem 1.6rem;
+      background: transparent;
+      border: 1px solid var(--gold);
+      color: var(--gold);
+      font-family: 'Cinzel', serif;
+      font-size: .82rem;
+      letter-spacing: .1em;
+      text-decoration: none;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background .3s, color .3s, box-shadow .3s;
+    }
+    .module__cta:hover {
+      background: var(--gold);
+      color: var(--dark);
+      box-shadow: 0 0 20px rgba(201,168,76,.35);
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      position: relative; z-index: 1;
+      text-align: center;
+      padding: 2.5rem 1rem;
+      font-size: .78rem;
+      font-style: italic;
+      color: rgba(245,237,216,.25);
+      border-top: 1px solid rgba(201,168,76,.08);
+    }
+    footer span { color: rgba(201,168,76,.4); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 600px) {
+      .module__body { padding-left: 1.8rem; }
+      .module__header { padding: 1.1rem 1.2rem; gap: .8rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Background music -->
+<audio id="bgMusic" loop>
+  <source src="personal-2.mp3" type="audio/mpeg">
+</audio>
+
+<!-- Music toggle -->
+<button class="music-btn" id="musicBtn" title="Włącz/wyłącz muzykę" aria-label="Toggle music">♪</button>
+<div id="musicNudge">♪ &nbsp; kliknij gdziekolwiek, aby włączyć muzykę</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero__bg"></div>
+  <div class="hero__frame"></div>
+  <div class="hero__inner">
+    <div class="hero__crown">♛</div>
+    <p class="hero__overline">Dynastie · Legenda Bydgoszczy · Gra Historyczna</p>
+    <h1 class="hero__title">Poczet<br><span>i Korona</span></h1>
+    <div class="hero__divider"></div>
+    <p class="hero__subtitle">
+      Opowieść Kazimierza Wielkiego, multimedialne drzewo genealogiczne władców Polski oraz autorska gra historyczna. Projekt edukacyjny nowej generacji wspierany przez sztuczną inteligencję.
+    </p>
+  </div>
+</section>
+
+<!-- MODULES -->
+<main class="modules" id="modules">
+
+  <!-- MODULE 1 -->
+  <div class="module" id="mod1">
+    <div class="module__header" onclick="toggleModule('mod1')">
+      <span class="module__num">I</span>
+      <span class="module__icon">🏰</span>
+      <div class="module__title-wrap">
+        <div class="module__title">680-lecie Bydgoszczy</div>
+        <div class="module__sub">Opowieść samego Kazimierza Wielkiego</div>
+      </div>
+      <span class="module__chevron">▾</span>
+    </div>
+    <div class="module__panel">
+      <div class="module__body">
+        <div class="module__separator"></div>
+        <p class="module__text">
+          Rok 1346. Król stoi nad brzegiem Brdy i wydaje rozkaz, który zmieni ten zakątek świata na zawsze.<br><br>
+          Czy wiesz, że <em>Bydgoszcz nie powstała przypadkiem</em>? Za jej założeniem stał jeden z największych władców w dziejach Polski — człowiek, który zastał kraj drewniany, a zostawił murowany. Kazimierz Wielki miał wobec tego miejsca szczególny plan.<br><br>
+          <strong>Wejdź w jego skórę.</strong> Posłuchaj opowieści snutej głosem króla — o prawie magdeburskim, o murach, które miały chronić, i o mieście, które przetrwało wieki. Historia mówiona tak, jakbyś stał obok.
+        </p>
+        <a class="module__cta" href="casimiro el grande/index.html" id="ctaCasimiro">❧&nbsp; Wejdź do kroniki</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODULE 2 -->
+  <div class="module" id="mod2">
+    <div class="module__header" onclick="toggleModule('mod2')">
+      <span class="module__num">II</span>
+      <span class="module__icon">🌳</span>
+      <div class="module__title-wrap">
+        <div class="module__title">Eliadora</div>
+        <div class="module__sub">Drzewo genealogiczne Polskiej Dynastii Królów</div>
+      </div>
+      <span class="module__chevron">▾</span>
+    </div>
+    <div class="module__panel">
+      <div class="module__body">
+        <div class="module__separator"></div>
+        <p class="module__text">
+          Od Mieszka I do Stanisława Augusta Poniatowskiego — <em>osiemset lat dziedzictwa, walk i zdrady</em>.<br><br>
+          Każdy król to osobna historia. Każde małżeństwo — strategiczny sojusz lub wielka klęska. Odkryj, jak wielkie ambicje budowały potęgę Polski, a wewnętrzne spory potrafiły zmienić bieg historii na całe stulecia.<br><br>
+          <strong>Piastowie. Jagiellonowie. Andegawenowie.</strong> Przejdź przez kolejne dynastie, odkryj portrety malowane przez Matejkę, zbadaj mapy terytoriów, które rosły i kurczyły się przez stulecia. Drzewo genealogiczne jak żadne inne — łączące polskie dynastie oraz elekcyjnych królów aż do rozbiorów Polski.
+        </p>
+        <a class="module__cta" href="Kings' Tree/kings.html" id="ctaTree">❧&nbsp; Otwórz drzewo</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODULE 3 -->
+  <div class="module" id="mod3">
+    <div class="module__header" onclick="toggleModule('mod3')">
+      <span class="module__num">III</span>
+      <span class="module__icon">⚔️</span>
+      <div class="module__title-wrap">
+        <div class="module__title">Jeszcze Polska</div>
+        <div class="module__sub">Autorska gra historyczna — 8 wieków</div>
+      </div>
+      <span class="module__chevron">▾</span>
+    </div>
+    <div class="module__panel">
+      <div class="module__body">
+        <div class="module__separator"></div>
+        <p class="module__text">
+          Polska budowała się długie stulecia. Ale też ginęła trzy razy. Za każdym razem ktoś walczył za Nią.<br><br>
+          <em>A co, gdybyś to był Ty?</em><br><br>
+          Wciel się w historycznych monarchów od Mieszka I po ostatniego króla Polski i stań twarzą w twarz z decyzjami, które naprawdę ukształtowały ten kraj. <strong>Bitwy, dylematy, dialogi z władcami.</strong> Każdy wybór ma konsekwencje. Każda porażka uczy czegoś, czego nie ma w podręczniku.
+        </p>
+        <a class="module__cta" href="Jeszcze Polska/index.html">❧&nbsp; Zacznij grę</a>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  <span>✦</span> &nbsp; Anno Domini MMXXVI &nbsp; · &nbsp; Bydgoszcz — siedem wieków historii &nbsp; <span>✦</span>
+</footer>
+
+<script>
+  // ── module accordion ──
+  function toggleModule(id) {
+    const el = document.getElementById(id);
+    const wasOpen = el.classList.contains('open');
+    document.querySelectorAll('.module').forEach(m => m.classList.remove('open'));
+    if (!wasOpen) el.classList.add('open');
+  }
+
+  // ── music ──
+  const audio = document.getElementById('bgMusic');
+  const btn   = document.getElementById('musicBtn');
+  const nudge = document.getElementById('musicNudge');
+  let playing = false;
+
+  function startMusic() {
+    if (playing) return;
+    audio.volume = 0.35;
+    audio.play().then(() => {
+      playing = true;
+      btn.textContent = '♫';
+      btn.style.opacity = '1';
+      if (nudge) nudge.style.opacity = '0';
+    }).catch(() => {});
+  }
+
+  function stopMusic() {
+    audio.pause();
+    playing = false;
+    btn.textContent = '♪';
+    btn.style.opacity = '.5';
+  }
+
+  btn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    playing ? stopMusic() : startMusic();
+  });
+
+  // autoplay on load; if blocked, start on first gesture
+  audio.play().then(() => {
+    audio.volume = 0.35;
+    playing = true;
+    btn.textContent = '♫';
+    btn.style.opacity = '1';
+  }).catch(() => {
+    function onGesture() {
+      document.removeEventListener('click',   onGesture);
+      document.removeEventListener('keydown', onGesture);
+      startMusic();
+    }
+    document.addEventListener('click',   onGesture);
+    document.addEventListener('keydown', onGesture);
+  });
+
+  // fade out music then navigate — gives a smooth "shadow off" on page leave
+  function fadeAndNavigate(href) {
+    if (!playing) { window.location.href = href; return; }
+    sessionStorage.setItem('bgMusicActive', '1');
+    const start = audio.volume;
+    const steps = 28;
+    let i = 0;
+    const iv = setInterval(() => {
+      i++;
+      audio.volume = Math.max(0, start * (1 - i / steps));
+      if (i >= steps) { clearInterval(iv); window.location.href = href; }
+    }, 18);
+  }
+
+  document.getElementById('ctaCasimiro').addEventListener('click', e => {
+    e.preventDefault();
+    fadeAndNavigate(e.currentTarget.href);
+  });
+  document.getElementById('ctaTree').addEventListener('click', e => {
+    e.preventDefault();
+    fadeAndNavigate(e.currentTarget.href);
+  });
+</script>
+
+</body>
+</html>
